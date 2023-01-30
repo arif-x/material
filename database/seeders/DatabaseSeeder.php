@@ -13,6 +13,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call(
+            [
+                // User
+                UserSeeder::class,
+
+                // Material
+                JenisMaterialSeeder::class,
+                SatuanMaterialSeeder::class,
+                MaterialSeeder::class,
+                
+                // Pekerjaan & Sub Pekerjaan
+                PekerjaanSeeder::class,
+                SubPekerjaanSeeder::class,
+
+                // Jasa
+                JenisJasaSeeder::class,
+                SatuanJasaSeeder::class,
+                JasaSeeder::class,
+
+                // Harga Komponen
+                HargaKomponenJasaSeeder::class,
+                HargaKomponenMaterialSeeder::class,
+            ]
+        );
     }
 }
