@@ -30,7 +30,7 @@ class MaterialSeeder extends Seeder
             50000,
         ];
 
-        for($i = 0; $i < 50; $i++){
+        for($i = 0; $i < 5; $i++){
             $rand_harga = array_rand($harga);
             MasterMaterial::insert([
                 'kode_material' => "KM-" . $faker->numberBetween(10000,99999),

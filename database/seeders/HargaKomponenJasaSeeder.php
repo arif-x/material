@@ -30,7 +30,7 @@ class HargaKomponenJasaSeeder extends Seeder
             0.5,
         ];
 
-        for($i = 0; $i < 15; $i++){
+        for($i = 0; $i < 25; $i++){
             $hjId = $mj->random()->id;
             $koefisien_rand = array_rand($koefisien_arr);
             $koefisien = $koefisien_arr[$koefisien_rand];

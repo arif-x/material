@@ -19,7 +19,9 @@
                   <th>Pekerjaan</th>
                   <th>Kode</th>
                   <th>Sub Pekerjaan</th>
-                  <!-- <th>Harga</th> -->
+                  <th>Komp. Jasa</th>
+                  <th>Komp. Material</th>
+                  <th>Total Komp</th>
                   <th>Action</th>
                 </tr>
               </thead>  
@@ -53,10 +55,6 @@
                       <div class="form-group">
                         <label for="">Nama Sub Pekerjaan</label>
                         <input type="text" name="nama_sub_pekerjaan" id="nama_sub_pekerjaan" class="form-control">
-                      </div>
-                      <div class="form-group">
-                        <label for="">Harga Sub Pekerjaan</label>
-                        <input type="number" min="1" step="1" name="harga_sub_pekerjaan" id="harga_sub_pekerjaan" class="form-control" readonly>
                       </div>
                       <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Simpan</button>
                     </form>
@@ -122,16 +120,29 @@
                   {data: 'pekerjaan.nama_pekerjaan', name: 'pekerjaan.nama_pekerjaan'},
                   {data: 'kode_sub_pekerjaan', name: 'kode_sub_pekerjaan'},
                   {data: 'nama_sub_pekerjaan', name: 'nama_sub_pekerjaan'},
-                  // {
-                  //   data: 'harga_sub_pekerjaan', name: 'harga_sub_pekerjaan', orderable: false, searchable: false,
-                  //   render: function(a, b, row){
-                  //     return formatRupiah(row.harga_sub_pekerjaan, "Rp. "); 
-                  //   }
-                  // },
+                  {
+                    data: 'komponen_jasa', name: 'komponen_jasa', orderable: false, searchable: false,
+                    render: function(a, b, row){
+                      return formatRupiah(row.komponen_jasa, "Rp. "); 
+                    }
+                  },
+                  {
+                    data: 'komponen_material', name: 'komponen_material', orderable: false, searchable: false,
+                    render: function(a, b, row){
+                      return formatRupiah(row.komponen_material, "Rp. "); 
+                    }
+                  },
+                  {
+                    data: 'total_komponen', name: 'total_komponen', orderable: false, searchable: false,
+                    render: function(a, b, row){
+                      return formatRupiah(row.total_komponen, "Rp. "); 
+                    }
+                  },
                   {
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>';
+                      var detail = '{{route("admin.master.pekerjaan.sub-pekerjaan.detail", ["id" => ":id"])}}'.replace(":id", row.id);
+                      return '<a href="'+detail+'" data-toggle="tooltip" class="detail btn btn-outline-primary detail-data">Detail</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>';
                     }
                   }
                   ]
@@ -155,7 +166,6 @@
                   $('#pekerjaan_id').val(data.pekerjaan_id).trigger('change');
                   $('#kode_sub_pekerjaan').val(data.kode_sub_pekerjaan);
                   $('#nama_sub_pekerjaan').val(data.nama_sub_pekerjaan);
-                  $('#harga_sub_pekerjaan').val(data.harga_sub_pekerjaan);
                   $('#theModal').modal('show');
                 })
               });

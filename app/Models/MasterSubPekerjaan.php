@@ -21,4 +21,12 @@ class MasterSubPekerjaan extends Model
     public function pekerjaan(){
         return $this->belongsTo(MasterPekerjaan::class, 'pekerjaan_id', 'id');
     }
+
+    public function harga_satuan_jasa(){
+        return $this->hasMany(HargaKomponenJasa::class, 'sub_pekerjaan_id');
+    }
+
+    public function harga_satuan_material(){
+        return $this->hasMany(HargaKomponenMaterial::class, 'sub_pekerjaan_id');
+    }
 }

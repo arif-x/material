@@ -51,6 +51,9 @@ Route::group([
     ], function(){
         Route::resource('/pekerjaan', App\Http\Controllers\Master\Pekerjaan\PekerjaanController::class);
         Route::resource('/sub-pekerjaan', App\Http\Controllers\Master\Pekerjaan\SubPekerjaanController::class);
+        Route::get('/sub-pekerjaan/detail/{id}', [App\Http\Controllers\Master\Pekerjaan\SubPekerjaanDetailController::class, 'index'])->name('sub-pekerjaan.detail');
+        Route::get('/sub-pekerjaan/detail/jasa/{id}', [App\Http\Controllers\Master\Pekerjaan\SubPekerjaanDetailController::class, 'jasa'])->name('sub-pekerjaan.detail.jasa');
+        Route::get('/sub-pekerjaan/detail/material/{id}', [App\Http\Controllers\Master\Pekerjaan\SubPekerjaanDetailController::class, 'material'])->name('sub-pekerjaan.detail.material');
     });
     // Jasa
     Route::group([
