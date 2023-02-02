@@ -94,134 +94,134 @@
             </div>
 
             <script type="text/javascript">
-             $(function () {
-              function formatRupiah(angka, prefix) {
-                var number_string = angka.toString(),
-                split = number_string.split(","),
-                sisa = split[0].length % 3,
-                rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+              $(function () {
+                function formatRupiah(angka, prefix) {
+                  var number_string = angka.toString(),
+                  split = number_string.split(","),
+                  sisa = split[0].length % 3,
+                  rupiah = split[0].substr(0, sisa),
+                  ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
-                if (ribuan) {
-                  separator = sisa ? "." : "";
-                  rupiah += separator + ribuan.join(".");
-                }
-
-                rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-              }
-
-              $('.select2').select2({theme: "bootstrap"});
-
-              $.ajaxSetup({
-                headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-              });
-
-              var table = $('#dataTableExample').DataTable({
-                processing: true,
-                serverSide: true,
-                paging: true,
-                ajax: "{{ route('admin.master.jasa.jasa.index') }}",
-                columns: [
-                  {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                  {data: 'kode_jasa', name: 'kode_jasa'},
-                  {data: 'nama_jasa', name: 'nama_jasa'},
-                  {data: 'jenis.jenis_jasa', name: 'jenis.jenis_jasa'},
-                  {data: 'satuan.satuan_jasa', name: 'satuan.satuan_jasa'},
-                  {
-                    data: 'harga_jasa', name: 'harga_jasa', orderable: false, searchable: false,
-                    render: function(a, b, row){
-                      return formatRupiah(row.harga_jasa, "Rp. "); 
-                    }
-                  },
-                  {
-                    data: 'action', name: 'action', orderable: false, searchable: false,
-                    render: function(a, b, row){
-                      return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
-                    }
+                  if (ribuan) {
+                    separator = sisa ? "." : "";
+                    rupiah += separator + ribuan.join(".");
                   }
-                  ]
-              });
 
-              $('#tambah').click(function () {
-                $('#saveBtn').val("save");
-                $('#id').val('');
-                $('#theForm').trigger("reset");
-                $('#theModalHeading').html("Tambah Jasa");
-                $('#jenis_jasa_id').val('').trigger('change');
-                $('#satuan_jasa_id').val('').trigger('change');
-                $('#theModal').modal('show');
-              });
+                  rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                  return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+                }
 
-              $('body').on('click', '.edit-data', function () {
-                var id = $(this).data('id');
-                $.get("{{ route('admin.master.jasa.jasa.index') }}" +'/' + id + '', function (data) {
-                  $('#theModalHeading').html("Edit Jasa");
+                $('.select2').select2({theme: "bootstrap"});
+
+                $.ajaxSetup({
+                  headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+                });
+
+                var table = $('#dataTableExample').DataTable({
+                  processing: true,
+                  serverSide: true,
+                  paging: true,
+                  ajax: "{{ route('admin.master.jasa.jasa.index') }}",
+                  columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'kode_jasa', name: 'kode_jasa'},
+                    {data: 'nama_jasa', name: 'nama_jasa'},
+                    {data: 'jenis.jenis_jasa', name: 'jenis.jenis_jasa'},
+                    {data: 'satuan.satuan_jasa', name: 'satuan.satuan_jasa'},
+                    {
+                      data: 'harga_jasa', name: 'harga_jasa', orderable: false, searchable: false,
+                      render: function(a, b, row){
+                        return formatRupiah(row.harga_jasa, "Rp. "); 
+                      }
+                    },
+                    {
+                      data: 'action', name: 'action', orderable: false, searchable: false,
+                      render: function(a, b, row){
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
+                      }
+                    }
+                    ]
+                });
+
+                $('#tambah').click(function () {
                   $('#saveBtn').val("save");
-                  $('#id').val(data.id);
-                  $('#kode_jasa').val(data.kode_jasa);
-                  $('#nama_jasa').val(data.nama_jasa);
-                  $('#jenis_jasa_id').val(data.jenis_jasa_id).trigger('change');
-                  $('#satuan_jasa_id').val(data.satuan_jasa_id).trigger('change');
-                  $('#harga_jasa').val(data.harga_jasa);
+                  $('#id').val('');
+                  $('#theForm').trigger("reset");
+                  $('#theModalHeading').html("Tambah Jasa");
+                  $('#jenis_jasa_id').val('').trigger('change');
+                  $('#satuan_jasa_id').val('').trigger('change');
                   $('#theModal').modal('show');
-                })
-              });
+                });
 
-              $('#saveBtn').click(function (e) {
-                e.preventDefault();
-                $(this).html('Simpan');
+                $('body').on('click', '.edit-data', function () {
+                  var id = $(this).data('id');
+                  $.get("{{ route('admin.master.jasa.jasa.index') }}" +'/' + id + '', function (data) {
+                    $('#theModalHeading').html("Edit Jasa");
+                    $('#saveBtn').val("save");
+                    $('#id').val(data.id);
+                    $('#kode_jasa').val(data.kode_jasa);
+                    $('#nama_jasa').val(data.nama_jasa);
+                    $('#jenis_jasa_id').val(data.jenis_jasa_id).trigger('change');
+                    $('#satuan_jasa_id').val(data.satuan_jasa_id).trigger('change');
+                    $('#harga_jasa').val(data.harga_jasa);
+                    $('#theModal').modal('show');
+                  })
+                });
 
-                $.ajax({
-                  data: $('#theForm').serialize(),
-                  url: "{{ route('admin.master.jasa.jasa.store') }}",
-                  type: "POST",
-                  dataType: 'json',
-                  success: function (data) {
-                    $('#theForm').trigger("reset");
-                    $('#theModal').modal('hide');
-                    table.draw();
-                  },
-                  error: function (data) {
-                    console.log('Error:', data);
-                    $('#saveBtn').html('Simpan');
-                  }
+                $('#saveBtn').click(function (e) {
+                  e.preventDefault();
+                  $(this).html('Simpan');
+
+                  $.ajax({
+                    data: $('#theForm').serialize(),
+                    url: "{{ route('admin.master.jasa.jasa.store') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    success: function (data) {
+                      $('#theForm').trigger("reset");
+                      $('#theModal').modal('hide');
+                      table.draw();
+                    },
+                    error: function (data) {
+                      console.log('Error:', data);
+                      $('#saveBtn').html('Simpan');
+                    }
+                  });
+                });
+
+                $('body').on('click', '.delete-data', function () {
+                  var id = $(this).data('id');
+                  $.get("{{ route('admin.master.jasa.jasa.index') }}" +'/' + id + '', function (data) {
+                    $('#theModalDeleteHeading').html("Hapus Jasa");
+                    $('#saveDeteleBtn').val("delete");
+                    $('#id_delete').val(data.id);
+                    $('#name_delete').html(data.nama_jasa);
+                    $('#theDeleteModal').modal('show');
+                  })
+                });
+
+                $('#saveDeteleBtn').click(function (e) {
+                  var id = $('#id_delete').val();
+                  $.ajax({
+                    type: "DELETE",
+                    url: "{{ route('admin.master.jasa.jasa.store') }}"+'/'+id,
+                    success: function (data) {
+                      table.draw();
+                      $('#theDeleteModal').modal('hide');
+                    },
+                    error: function (data) {
+                      console.log('Error:', data);
+                    }
+                  });
                 });
               });
-
-              $('body').on('click', '.delete-data', function () {
-                var id = $(this).data('id');
-                $.get("{{ route('admin.master.jasa.jasa.index') }}" +'/' + id + '', function (data) {
-                  $('#theModalDeleteHeading').html("Hapus Jasa");
-                  $('#saveDeteleBtn').val("delete");
-                  $('#id_delete').val(data.id);
-                  $('#name_delete').html(data.nama_jasa);
-                  $('#theDeleteModal').modal('show');
-                })
-              });
-
-              $('#saveDeteleBtn').click(function (e) {
-                var id = $('#id_delete').val();
-                $.ajax({
-                  type: "DELETE",
-                  url: "{{ route('admin.master.jasa.jasa.store') }}"+'/'+id,
-                  success: function (data) {
-                    table.draw();
-                    $('#theDeleteModal').modal('hide');
-                  },
-                  error: function (data) {
-                    console.log('Error:', data);
-                  }
-                });
-              });
-            });
-          </script>
+            </script>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-</div>
-@endsection
+  </div>
+  @endsection

@@ -22,14 +22,16 @@ class HargaKomponenJasaController extends Controller
     }
 
     public function show($id){
-        $data = HargaKomponenJasa::find($id);
+        $data = HargaKomponenJasa::with(['jasa'])->find($id);
         return response()->json($data);
     }
 
     public function store(Request $request){
         $data = HargaKomponenJasa::updateOrCreate(
             [
-                'id' => $request->id
+                // 'id' => $request->id,
+                'jasa_id' => $request->jasa_id,
+                'sub_pekerjaan_id' => $request->sub_pekerjaan_id,
             ],
             [
                 'jasa_id' => $request->jasa_id,

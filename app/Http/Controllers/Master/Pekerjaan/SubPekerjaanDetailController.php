@@ -7,12 +7,16 @@ use Illuminate\Http\Request;
 use App\Models\MasterSubPekerjaan;
 use App\Models\HargaKomponenJasa;
 use App\Models\HargaKomponenMaterial;
+use App\Models\MasterJasa;
+use App\Models\MasterMaterial;
 
 class SubPekerjaanDetailController extends Controller
 {
     public function index($id){
         $data = MasterSubPekerjaan::findOrFail($id);
-        return view('admin.master.pekerjaan.sub-pekerjaan-detail', compact('data'));
+        $nama_jasa = MasterJasa::pluck('nama_jasa', 'id');
+        $nama_material = MasterMaterial::pluck('nama_material', 'id');
+        return view('admin.master.pekerjaan.sub-pekerjaan-detail', compact('data', 'nama_jasa', 'nama_material'));
     }
 
     public function material($id){

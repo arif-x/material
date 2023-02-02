@@ -22,14 +22,16 @@ class HargaKomponenMaterialController extends Controller
     }
 
     public function show($id){
-        $data = HargaKomponenMaterial::find($id);
+        $data = HargaKomponenMaterial::with(['material'])->find($id);
         return response()->json($data);
     }
 
     public function store(Request $request){
         $data = HargaKomponenMaterial::updateOrCreate(
             [
-                'id' => $request->id
+                // 'id' => $request->id,
+                'material_id' => $request->material_id,
+                'sub_pekerjaan_id' => $request->sub_pekerjaan_id,
             ],
             [
                 'material_id' => $request->material_id,
