@@ -82,7 +82,7 @@
                   {
                     data: 'detail', name: 'detail', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      var detail = "" + row.id;
+                      var detail = "{{route('admin.proyek.pekerjaan-proyek.index', ['id' => ':id'])}}".replace(':id', row.id);
                       return '<a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Detail</a>';
                     }
                   },
