@@ -19,13 +19,13 @@ class SubPekerjaanDetailController extends Controller
         return view('admin.master.pekerjaan.sub-pekerjaan-detail', compact('data', 'nama_jasa', 'nama_material'));
     }
 
-    public function material($id){
+    public function materialDatatable($id){
         // $data = MasterSubPekerjaan::with(['harga_satuan_material'])->find($id);
         $data = HargaKomponenMaterial::with(['material'])->where('sub_pekerjaan_id', $id)->get();
         return datatables()->of($data)->addIndexColumn()->toJson();
     }
 
-    public function jasa($id){
+    public function jasaDatatable($id){
         // $data = MasterSubPekerjaan::with(['harga_satuan_jasa'])->find($id);
         $data = HargaKomponenJasa::with(['jasa'])->where('sub_pekerjaan_id', $id)->get();
         return datatables()->of($data)->addIndexColumn()->toJson();

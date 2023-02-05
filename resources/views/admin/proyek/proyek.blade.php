@@ -17,7 +17,7 @@
                 <tr>
                   <th>No.</th>
                   <th>Nama Proyek</th>
-                  <th>Detail Pekerjaan</th>
+                  <th>Total RAB</th>
                   <th>Action</th>
                 </tr>
               </thead>  
@@ -80,16 +80,16 @@
                   {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                   {data: 'nama_proyek', name: 'nama_proyek'},
                   {
-                    data: 'detail', name: 'detail', orderable: false, searchable: false,
+                    data: 'total', name: 'total', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      var detail = "{{route('admin.proyek.pekerjaan-proyek.index', ['id' => ':id'])}}".replace(':id', row.id);
-                      return '<a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Detail</a>';
+                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.total)
                     }
                   },
                   {
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
+                      var detail = "{{route('admin.proyek.pekerjaan-proyek.index', ['id' => ':id'])}}".replace(':id', row.id);
+                      return '<a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Pekerjaan</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
                     }
                   }
                   ]

@@ -26,6 +26,20 @@ class SubPekerjaanController extends Controller
         return view('admin.master.pekerjaan.sub-pekerjaan', compact('pekerjaan'));
     }
 
+    public function single(Request $request, $id){
+        if($request->ajax()){
+            $data = MasterSubPekerjaan::with('pekerjaan')->orderBy('id', 'desc')->get();
+            for ($i=0; $i < count($data); $i++) { 
+                $data[$i]['komponen_jasa'] = HargaKomponenJasa::where('sub_pekerjaan_id', $data[$i]['id'])->sum('harga_komponen_jasa');
+                $data[$i]['komponen_material'] = HargaKomponenMaterial::where('sub_pekerjaan_id', $data[$i]['id'])->sum('harga_komponen_material');
+                $data[$i]['total_komponen'] = $data[$i]['komponen_jasa'] + $data[$i]['komponen_material'];
+            }
+            return datatables()->of($data)->addIndexColumn()->toJson();   
+        }
+
+        return view('admin.master.pekerjaan.sub-pekerjaan-single');
+    }
+
     public function show($id){
         $data = MasterSubPekerjaan::find($id);
         return response()->json($data);

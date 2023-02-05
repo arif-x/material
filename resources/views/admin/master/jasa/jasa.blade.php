@@ -95,22 +95,6 @@
 
             <script type="text/javascript">
               $(function () {
-                function formatRupiah(angka, prefix) {
-                  var number_string = angka.toString(),
-                  split = number_string.split(","),
-                  sisa = split[0].length % 3,
-                  rupiah = split[0].substr(0, sisa),
-                  ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-                  if (ribuan) {
-                    separator = sisa ? "." : "";
-                    rupiah += separator + ribuan.join(".");
-                  }
-
-                  rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                  return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-                }
-
                 $('.select2').select2({theme: "bootstrap"});
 
                 $.ajaxSetup({
@@ -133,7 +117,7 @@
                     {
                       data: 'harga_jasa', name: 'harga_jasa', orderable: false, searchable: false,
                       render: function(a, b, row){
-                        return formatRupiah(row.harga_jasa, "Rp. "); 
+                        return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.harga_jasa)
                       }
                     },
                     {

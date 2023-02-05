@@ -23,7 +23,59 @@ class ProyekPekerjaanController extends Controller
 
     public function index($id){
         $proyek = Proyek::findOrFail($id);
-        return view('admin.proyek.pekerjaan', compact('proyek'));
+        $pekerjaan = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', $id)->get();
+
+        $arr_sub = [];
+        $arr_fix = [];
+
+        foreach ($pekerjaan as $key => $value) {
+            $sub_pekerjaan = ProyekSubPekerjaan::with(['sub_pekerjaan', 'harga_komponen_jasa', 'harga_komponen_material'])->where('proyek_pekerjaan_id', $value['id'])->get();
+            $komponen = [];
+            for ($i=0; $i < count($sub_pekerjaan); $i++) { 
+                $fix_komponen_jasa = 0;
+                $fix_komponen_material = 0;
+                for ($j=0; $j < count($sub_pekerjaan[$i]->harga_komponen_jasa); $j++) { 
+                    $komponen_jasa = $sub_pekerjaan[$i]->harga_komponen_jasa[$j]->harga_fix * $sub_pekerjaan[$i]->volume;
+                    $fix_komponen_jasa = $fix_komponen_jasa + $komponen_jasa;
+                }
+                for ($j=0; $j < count($sub_pekerjaan[$i]->harga_komponen_material); $j++) { 
+                    $komponen_material = $sub_pekerjaan[$i]->harga_komponen_material[$j]->harga_fix * $sub_pekerjaan[$i]->volume;
+                    $fix_komponen_material = $fix_komponen_material + $komponen_material;
+                }
+                $arr = [
+                    'sub_pekerjaan' => $sub_pekerjaan[$i]->sub_pekerjaan->nama_sub_pekerjaan,
+                    'fix_komponen_jasa' => $fix_komponen_jasa,
+                    'fix_komponen_material' => $fix_komponen_material,
+                ];  
+                array_push($komponen, $arr);
+            }
+            for ($i=0; $i < count($komponen); $i++) { 
+                $komponen[$i]['komponen_total'] = $komponen[$i]['fix_komponen_jasa'] + $komponen[$i]['fix_komponen_material'];
+            }
+            array_push($arr_sub, $komponen);
+        }
+
+        for ($i=0; $i < count($pekerjaan); $i++) { 
+            $arr_temp = [];
+            $total = 0;
+            for ($j=0; $j < count($arr_sub[$i]); $j++) { 
+                $total = $total + $arr_sub[$i][$j]['komponen_total'];
+            }
+            $arr_temp = [
+                'nama_pekerjaan' => $pekerjaan[$i]->pekerjaan->nama_pekerjaan,
+                'total' => $total,
+            ];
+
+            array_push($arr_fix, $arr_temp);
+        }
+
+        $total_all = 0;
+
+        for ($i=0; $i < count($arr_fix); $i++) { 
+            $total_all = $total_all + $arr_fix[$i]['total'];
+        }
+        
+        return view('admin.proyek.pekerjaan', compact('proyek', 'arr_fix', 'total_all'));
     }
 
     public function getSubPekerjaan($id){
@@ -79,6 +131,27 @@ class ProyekPekerjaanController extends Controller
             // Kondisine nek wes ono opo?
         }
         return redirect()->route('admin.proyek.pekerjaan-proyek.index', ['id' => $proyek_id]);
+    }
+
+    public function storeSingle(Request $request){
+        $checkProyekPekerjaan = ProyekSubPekerjaan::where('sub_pekerjaan_id', $request->sub_pekerjaan_id)->where('proyek_pekerjaan_id', $request->pekerjaan_id)->first();
+        if(empty($checkProyekPekerjaan)){
+            $createProyekSubPekerjaan = ProyekSubPekerjaan::create(
+                [
+                    'proyek_pekerjaan_id' => $request->pekerjaan_id,
+                    'sub_pekerjaan_id' => $request->sub_pekerjaan_id,
+                    'volume' => $request->volume,
+                ]
+            );
+
+            $this->hargaKomponenJasa($request->sub_pekerjaan_id, $createProyekSubPekerjaan->id);
+            $this->hargaKomponenMaterial($request->sub_pekerjaan_id, $createProyekSubPekerjaan->id);
+
+            return response()->json('oke');
+        } else {
+            // Kondisine nek wes ono opo?
+            return response()->json('gak oke');
+        }
     }
 
     public function hargaKomponenJasa($id, $new_id){

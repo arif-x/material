@@ -7,8 +7,48 @@
       <div class="card">
         <div class="card-body">
           <div class="d-flex justify-content-between">
-          <h3>Pekerjaan Proyek {{$proyek->nama_proyek}}</h3>
-          <a class="btn btn-secondary h-100" onclick="history.back()">Kembali</a>
+            <h3>Rincian Pekerjaan</h3>
+            <a class="btn btn-secondary h-100" onclick="history.back()">Kembali</a>
+          </div>
+          <hr/>
+          <div class="row mb-2">
+            <div class="col-2 py-2">
+              Nama Proyek
+            </div>
+            <div class="col-10 py-2">
+              : <strong>{{$proyek->nama_proyek}}</strong>
+            </div>
+            <div class="col-2 py-2">
+              Total RAB
+            </div>
+            <div class="col-10 py-2">
+              : <strong>Rp{{number_format($total_all, '0', ',', '.')}}</strong>
+            </div>
+            <div class="col-2 py-2">
+              Rincian
+            </div>
+            <div class="col-10 py-2">
+              : <br/>
+            </div>
+            <hr>
+            <div class="table-responsive">
+              <table class="table detail-table">
+                <thead>
+                  <tr>
+                    <th>Pekerjaan</th>
+                    <th>Total Pekerjaan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                @foreach($arr_fix as $key => $value)
+                <tr>
+                  <td>{{$value['nama_pekerjaan']}}</td>
+                  <td>Rp{{number_format($value['total'], '0', ',', '.')}}</td>
+                </tr>
+                @endforeach
+                </tbody>
+              </table>
+            </div>
           </div>
           <hr/>
           <div class="card-description">
@@ -20,7 +60,6 @@
                 <tr>
                   <th>No.</th>
                   <th>Pekerjaan</th>
-                  <th>Detail Pekerjaan</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -60,16 +99,10 @@
                   {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                   {data: 'pekerjaan.nama_pekerjaan', name: 'pekerjaan.nama_pekerjaan'},
                   {
-                    data: 'detail', name: 'detail', orderable: false, searchable: false,
-                    render: function(a, b, row){
-                      var detail = "{{route('admin.proyek.detail-pekerjaan-proyek.index', ['id' => ':id'])}}".replace(':id', row.id);
-                      return '<a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Detail</a>';
-                    }
-                  },
-                  {
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
+                      var detail = "{{route('admin.proyek.detail-pekerjaan-proyek.index', ['id' => ':id'])}}".replace(':id', row.id);
+                      return '<a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Sub Pekerjaan</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
                     }
                   }
                   ]

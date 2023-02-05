@@ -119,18 +119,18 @@
         </div>
       </li>
 
-      <li class="nav-item nav-category">RAB</li>
+      <li class="nav-item nav-category">Proyek</li>
       <li class="nav-item">
         <a class="nav-link collapsed" data-toggle="collapse" href="#proyek" role="button" aria-expanded="false" aria-controls="proyek">
           <i class="link-icon" data-feather="box"></i>
-          <span class="link-title">Proyek</span>
+          <span class="link-title">RAB & RAP</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down link-arrow"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </a>
         <div class="collapse" id="proyek" style="">
           <ul class="nav sub-menu">
             <li class="nav-item">
               <a href="{{ route('admin.proyek.proyek.index') }}" class="nav-link">
-                Proyek
+                RAB
               </a>
             </li>
           </ul>

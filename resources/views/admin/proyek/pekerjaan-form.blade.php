@@ -62,8 +62,13 @@
 
     $('.checked-all').on('change', function(e){
       e.preventDefault()
-      $('input[id=checkbox]').prop('checked', this.checked)
-      $('input[id=c_input]').val(1)
+      if($(this).prop("checked") == true){
+        $('input[id=checkbox]').prop('checked', true)
+        $('input[id=c_input]').val(1)
+      } else {
+        $('input[id=checkbox]').prop('checked', false)
+        $('input[id=c_input]').val(0)
+      }
     })
 
     $('#pekerjaan_id').on('change', function(){

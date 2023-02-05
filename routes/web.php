@@ -23,6 +23,10 @@ use App\Http\Controllers\Master\HargaKomponen\HargaKomponenMaterialController;
 use App\Http\Controllers\Proyek\ProyekController;
 use App\Http\Controllers\Proyek\ProyekPekerjaanController;
 use App\Http\Controllers\Proyek\ProyekPekerjaanDetailController;
+use App\Http\Controllers\Proyek\ProyekSubPekerjaanDetailController;
+
+use App\Http\Controllers\Proyek\HargaKomponen\HargaKomponenJasaController as ProyekHargaKomponenJasaController;
+use App\Http\Controllers\Proyek\HargaKomponen\HargaKomponenMaterialController as ProyekHargaKomponenMaterialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,10 +76,11 @@ Route::group([
         'as' => 'admin.master.pekerjaan.'
     ], function(){
         Route::resource('/pekerjaan', PekerjaanController::class);
+        Route::get('/pekerjaan/sub-pekerjaan/{id}', [SubPekerjaanController::class, 'single'])->name('sub-pekerjaan.single');
         Route::resource('/sub-pekerjaan', SubPekerjaanController::class);
         Route::get('/sub-pekerjaan/detail/{id}', [SubPekerjaanDetailController::class, 'index'])->name('sub-pekerjaan.detail');
-        Route::get('/sub-pekerjaan/detail/jasa/{id}', [SubPekerjaanDetailController::class, 'jasa'])->name('sub-pekerjaan.detail.jasa');
-        Route::get('/sub-pekerjaan/detail/material/{id}', [SubPekerjaanDetailController::class, 'material'])->name('sub-pekerjaan.detail.material');
+        Route::get('/sub-pekerjaan/detail/jasa/{id}', [SubPekerjaanDetailController::class, 'jasaDatatable'])->name('sub-pekerjaan.detail.jasa');
+        Route::get('/sub-pekerjaan/detail/material/{id}', [SubPekerjaanDetailController::class, 'materialDatatable'])->name('sub-pekerjaan.detail.material');
     });
     // Jasa
     Route::group([
@@ -105,14 +110,43 @@ Route::group([
     // Proyek
     Route::resource('/proyek', ProyekController::class);
     // Pekerjaan Proyek
-    Route::get('/pekerjaan-proyek/datatable/{id}', [ProyekPekerjaanController::class, 'datatable'])->name('pekerjaan-proyek.datatable');
-    Route::get('/pekerjaan-proyek/{id}', [ProyekPekerjaanController::class, 'index'])->name('pekerjaan-proyek.index');
-    Route::get('/pekerjaan-proyek/form/{id}', [ProyekPekerjaanController::class, 'form'])->name('pekerjaan-proyek.form');
-    Route::get('/pekerjaan-proyek/get-sub-pekerjaan/{id}', [ProyekPekerjaanController::class, 'getSubPekerjaan'])->name('pekerjaan-proyek.get-sub-pekerjaan');
-    Route::get('/pekerjaan-proyek/show/{id}', [ProyekPekerjaanController::class, 'show'])->name('pekerjaan-proyek.show');
-    Route::post('/pekerjaan-proyek/store', [ProyekPekerjaanController::class, 'store'])->name('pekerjaan-proyek.store');
-    Route::delete('/pekerjaan-proyek/destroy/{id}', [ProyekPekerjaanController::class, 'destroy'])->name('pekerjaan-proyek.destroy');
-    // Sub Pekerjaan Proyek
-    Route::get('/pekerjaan-proyek-detail/datatable/{id}', [ProyekPekerjaanDetailController::class, 'datatable'])->name('detail-pekerjaan-proyek.datatable');
-    Route::get('/pekerjaan-proyek-detail/{id}', [ProyekPekerjaanDetailController::class, 'index'])->name('detail-pekerjaan-proyek.index');
+    Route::group([
+        'prefix' => 'pekerjaan-proyek'
+    ],  function(){
+        Route::get('/datatable/{id}', [ProyekPekerjaanController::class, 'datatable'])->name('pekerjaan-proyek.datatable');
+        Route::get('/{id}', [ProyekPekerjaanController::class, 'index'])->name('pekerjaan-proyek.index');
+        Route::get('/form/{id}', [ProyekPekerjaanController::class, 'form'])->name('pekerjaan-proyek.form');
+        Route::get('/get-sub-pekerjaan/{id}', [ProyekPekerjaanController::class, 'getSubPekerjaan'])->name('pekerjaan-proyek.get-sub-pekerjaan');
+        Route::get('/show/{id}', [ProyekPekerjaanController::class, 'show'])->name('pekerjaan-proyek.show');
+        Route::post('/store', [ProyekPekerjaanController::class, 'store'])->name('pekerjaan-proyek.store');
+        Route::post('/store-single', [ProyekPekerjaanController::class, 'storeSingle'])->name('pekerjaan-proyek.store-single');
+        Route::delete('/destroy/{id}', [ProyekPekerjaanController::class, 'destroy'])->name('pekerjaan-proyek.destroy');
+    });
+    // Detail Pekerjaan Proyek
+    Route::group([
+        'prefix' => 'pekerjaan-proyek-detail'
+    ], function(){
+        Route::get('/datatable/{id}', [ProyekPekerjaanDetailController::class, 'datatable'])->name('detail-pekerjaan-proyek.datatable');
+        Route::get('/{id}', [ProyekPekerjaanDetailController::class, 'index'])->name('detail-pekerjaan-proyek.index');
+        Route::get('/rincian/{id}', [ProyekPekerjaanDetailController::class, 'getRincianAjax'])->name('detail-pekerjaan-proyek.index.ajax');
+        Route::get('/sub-pekerjaan/show/{id}', [ProyekPekerjaanDetailController::class, 'show'])->name('detail-pekerjaan-proyek.sub-pekerjaan.show');
+        Route::delete('/sub-pekerjaan/destroy/{id}', [ProyekPekerjaanDetailController::class, 'destroy'])->name('detail-pekerjaan-proyek.sub-pekerjaan.destroy');
+        // Detail Sub Pekerjaan Proyek
+        Route::get('/sub-pekerjaan/datatable/jasa/{id}', [ProyekSubPekerjaanDetailController::class, 'jasaDatatable'])->name('detail-pekerjaan-proyek.sub-pekerjaan.jasa.datatable');
+        Route::get('/sub-pekerjaan/datatable/material/{id}', [ProyekSubPekerjaanDetailController::class, 'materialDatatable'])->name('detail-pekerjaan-proyek.sub-pekerjaan.material.datatable');
+        Route::get('/sub-pekerjaan/{id}', [ProyekSubPekerjaanDetailController::class, 'index'])->name('detail-pekerjaan-proyek.sub-pekerjaan.index');
+        // Harga Komponen
+        Route::group([
+            'as' => 'pekerjaan-proyek-detail.sub-pekerjaan.jasa.' 
+        ], function(){
+            // Harga Komponen Jasa Sub Pekerjaan Proyek
+            Route::resource('/sub-pekerjaan/jasa/resource', ProyekHargaKomponenJasaController::class);
+        });
+        Route::group([
+            'as' => 'pekerjaan-proyek-detail.sub-pekerjaan.material.' 
+        ], function(){
+            // Harga Komponen Material Sub Pekerjaan Proyek
+            Route::resource('/sub-pekerjaan/material/resource', ProyekHargaKomponenMaterialController::class);
+        });
+    });
 });

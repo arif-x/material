@@ -18,4 +18,12 @@ class ProyekHargaKomponenJasa extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function sub_pekerjaan(){
+        return $this->belongsTo(ProyekSubPekerjaan::class, 'proyek_sub_pekerjaan_id', 'id');
+    }
+
+    public function jasa(){
+        return $this->belongsTo(MasterJasa::class, 'jasa_id', 'id');
+    }
 }

@@ -23,4 +23,8 @@ class ProyekPekerjaan extends Model
     public function sub_pekerjaan(){
         return $this->hasMany(ProyekSubPekerjaan::class, 'proyek_pekerjaan_id');
     }
+
+    public function proyek(){
+        return $this->belongsTo(Proyek::class);
+    }
 }

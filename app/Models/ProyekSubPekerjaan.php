@@ -20,4 +20,16 @@ class ProyekSubPekerjaan extends Model
     public function sub_pekerjaan(){
         return $this->belongsTo(MasterSubPekerjaan::class, 'sub_pekerjaan_id', 'id');
     }
+
+    public function pekerjaan(){
+        return $this->belongsTo(ProyekPekerjaan::class, 'proyek_pekerjaan_id', 'id');
+    }
+
+    public function harga_komponen_jasa(){
+        return $this->hasMany(ProyekHargaKomponenJasa::class, 'proyek_sub_pekerjaan_id');
+    }
+
+    public function harga_komponen_material(){
+        return $this->hasMany(ProyekHargaKomponenMaterial::class, 'proyek_sub_pekerjaan_id');
+    }
 }
