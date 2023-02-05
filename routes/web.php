@@ -15,12 +15,14 @@ use App\Http\Controllers\Master\Material\MaterialController;
 
 use App\Http\Controllers\Master\Pekerjaan\PekerjaanController;
 use App\Http\Controllers\Master\Pekerjaan\SubPekerjaanController;
+use App\Http\Controllers\Master\Pekerjaan\SubPekerjaanDetailController;
 
 use App\Http\Controllers\Master\HargaKomponen\HargaKomponenJasaController;
 use App\Http\Controllers\Master\HargaKomponen\HargaKomponenMaterialController;
 
 use App\Http\Controllers\Proyek\ProyekController;
 use App\Http\Controllers\Proyek\ProyekPekerjaanController;
+use App\Http\Controllers\Proyek\ProyekPekerjaanDetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,8 +102,9 @@ Route::group([
     'middleware' => 'auth',
     'as' => 'admin.proyek.'
 ], function(){
+    // Proyek
     Route::resource('/proyek', ProyekController::class);
-
+    // Pekerjaan Proyek
     Route::get('/pekerjaan-proyek/datatable/{id}', [ProyekPekerjaanController::class, 'datatable'])->name('pekerjaan-proyek.datatable');
     Route::get('/pekerjaan-proyek/{id}', [ProyekPekerjaanController::class, 'index'])->name('pekerjaan-proyek.index');
     Route::get('/pekerjaan-proyek/form/{id}', [ProyekPekerjaanController::class, 'form'])->name('pekerjaan-proyek.form');
@@ -109,4 +112,7 @@ Route::group([
     Route::get('/pekerjaan-proyek/show/{id}', [ProyekPekerjaanController::class, 'show'])->name('pekerjaan-proyek.show');
     Route::post('/pekerjaan-proyek/store', [ProyekPekerjaanController::class, 'store'])->name('pekerjaan-proyek.store');
     Route::delete('/pekerjaan-proyek/destroy/{id}', [ProyekPekerjaanController::class, 'destroy'])->name('pekerjaan-proyek.destroy');
+    // Sub Pekerjaan Proyek
+    Route::get('/pekerjaan-proyek-detail/datatable/{id}', [ProyekPekerjaanDetailController::class, 'datatable'])->name('detail-pekerjaan-proyek.datatable');
+    Route::get('/pekerjaan-proyek-detail/{id}', [ProyekPekerjaanDetailController::class, 'index'])->name('detail-pekerjaan-proyek.index');
 });

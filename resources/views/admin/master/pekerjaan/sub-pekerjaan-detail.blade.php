@@ -6,7 +6,10 @@
     <div class="col-md-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h3>Harga Komponen {{$data->nama_sub_pekerjaan}}</h3>
+          <div class="d-flex justify-content-between">
+            <h3>Harga Komponen {{$data->nama_sub_pekerjaan}}</h3>
+            <a class="btn btn-secondary h-100" onclick="history.back()">Kembali</a>
+          </div>
           <hr/>
           <h4 class="mb-2">Harga Komponen Jasa</h4>
           <div class="card-description">

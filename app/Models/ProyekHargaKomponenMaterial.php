@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class ProyekHargaKomponenMaterial extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'proyek_sub_pekerjaan_id',
+        'material_id',
+        'harga_asli',
+        'koefisien',
+        'harga_fix',
+        'created_at',
+        'updated_at'
+    ];
 }

@@ -10,7 +10,9 @@ class Proyek extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama_proyek'
+        'nama_proyek',
+        'created_at',
+        'updated_at'
     ];
 
     public function proyek_pekerjaan(){
