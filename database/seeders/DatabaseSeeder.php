@@ -33,8 +33,8 @@ class DatabaseSeeder extends Seeder
                 JasaSeeder::class,
 
                 // Harga Komponen
-                // HargaKomponenJasaSeeder::class,
-                // HargaKomponenMaterialSeeder::class,
+                HargaKomponenJasaSeeder::class,
+                HargaKomponenMaterialSeeder::class,
             ]
         );
     }

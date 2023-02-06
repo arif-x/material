@@ -6,7 +6,7 @@
     <div class="col-md-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h3>Sub Pekerjaan</h3>
+          <h3>Sub Pekerjaan {{$nama_pekerjaan}}</h3>
           <hr/>
           <div class="card-description">
             <button class="btn btn-primary" id="tambah">Tambah</button>
@@ -16,7 +16,7 @@
               <thead>
                 <tr>
                   <th>No.</th>
-                  <th>Pekerjaan</th>
+                  <!-- <th>Pekerjaan</th> -->
                   <th>Kode</th>
                   <th>Sub Pekerjaan</th>
                   <th>Komp. Jasa</th>
@@ -39,15 +39,7 @@
                   <div class="modal-body">
                     <form id="theForm" name="theForm" class="form-horizontal">
                       <input type="hidden" name="id" id="id">
-                      <div class="form-group">
-                        <label for="">Pekerjaan</label>
-                        <select name="pekerjaan_id" id="pekerjaan_id" class="form-control select2">
-                          <option value="" disabled selected>Pilih Pekerjaan</option>
-                          @foreach($pekerjaan as $key => $value)
-                          <option value="{{ $key }}">{{ $value }}</option>
-                          @endforeach
-                        </select>
-                      </div>
+                      <input type="hidden" name="pekerjaan_id" value="{{$id}}">
                       <div class="form-group">
                         <label for="">Kode Sub Pekerjaan</label>
                         <input type="text" name="kode_sub_pekerjaan" id="kode_sub_pekerjaan" class="form-control">
@@ -98,10 +90,10 @@
                 processing: true,
                 serverSide: true,
                 paging: true,
-                ajax: "{{ route('admin.master.pekerjaan.sub-pekerjaan.index') }}",
+                ajax: "{{ route('admin.master.pekerjaan.sub-pekerjaan.single', ['id' => $id]) }}",
                 columns: [
                   {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                  {data: 'pekerjaan.nama_pekerjaan', name: 'pekerjaan.nama_pekerjaan'},
+                  // {data: 'pekerjaan.nama_pekerjaan', name: 'pekerjaan.nama_pekerjaan'},
                   {data: 'kode_sub_pekerjaan', name: 'kode_sub_pekerjaan'},
                   {data: 'nama_sub_pekerjaan', name: 'nama_sub_pekerjaan'},
                   {
@@ -126,7 +118,7 @@
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     render: function(a, b, row){
                       var detail = '{{route("admin.master.pekerjaan.sub-pekerjaan.detail", ["id" => ":id"])}}'.replace(":id", row.id);
-                      return '<a href="'+detail+'" data-toggle="tooltip" class="detail btn btn-outline-primary detail-data">Detail</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>';
+                      return '<a href="'+detail+'" data-toggle="tooltip" class="detail btn btn-outline-primary detail-data">Harga Komponen</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>';
                     }
                   }
                   ]
@@ -137,7 +129,7 @@
                 $('#id').val('');
                 $('#theForm').trigger("reset");
                 $('#theModalHeading').html("Tambah Sub Pekerjaan");
-                $('#pekerjaan_id').val("").trigger('change');
+                $('#pekerjaan_id').val("{{$id}}");
                 $('#theModal').modal('show');
               });
 
@@ -147,7 +139,7 @@
                   $('#theModalHeading').html("Edit Sub Pekerjaan");
                   $('#saveBtn').val("save");
                   $('#id').val(data.id);
-                  $('#pekerjaan_id').val(data.pekerjaan_id).trigger('change');
+                  $('#pekerjaan_id').val(data.pekerjaan_id);
                   $('#kode_sub_pekerjaan').val(data.kode_sub_pekerjaan);
                   $('#nama_sub_pekerjaan').val(data.nama_sub_pekerjaan);
                   $('#theModal').modal('show');

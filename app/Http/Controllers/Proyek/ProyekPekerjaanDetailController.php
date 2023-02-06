@@ -67,6 +67,16 @@ class ProyekPekerjaanDetailController extends Controller
         return response()->json($data);
     }
 
+    public function update(Request $request){
+        $data = ProyekSubPekerjaan::where('id', $request->id)->update(
+            [
+                'volume' => $request->volume
+            ]
+        );
+
+        return response()->json($data);
+    }
+
     public function destroy($id){
         $data = ProyekSubPekerjaan::find($id)->delete();
         return response()->json($data);

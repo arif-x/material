@@ -76,7 +76,7 @@ Route::group([
         'as' => 'admin.master.pekerjaan.'
     ], function(){
         Route::resource('/pekerjaan', PekerjaanController::class);
-        Route::get('/pekerjaan/sub-pekerjaan/{id}', [SubPekerjaanController::class, 'single'])->name('sub-pekerjaan.single');
+        Route::get('/detail/sub-pekerjaan/{id}', [SubPekerjaanController::class, 'single'])->name('sub-pekerjaan.single');
         Route::resource('/sub-pekerjaan', SubPekerjaanController::class);
         Route::get('/sub-pekerjaan/detail/{id}', [SubPekerjaanDetailController::class, 'index'])->name('sub-pekerjaan.detail');
         Route::get('/sub-pekerjaan/detail/jasa/{id}', [SubPekerjaanDetailController::class, 'jasaDatatable'])->name('sub-pekerjaan.detail.jasa');
@@ -128,8 +128,10 @@ Route::group([
     ], function(){
         Route::get('/datatable/{id}', [ProyekPekerjaanDetailController::class, 'datatable'])->name('detail-pekerjaan-proyek.datatable');
         Route::get('/{id}', [ProyekPekerjaanDetailController::class, 'index'])->name('detail-pekerjaan-proyek.index');
+        Route::get('/show/{id}', [ProyekPekerjaanDetailController::class, 'show'])->name('detail-pekerjaan-proyek.show');
         Route::get('/rincian/{id}', [ProyekPekerjaanDetailController::class, 'getRincianAjax'])->name('detail-pekerjaan-proyek.index.ajax');
         Route::get('/sub-pekerjaan/show/{id}', [ProyekPekerjaanDetailController::class, 'show'])->name('detail-pekerjaan-proyek.sub-pekerjaan.show');
+        Route::post('/sub-pekerjaan/store', [ProyekPekerjaanDetailController::class, 'update'])->name('detail-pekerjaan-proyek.sub-pekerjaan.store');
         Route::delete('/sub-pekerjaan/destroy/{id}', [ProyekPekerjaanDetailController::class, 'destroy'])->name('detail-pekerjaan-proyek.sub-pekerjaan.destroy');
         // Detail Sub Pekerjaan Proyek
         Route::get('/sub-pekerjaan/datatable/jasa/{id}', [ProyekSubPekerjaanDetailController::class, 'jasaDatatable'])->name('detail-pekerjaan-proyek.sub-pekerjaan.jasa.datatable');

@@ -28,7 +28,7 @@ class SubPekerjaanController extends Controller
 
     public function single(Request $request, $id){
         if($request->ajax()){
-            $data = MasterSubPekerjaan::with('pekerjaan')->orderBy('id', 'desc')->get();
+            $data = MasterSubPekerjaan::with('pekerjaan')->where('pekerjaan_id', $id)->orderBy('id', 'desc')->get();
             for ($i=0; $i < count($data); $i++) { 
                 $data[$i]['komponen_jasa'] = HargaKomponenJasa::where('sub_pekerjaan_id', $data[$i]['id'])->sum('harga_komponen_jasa');
                 $data[$i]['komponen_material'] = HargaKomponenMaterial::where('sub_pekerjaan_id', $data[$i]['id'])->sum('harga_komponen_material');
@@ -37,7 +37,9 @@ class SubPekerjaanController extends Controller
             return datatables()->of($data)->addIndexColumn()->toJson();   
         }
 
-        return view('admin.master.pekerjaan.sub-pekerjaan-single');
+        $nama_pekerjaan = MasterPekerjaan::where('id', $id)->value('nama_pekerjaan');
+
+        return view('admin.master.pekerjaan.sub-pekerjaan-single', compact('id', 'nama_pekerjaan'));
     }
 
     public function show($id){

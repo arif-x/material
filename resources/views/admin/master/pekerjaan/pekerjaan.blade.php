@@ -87,7 +87,8 @@
                   {
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>';
+                      var detail = "{{ route('admin.master.pekerjaan.sub-pekerjaan.single', ['id' => ':id']) }}".replace(':id', row.id);
+                      return '<a href="'+detail+'" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Sub Pekerjaan</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>';
                     }
                   }
                   ]

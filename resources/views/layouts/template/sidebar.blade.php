@@ -75,66 +75,19 @@
         </div>
       </li>
 
-      <!-- <li class="nav-item">
-        <a class="nav-link collapsed" data-toggle="collapse" href="#harga-komponen" role="button" aria-expanded="false" aria-controls="harga-komponen">
-          <i class="link-icon" data-feather="box"></i>
-          <span class="link-title">Harga Komponen</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down link-arrow"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </a>
-        <div class="collapse" id="harga-komponen" style="">
-          <ul class="nav sub-menu">
-            <li class="nav-item">
-              <a href="{{ route('admin.master.harga-komponen.harga-komponen-jasa.index') }}" class="nav-link">
-                Harga Komponen Jasa
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('admin.master.harga-komponen.harga-komponen-material.index') }}" class="nav-link">
-                Harga Komponen Material
-              </a>
-            </li>
-          </ul>
-        </div>
-      </li> -->
-
       <li class="nav-item">
-        <a class="nav-link collapsed" data-toggle="collapse" href="#pekerjaan" role="button" aria-expanded="false" aria-controls="pekerjaan">
+        <a href="{{ route('admin.master.pekerjaan.pekerjaan.index') }}" class="nav-link">
           <i class="link-icon" data-feather="box"></i>
           <span class="link-title">Pekerjaan</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down link-arrow"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </a>
-        <div class="collapse" id="pekerjaan" style="">
-          <ul class="nav sub-menu">
-            <li class="nav-item">
-              <a href="{{ route('admin.master.pekerjaan.pekerjaan.index') }}" class="nav-link">
-                Pekerjaan
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('admin.master.pekerjaan.sub-pekerjaan.index') }}" class="nav-link">
-                Sub Pekerjaan
-              </a>
-            </li>
-          </ul>
-        </div>
       </li>
 
       <li class="nav-item nav-category">Proyek</li>
       <li class="nav-item">
-        <a class="nav-link collapsed" data-toggle="collapse" href="#proyek" role="button" aria-expanded="false" aria-controls="proyek">
+        <a href="{{ route('admin.proyek.proyek.index') }}" class="nav-link">
           <i class="link-icon" data-feather="box"></i>
           <span class="link-title">RAB & RAP</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down link-arrow"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </a>
-        <div class="collapse" id="proyek" style="">
-          <ul class="nav sub-menu">
-            <li class="nav-item">
-              <a href="{{ route('admin.proyek.proyek.index') }}" class="nav-link">
-                RAB
-              </a>
-            </li>
-          </ul>
-        </div>
       </li>
 
       <li class="nav-item nav-category">Logout</li>

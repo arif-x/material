@@ -113,6 +113,35 @@
                 </div>
               </div>
             </div>
+
+            <div class="modal fade" id="theEditModal" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="theEditModalHeading"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="theEditForm" name="theEditForm" class="form-horizontal">
+                      <input type="hidden" name="id" id="id">
+                      <div class="form-group">
+                        <label for="">Sub Pekerjaan</label>
+                        <input type="text" class="form-control" name="nama_sub_pekerjaan" id="nama_sub_pekerjaan" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="volume">Volume</label>
+                        <input type="number" name="volume" class="form-control" id="volume_edit" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary" id="saveBtnEdit" value="create">Simpan</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>
@@ -129,19 +158,23 @@
       }
     });
 
-    $.get("{{ route('admin.proyek.detail-pekerjaan-proyek.index.ajax', ['id' => $pekerjaan->id]) }}", function (data) {
-      $('.detail-table > tbody').empty();
-      var html = '';
-      for (var i = 0; i < data.length; i++) {
-        html += '<tr>'+
-        '<td>'+data[i].sub_pekerjaan+'</td>'+
-        '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].fix_komponen_jasa)+'</td>'+
-        '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].fix_komponen_material)+'</td>'+
-        '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].komponen_total)+'</td>'+
-        '</tr>'
-      }
-      $('.detail-table > tbody').html(html)
-    })
+    function load_data(){
+      $.get("{{ route('admin.proyek.detail-pekerjaan-proyek.index.ajax', ['id' => $pekerjaan->id]) }}", function (data) {
+        $('.detail-table > tbody').empty();
+        var html = '';
+        for (var i = 0; i < data.length; i++) {
+          html += '<tr>'+
+          '<td>'+data[i].sub_pekerjaan+'</td>'+
+          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].fix_komponen_jasa)+'</td>'+
+          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].fix_komponen_material)+'</td>'+
+          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].komponen_total)+'</td>'+
+          '</tr>'
+        }
+        $('.detail-table > tbody').html(html)
+      })
+    }
+
+    load_data();
 
     var table = $('#dataTableExample').DataTable({
       processing: true,
@@ -181,7 +214,7 @@
           data: 'action', name: 'action', orderable: false, searchable: false,
           render: function(a, b, row){
             var detail = "{{route('admin.proyek.detail-pekerjaan-proyek.sub-pekerjaan.index', ['id' => ':id'])}}".replace(':id', row.id)
-            return '<a href="'+detail+'" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="btn btn-outline-primary detail-data">Harga Komponen</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
+            return '<a href="'+detail+'" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="btn btn-outline-primary detail-data">Harga Komponen</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
           }
         }
         ]
@@ -197,6 +230,19 @@
       $('#theModal').modal('show');
     });
 
+    $('body').on('click', '.edit-data', function () {
+      var id = $(this).data('id');
+      console.log(id)
+      $.get("{{ route('admin.proyek.detail-pekerjaan-proyek.sub-pekerjaan.show', ['id' => ':id']) }}".replace(':id', id), function (data) {
+        $('#theEditModalHeading').html("Edit Sub Pekerjaan");
+        $('#saveBtnDelete').val("save");
+        $('#id').val(data.id);
+        $('#volume_edit').val(data.volume);
+        $('#nama_sub_pekerjaan').val(data.sub_pekerjaan.nama_sub_pekerjaan);
+        $('#theEditModal').modal('show');
+      })
+    });
+
     $('#saveBtn').click(function (e) {
       e.preventDefault();
       $(this).html('Simpan');
@@ -209,6 +255,7 @@
         success: function (data) {
           $('#theForm').trigger("reset");
           $('#theModal').modal('hide');
+          load_data();
           table.draw();
         },
         error: function (data) {
@@ -218,10 +265,31 @@
       });
     });
 
+    $('#saveBtnEdit').click(function (e) {
+      e.preventDefault();
+      $(this).html('Simpan');
+
+      $.ajax({
+        data: $('#theEditForm').serialize(),
+        url: "{{ route('admin.proyek.detail-pekerjaan-proyek.sub-pekerjaan.store') }}",
+        type: "POST",
+        dataType: 'json',
+        success: function (data) {
+          $('#theEditForm').trigger("reset");
+          $('#theEditModal').modal('hide');
+          load_data();
+          table.draw();
+        },
+        error: function (data) {
+          console.log('Error:', data);
+          $('#saveBtnEdit').html('Simpan');
+        }
+      });
+    });
+
     $('body').on('click', '.delete-data', function () {
       var id = $(this).data('id');
       $.get("{{ route('admin.proyek.detail-pekerjaan-proyek.sub-pekerjaan.show', ['id' => ':id']) }}".replace(':id', id), function (data) {
-        console.log(data)
         $('#theModalDeleteHeading').html("Hapus Sub Pekerjaan");
         $('#saveDeteleBtn').val("delete");
         $('#id_delete').val(data.id);
@@ -236,6 +304,7 @@
         type: "DELETE",
         url: "{{ route('admin.proyek.detail-pekerjaan-proyek.sub-pekerjaan.destroy', ['id' => ':id']) }}".replace(':id', id),
         success: function (data) {
+          load_data();
           table.draw();
           $('#theDeleteModal').modal('hide');
         },

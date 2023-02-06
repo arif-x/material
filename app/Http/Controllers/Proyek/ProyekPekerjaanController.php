@@ -17,7 +17,7 @@ use App\Models\HargaKomponenMaterial;
 class ProyekPekerjaanController extends Controller
 {
     public function datatable($id){
-        $data = ProyekPekerjaan::with(['pekerjaan'])->orderBy('id', 'desc')->get();
+        $data = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', $id)->orderBy('id', 'desc')->get();
         return datatables()->of($data)->addIndexColumn()->toJson();
     }
 
@@ -124,7 +124,7 @@ class ProyekPekerjaanController extends Controller
                     $this->hargaKomponenJasa($data[$i]['sub_pekerjaan_id'], $createProyekSubPekerjaan->id);
                     $this->hargaKomponenMaterial($data[$i]['sub_pekerjaan_id'], $createProyekSubPekerjaan->id);
                 } else {
-
+                    // 
                 }
             }
         } else {

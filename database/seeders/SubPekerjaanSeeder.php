@@ -20,7 +20,7 @@ class SubPekerjaanSeeder extends Seeder
         
         $mp = MasterPekerjaan::all();
 
-        for($i = 0; $i < 5; $i++){
+        for($i = 0; $i < 15; $i++){
             MasterSubPekerjaan::insert([
                 'pekerjaan_id' => $mp->random()->id,
                 'kode_sub_pekerjaan' => "KSP-" . $faker->numberBetween(10000,99999),
