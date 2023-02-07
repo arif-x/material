@@ -24,6 +24,7 @@ use App\Http\Controllers\Proyek\ProyekController;
 use App\Http\Controllers\Proyek\ProyekPekerjaanController;
 use App\Http\Controllers\Proyek\ProyekPekerjaanDetailController;
 use App\Http\Controllers\Proyek\ProyekSubPekerjaanDetailController;
+use App\Http\Controllers\Proyek\RabController;
 
 use App\Http\Controllers\Proyek\HargaKomponen\HargaKomponenJasaController as ProyekHargaKomponenJasaController;
 use App\Http\Controllers\Proyek\HargaKomponen\HargaKomponenMaterialController as ProyekHargaKomponenMaterialController;
@@ -150,5 +151,7 @@ Route::group([
             // Harga Komponen Material Sub Pekerjaan Proyek
             Route::resource('/sub-pekerjaan/material/resource', ProyekHargaKomponenMaterialController::class);
         });
+
+        Route::get('rab/{id}', [RabController::class, 'index'])->name('rab');
     });
 });

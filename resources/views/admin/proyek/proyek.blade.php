@@ -64,6 +64,40 @@
               </div>
             </div>
 
+            <div class="modal fade" id="rabModal" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Export RAB</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="rabForm" name="rabForm" class="form-horizontal" method="GET">
+                      <div class="form-group">
+                        <label for="">Tempat Persetujuan</label>
+                        <input type="text" name="tempat" id="tempat" class="form-control" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="">Tanggal Persetujuan</label>
+                        <input type="date" name="tanggal" id="tanggal" class="form-control" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="">Nama Penyetuju</label>
+                        <input type="text" name="nama" id="nama" class="form-control" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="">NPM Penyetuju</label>
+                        <input type="text" name="npm" id="npm" class="form-control" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary" value="create">Simpan</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <script type="text/javascript">
              $(function () {
               $.ajaxSetup({
@@ -89,7 +123,8 @@
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     render: function(a, b, row){
                       var detail = "{{route('admin.proyek.pekerjaan-proyek.index', ['id' => ':id'])}}".replace(':id', row.id);
-                      return '<a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Pekerjaan</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
+                      // var rab = "{{route('admin.proyek.rab', ['id' => ':id'])}}".replace(':id', row.id);
+                      return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Detail" class="rab btn btn-outline-primary rab-data">Export RAB</a> <a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Pekerjaan</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
                     }
                   }
                   ]
@@ -102,6 +137,17 @@
                 $('#theModalHeading').html("Tambah Proyek");
                 $('#theModal').modal('show');
               });
+
+              $('body').on('click', '.rab-data', function () {
+                var id = $(this).data('id');
+                $('#rabForm').trigger("reset");
+                $('#rabForm').attr('action', "{{route('admin.proyek.rab', ['id' => ':id'])}}".replace(':id', id))
+                $('#rabModal').modal('show');
+              });
+
+              $('#rabForm').on('submit', function(){
+                $('#rabModal').modal('hide');
+              })
 
               $('body').on('click', '.edit-data', function () {
                 var id = $(this).data('id');
