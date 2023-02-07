@@ -23,7 +23,7 @@ class ProyekPekerjaanController extends Controller
 
     public function index($id){
         $proyek = Proyek::findOrFail($id);
-        $pekerjaan = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', $id)->get();
+        $pekerjaan = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', $id)->orderBy('id', 'desc')->get();
 
         $arr_sub = [];
         $arr_fix = [];
