@@ -6,7 +6,7 @@
     <div class="col-md-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h3>Sub Pekerjaan {{$nama_pekerjaan}}</h3>
+          <h3>Satuan Sub Pekerjaan</h3>
           <hr/>
           <div class="card-description">
             <button class="btn btn-primary" id="tambah">Tambah</button>
@@ -16,12 +16,7 @@
               <thead>
                 <tr>
                   <th>No.</th>
-                  <th>Kode</th>
-                  <th>Sub Pekerjaan</th>
-                  <th>Satuan</th>
-                  <th>Komp. Jasa</th>
-                  <th>Komp. Material</th>
-                  <th>Total Komp</th>
+                  <th>Satuan Sub Pekerjaan</th>
                   <th>Action</th>
                 </tr>
               </thead>  
@@ -39,23 +34,9 @@
                   <div class="modal-body">
                     <form id="theForm" name="theForm" class="form-horizontal">
                       <input type="hidden" name="id" id="id">
-                      <input type="hidden" name="pekerjaan_id" value="{{$id}}">
                       <div class="form-group">
-                        <label for="">Satuan Sub Pekerjaan</label>
-                        <select class="form-control select2" name="satuan_sub_pekerjaan_id" id="satuan_sub_pekerjaan_id">
-                          <option value="" disabled selected>Pilih Satuan</option>
-                          @foreach($satuan_sub_pekerjaan as $key => $value)
-                          <option value="{{$key}}">{{$value}}</option>
-                          @endforeach
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="">Kode Sub Pekerjaan</label>
-                        <input type="text" name="kode_sub_pekerjaan" id="kode_sub_pekerjaan" class="form-control">
-                      </div>
-                      <div class="form-group">
-                        <label for="">Nama Sub Pekerjaan</label>
-                        <input type="text" name="nama_sub_pekerjaan" id="nama_sub_pekerjaan" class="form-control">
+                        <label for="">Nama Satuan Sub Pekerjaan</label>
+                        <input type="text" name="satuan_sub_pekerjaan" id="satuan_sub_pekerjaan" class="form-control">
                       </div>
                       <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Simpan</button>
                     </form>
@@ -84,50 +65,23 @@
 
             <script type="text/javascript">
              $(function () {
-
-              $('input[class="form-control"]').prop('required', true);
-
               $.ajaxSetup({
                 headers: {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
               });
-
-              $('.select2').select2({theme: "bootstrap"});
-
               var table = $('#dataTableExample').DataTable({
                 processing: true,
                 serverSide: true,
                 paging: true,
-                ajax: "{{ route('admin.master.pekerjaan.sub-pekerjaan.single', ['id' => $id]) }}",
+                ajax: "{{ route('admin.master.pekerjaan.satuan-sub-pekerjaan.index') }}",
                 columns: [
                   {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                  {data: 'kode_sub_pekerjaan', name: 'kode_sub_pekerjaan'},
-                  {data: 'nama_sub_pekerjaan', name: 'nama_sub_pekerjaan'},
-                  {data: 'satuan_sub_pekerjaan.satuan_sub_pekerjaan', name: 'satuan_sub_pekerjaan.satuan_sub_pekerjaan'},
-                  {
-                    data: 'komponen_jasa', name: 'komponen_jasa', orderable: false, searchable: false,
-                    render: function(a, b, row){
-                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.komponen_jasa)
-                    }
-                  },
-                  {
-                    data: 'komponen_material', name: 'komponen_material', orderable: false, searchable: false,
-                    render: function(a, b, row){
-                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.komponen_material)
-                    }
-                  },
-                  {
-                    data: 'total_komponen', name: 'total_komponen', orderable: false, searchable: false,
-                    render: function(a, b, row){
-                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.total_komponen)
-                    }
-                  },
+                  {data: 'satuan_sub_pekerjaan', name: 'satuan_sub_pekerjaan'},
                   {
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      var detail = '{{route("admin.master.pekerjaan.sub-pekerjaan.detail", ["id" => ":id"])}}'.replace(":id", row.id);
-                      return '<a href="'+detail+'" data-toggle="tooltip" class="detail btn btn-outline-primary detail-data">Harga Komponen</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>';
+                      return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
                     }
                   }
                   ]
@@ -137,22 +91,17 @@
                 $('#saveBtn').val("save");
                 $('#id').val('');
                 $('#theForm').trigger("reset");
-                $('#theModalHeading').html("Tambah Sub Pekerjaan");
-                $('#satuan_sub_pekerjaan_id').val(null).trigger('change');
-                $('#pekerjaan_id').val("{{$id}}");
+                $('#theModalHeading').html("Tambah Satuan Sub Pekerjaan");
                 $('#theModal').modal('show');
               });
 
               $('body').on('click', '.edit-data', function () {
                 var id = $(this).data('id');
-                $.get("{{ route('admin.master.pekerjaan.sub-pekerjaan.index') }}" +'/' + id + '', function (data) {
-                  $('#theModalHeading').html("Edit Sub Pekerjaan");
+                $.get("{{ route('admin.master.pekerjaan.satuan-sub-pekerjaan.index') }}" +'/' + id + '', function (data) {
+                  $('#theModalHeading').html("Edit Satuan Sub Pekerjaan");
                   $('#saveBtn').val("save");
                   $('#id').val(data.id);
-                  $('#pekerjaan_id').val(data.pekerjaan_id);
-                  $('#satuan_sub_pekerjaan_id').val(data.satuan_sub_pekerjaan_id).trigger('change');
-                  $('#kode_sub_pekerjaan').val(data.kode_sub_pekerjaan);
-                  $('#nama_sub_pekerjaan').val(data.nama_sub_pekerjaan);
+                  $('#satuan_sub_pekerjaan').val(data.satuan_sub_pekerjaan);
                   $('#theModal').modal('show');
                 })
               });
@@ -163,7 +112,7 @@
 
                 $.ajax({
                   data: $('#theForm').serialize(),
-                  url: "{{ route('admin.master.pekerjaan.sub-pekerjaan.store') }}",
+                  url: "{{ route('admin.master.pekerjaan.satuan-sub-pekerjaan.store') }}",
                   type: "POST",
                   dataType: 'json',
                   success: function (data) {
@@ -180,11 +129,11 @@
 
               $('body').on('click', '.delete-data', function () {
                 var id = $(this).data('id');
-                $.get("{{ route('admin.master.pekerjaan.sub-pekerjaan.index') }}" +'/' + id + '', function (data) {
-                  $('#theModalDeleteHeading').html("Hapus Sub Pekerjaan");
+                $.get("{{ route('admin.master.pekerjaan.satuan-sub-pekerjaan.index') }}" +'/' + id + '', function (data) {
+                  $('#theModalDeleteHeading').html("Hapus Satuan Sub Pekerjaan");
                   $('#saveDeteleBtn').val("delete");
                   $('#id_delete').val(data.id);
-                  $('#name_delete').html(data.nama_pekerjaan);
+                  $('#name_delete').html(data.satuan_sub_pekerjaan);
                   $('#theDeleteModal').modal('show');
                 })
               });
@@ -193,7 +142,7 @@
                 var id = $('#id_delete').val();
                 $.ajax({
                   type: "DELETE",
-                  url: "{{ route('admin.master.pekerjaan.sub-pekerjaan.store') }}"+'/'+id,
+                  url: "{{ route('admin.master.pekerjaan.satuan-sub-pekerjaan.store') }}"+'/'+id,
                   success: function (data) {
                     table.draw();
                     $('#theDeleteModal').modal('hide');

@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
                 
                 // Pekerjaan & Sub Pekerjaan
                 PekerjaanSeeder::class,
+                SatuanSubPekerjaanSeeder::class,
                 SubPekerjaanSeeder::class,
 
                 // Jasa

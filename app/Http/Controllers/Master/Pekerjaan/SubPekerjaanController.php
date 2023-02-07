@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master\Pekerjaan;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\SatuanSubPekerjaan;
 use App\Models\MasterSubPekerjaan;
 use App\Models\MasterPekerjaan;
 use App\Models\HargaKomponenJasa;
@@ -23,12 +24,13 @@ class SubPekerjaanController extends Controller
         }
 
         $pekerjaan = MasterPekerjaan::pluck('nama_pekerjaan', 'id');
-        return view('admin.master.pekerjaan.sub-pekerjaan', compact('pekerjaan'));
+        $satuan_sub_pekerjaan = SatuanSubPekerjaan::pluck('satuan_sub_pekerjaan', 'id');
+        return view('admin.master.pekerjaan.sub-pekerjaan', compact('pekerjaan', 'satuan_sub_pekerjaan'));
     }
 
     public function single(Request $request, $id){
         if($request->ajax()){
-            $data = MasterSubPekerjaan::with('pekerjaan')->where('pekerjaan_id', $id)->orderBy('id', 'desc')->get();
+            $data = MasterSubPekerjaan::with(['pekerjaan', 'satuan_sub_pekerjaan'])->where('pekerjaan_id', $id)->orderBy('id', 'desc')->get();
             for ($i=0; $i < count($data); $i++) { 
                 $data[$i]['komponen_jasa'] = HargaKomponenJasa::where('sub_pekerjaan_id', $data[$i]['id'])->sum('harga_komponen_jasa');
                 $data[$i]['komponen_material'] = HargaKomponenMaterial::where('sub_pekerjaan_id', $data[$i]['id'])->sum('harga_komponen_material');
@@ -38,8 +40,9 @@ class SubPekerjaanController extends Controller
         }
 
         $nama_pekerjaan = MasterPekerjaan::where('id', $id)->value('nama_pekerjaan');
+        $satuan_sub_pekerjaan = SatuanSubPekerjaan::pluck('satuan_sub_pekerjaan', 'id');
 
-        return view('admin.master.pekerjaan.sub-pekerjaan-single', compact('id', 'nama_pekerjaan'));
+        return view('admin.master.pekerjaan.sub-pekerjaan-single', compact('id', 'nama_pekerjaan', 'satuan_sub_pekerjaan'));
     }
 
     public function show($id){
@@ -54,6 +57,7 @@ class SubPekerjaanController extends Controller
             ],
             [
                 'pekerjaan_id' => $request->pekerjaan_id,
+                'satuan_sub_pekerjaan_id' => $request->satuan_sub_pekerjaan_id,
                 'kode_sub_pekerjaan' => $request->kode_sub_pekerjaan,
                 'nama_sub_pekerjaan' => $request->nama_sub_pekerjaan,
             ]

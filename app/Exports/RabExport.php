@@ -32,7 +32,7 @@ class RabExport implements FromView, ShouldAutoSize
         $data = [];
 
         foreach ($pekerjaan as $key => $value) {
-            $sub_pekerjaan = ProyekSubPekerjaan::with(['sub_pekerjaan', 'harga_komponen_jasa', 'harga_komponen_material'])->where('proyek_pekerjaan_id', $value['id'])->get();
+            $sub_pekerjaan = ProyekSubPekerjaan::with(['sub_pekerjaan' => function($query){return $query->with('satuan_sub_pekerjaan');}, 'harga_komponen_jasa', 'harga_komponen_material'])->where('proyek_pekerjaan_id', $value['id'])->get();
             $komponen = [];
             for ($i=0; $i < count($sub_pekerjaan); $i++) { 
                 $fix_komponen_jasa_sum = 0;
@@ -55,6 +55,7 @@ class RabExport implements FromView, ShouldAutoSize
                     'sub_pekerjaan' => $sub_pekerjaan[$i]->sub_pekerjaan->nama_sub_pekerjaan,
                     'kode_analisa' => $sub_pekerjaan[$i]->sub_pekerjaan->kode_sub_pekerjaan,
                     'volume' => $sub_pekerjaan[$i]->volume,
+                    'satuan_sub_pekerjaan' => $sub_pekerjaan[$i]->sub_pekerjaan->satuan_sub_pekerjaan->satuan_sub_pekerjaan,
                     'fix_komponen_jasa_sum' => $fix_komponen_jasa_sum,
                     'fix_komponen_material_sum' => $fix_komponen_material_sum,
                     'fix_komponen' => $fix_komponen_jasa_sum + $fix_komponen_material_sum,

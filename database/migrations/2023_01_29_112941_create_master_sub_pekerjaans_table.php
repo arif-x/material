@@ -17,6 +17,8 @@ class CreateMasterSubPekerjaansTable extends Migration
             $table->id();
             $table->unsignedBigInteger('pekerjaan_id');
             $table->foreign('pekerjaan_id')->references('id')->on('master_pekerjaans')->onDelete('cascade');
+            $table->unsignedBigInteger('satuan_sub_pekerjaan_id');
+            $table->foreign('satuan_sub_pekerjaan_id')->references('id')->on('satuan_sub_pekerjaans')->onDelete('cascade');
             $table->string('kode_sub_pekerjaan');
             $table->string('nama_sub_pekerjaan');
             $table->timestamps();

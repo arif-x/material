@@ -14,6 +14,7 @@ use App\Http\Controllers\Master\Material\SatuanMaterialController;
 use App\Http\Controllers\Master\Material\MaterialController;
 
 use App\Http\Controllers\Master\Pekerjaan\PekerjaanController;
+use App\Http\Controllers\Master\Pekerjaan\SatuanSubPekerjaanController;
 use App\Http\Controllers\Master\Pekerjaan\SubPekerjaanController;
 use App\Http\Controllers\Master\Pekerjaan\SubPekerjaanDetailController;
 
@@ -77,6 +78,7 @@ Route::group([
         'as' => 'admin.master.pekerjaan.'
     ], function(){
         Route::resource('/pekerjaan', PekerjaanController::class);
+        Route::resource('/satuan-sub-pekerjaan', SatuanSubPekerjaanController::class);
         Route::get('/detail/sub-pekerjaan/{id}', [SubPekerjaanController::class, 'single'])->name('sub-pekerjaan.single');
         Route::resource('/sub-pekerjaan', SubPekerjaanController::class);
         Route::get('/sub-pekerjaan/detail/{id}', [SubPekerjaanDetailController::class, 'index'])->name('sub-pekerjaan.detail');

@@ -11,6 +11,7 @@ class MasterSubPekerjaan extends Model
 
     protected $fillable = [
         'pekerjaan_id',
+        'satuan_sub_pekerjaan_id',
         'kode_sub_pekerjaan',
         'nama_sub_pekerjaan',
         'harga_sub_pekerjaan',
@@ -20,6 +21,10 @@ class MasterSubPekerjaan extends Model
 
     public function pekerjaan(){
         return $this->belongsTo(MasterPekerjaan::class, 'pekerjaan_id', 'id');
+    }
+
+    public function satuan_sub_pekerjaan(){
+        return $this->belongsTo(SatuanSubPekerjaan::class, 'satuan_sub_pekerjaan_id', 'id');
     }
 
     public function harga_satuan_jasa(){
