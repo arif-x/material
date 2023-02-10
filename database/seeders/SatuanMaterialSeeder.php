@@ -16,7 +16,7 @@ class SatuanMaterialSeeder extends Seeder
     {
         for($i = 0; $i < 5; $i++){
             SatuanMaterial::insert([
-                'satuan_material' => "Satuan Material ".($i+1),
+                'satuan_material' => "M".($i+1),
             ]);
         }
     }

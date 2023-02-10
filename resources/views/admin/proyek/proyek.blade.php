@@ -123,8 +123,15 @@
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     render: function(a, b, row){
                       var detail = "{{route('admin.proyek.pekerjaan-proyek.index', ['id' => ':id'])}}".replace(':id', row.id);
+                      var rab = "{{route('admin.proyek.rab', ['id' => ':id'])}}".replace(':id', row.id);
+                      var rap = "{{route('admin.proyek.rap', ['id' => ':id'])}}".replace(':id', row.id);
                       // var rab = "{{route('admin.proyek.rab', ['id' => ':id'])}}".replace(':id', row.id);
-                      return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Detail" class="rab btn btn-outline-primary rab-data">Export RAB</a> <a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Pekerjaan</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> <a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
+                      // return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Detail" class="rab btn btn-outline-primary rab-data">Export RAB</a> '+
+                      return '<a href="'+rab+'" data-toggle="tooltip" data-id="'+rab+'" data-original-title="Detail" class="rab btn btn-outline-primary rab-data">Export RAB</a> '+
+                      '<a href="'+rap+'" data-toggle="tooltip" data-id="'+rap+'" data-original-title="Detail" class="rap btn btn-outline-primary rap-data">Export RAP</a> '+
+                      '<a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Pekerjaan</a> '+
+                      '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> '+
+                      '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
                     }
                   }
                   ]
@@ -138,12 +145,12 @@
                 $('#theModal').modal('show');
               });
 
-              $('body').on('click', '.rab-data', function () {
-                var id = $(this).data('id');
-                $('#rabForm').trigger("reset");
-                $('#rabForm').attr('action', "{{route('admin.proyek.rab', ['id' => ':id'])}}".replace(':id', id))
-                $('#rabModal').modal('show');
-              });
+              // $('body').on('click', '.rab-data', function () {
+              //   var id = $(this).data('id');
+              //   $('#rabForm').trigger("reset");
+              //   $('#rabForm').attr('action', "{{route('admin.proyek.rab', ['id' => ':id'])}}".replace(':id', id))
+              //   $('#rabModal').modal('show');
+              // });
 
               $('#rabForm').on('submit', function(){
                 $('#rabModal').modal('hide');

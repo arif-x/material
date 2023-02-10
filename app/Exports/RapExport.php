@@ -1,17 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Exports;
 
-use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
 use App\Models\Proyek;
 use App\Models\ProyekPekerjaan;
 use App\Models\ProyekSubPekerjaan;
 use App\Models\ProyekHargaKomponenMaterial;
 use App\Models\ProyekHargaKomponenJasa;
 
-class TestController extends Controller
+class RapExport implements FromView, ShouldAutoSize
 {
-    public function index(){
+    public function __construct(int $id)
+    {
+        $this->id = $id;
+    }
+
+    public function view(): View {
         $proyek = Proyek::find(1);
         $pekerjaan = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', 1)->get();
 
@@ -74,6 +86,8 @@ class TestController extends Controller
             $data[$i]['sub_pekerjaan'] = $arr_sub_pekerjaan_fix;
         }
 
-        return view('admin.proyek.excel.rap', ['data' => $data]);
+        $nama_proyek = $proyek->nama_proyek;
+
+        return view('admin.proyek.excel.rap', ['data' => $data], compact('nama_proyek'));
     }
 }

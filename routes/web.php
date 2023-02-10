@@ -25,7 +25,7 @@ use App\Http\Controllers\Proyek\ProyekController;
 use App\Http\Controllers\Proyek\ProyekPekerjaanController;
 use App\Http\Controllers\Proyek\ProyekPekerjaanDetailController;
 use App\Http\Controllers\Proyek\ProyekSubPekerjaanDetailController;
-use App\Http\Controllers\Proyek\RabController;
+use App\Http\Controllers\Proyek\RabRapController;
 
 use App\Http\Controllers\Proyek\HargaKomponen\HargaKomponenJasaController as ProyekHargaKomponenJasaController;
 use App\Http\Controllers\Proyek\HargaKomponen\HargaKomponenMaterialController as ProyekHargaKomponenMaterialController;
@@ -154,6 +154,7 @@ Route::group([
             Route::resource('/sub-pekerjaan/material/resource', ProyekHargaKomponenMaterialController::class);
         });
 
-        Route::get('rab/{id}', [RabController::class, 'index'])->name('rab');
+        Route::get('rab/{id}', [RabRapController::class, 'rab'])->name('rab');
+        Route::get('rap/{id}', [RabRapController::class, 'rap'])->name('rap');
     });
 });

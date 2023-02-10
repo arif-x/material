@@ -16,7 +16,7 @@ class SatuanJasaSeeder extends Seeder
     {
         for($i = 0; $i < 5; $i++){
             SatuanJasa::insert([
-                'satuan_jasa' => "Satuan Jasa ".($i+1),
+                'satuan_jasa' => "J".($i+1),
             ]);
         }
     }

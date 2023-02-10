@@ -15,13 +15,13 @@ use App\Models\ProyekSubPekerjaan;
 
 class RabExport implements FromView, ShouldAutoSize
 {
-    public function __construct(int $id, $tempat, $tanggal, $nama, $npm)
+    public function __construct(int $id/*, $tempat, $tanggal, $nama, $npm*/)
     {
         $this->id = $id;
-        $this->tempat = $tempat;
-        $this->tanggal = $tanggal;
-        $this->nama = $nama;
-        $this->npm = $npm;
+        // $this->tempat = $tempat;
+        // $this->tanggal = $tanggal;
+        // $this->nama = $nama;
+        // $this->npm = $npm;
     }
 
     public function view(): View {
@@ -96,10 +96,10 @@ class RabExport implements FromView, ShouldAutoSize
 
         return view('admin.proyek.excel.rab', [
             'datas' => collect($data),
-            'tempat' => $this->tempat,
-            'tanggal' => $this->tanggal,
-            'nama' => $this->nama,
-            'npm' => $this->npm
+            // 'tempat' => $this->tempat,
+            // 'tanggal' => $this->tanggal,
+            // 'nama' => $this->nama,
+            // 'npm' => $this->npm
         ], compact('total_all', 'proyek'));
     }
 }

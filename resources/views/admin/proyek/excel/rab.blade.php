@@ -102,41 +102,4 @@ function tanggal($tanggal){
 		<td style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9" data-format="#,##0.00_-"><strong>{{$datas[$i]['total']}}</strong></td>
 	</tr>
 	@endfor
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td colspan="3" style="text-align: center">{{$tempat}}, {{tanggal($tanggal)}}</td>
-		<td></td>
-	</tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td colspan="3" style="text-align: center"><strong>{{$nama}}</strong></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td colspan="3" style="text-align: center">NPM {{$npm}}</td>
-		<td></td>
-	</tr>
 </table>
