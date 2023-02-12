@@ -74,25 +74,27 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form id="rabForm" name="rabForm" class="form-horizontal" method="GET">
-                      <div class="form-group">
-                        <label for="">Tempat Persetujuan</label>
-                        <input type="text" name="tempat" id="tempat" class="form-control" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="">Tanggal Persetujuan</label>
-                        <input type="date" name="tanggal" id="tanggal" class="form-control" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="">Nama Penyetuju</label>
-                        <input type="text" name="nama" id="nama" class="form-control" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="">NPM Penyetuju</label>
-                        <input type="text" name="npm" id="npm" class="form-control" required>
-                      </div>
-                      <button type="submit" class="btn btn-primary" value="create">Simpan</button>
-                    </form>
+                      <h5 class="mb-3">Ingin Export/Preview <strong id="name_rab"></strong>?</h5>
+                      <a href="" target="_blank" type="button" class="btn btn-primary export-rab-btn">Export</a>
+                      <a href="" target="_blank" type="button" class="btn btn-primary preview-rab-btn">Preview</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="rapModal" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Export RAP</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <h5 class="mb-3">Ingin Export/Preview <strong id="name_rap"></strong>?</h5>
+                      <a href="" target="_blank" type="button" class="btn btn-primary export-rap-btn">Export</a>
+                      <a href="" target="_blank" type="button" class="btn btn-primary preview-rap-btn">Preview</a>
                   </div>
                 </div>
               </div>
@@ -125,10 +127,8 @@
                       var detail = "{{route('admin.proyek.pekerjaan-proyek.index', ['id' => ':id'])}}".replace(':id', row.id);
                       var rab = "{{route('admin.proyek.rab', ['id' => ':id'])}}".replace(':id', row.id);
                       var rap = "{{route('admin.proyek.rap', ['id' => ':id'])}}".replace(':id', row.id);
-                      // var rab = "{{route('admin.proyek.rab', ['id' => ':id'])}}".replace(':id', row.id);
-                      // return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Detail" class="rab btn btn-outline-primary rab-data">Export RAB</a> '+
-                      return '<a href="'+rab+'" data-toggle="tooltip" data-id="'+rab+'" data-original-title="Detail" class="rab btn btn-outline-primary rab-data">Export RAB</a> '+
-                      '<a href="'+rap+'" data-toggle="tooltip" data-id="'+rap+'" data-original-title="Detail" class="rap btn btn-outline-primary rap-data">Export RAP</a> '+
+                      return '<a href="javascript:void(0)" data-toggle="tooltip" data-name="'+row.nama_proyek+'" data-id="'+row.id+'" data-original-title="RAB" class="rab btn btn-outline-primary rab-data">Export RAB</a> '+
+                      '<a href="javascript:void(0)" data-toggle="tooltip" data-name="'+row.nama_proyek+'" data-id="'+row.id+'" data-original-title="RAP" class="rap btn btn-outline-primary rap-data">Export RAP</a> '+
                       '<a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Pekerjaan</a> '+
                       '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> '+
                       '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
@@ -145,12 +145,21 @@
                 $('#theModal').modal('show');
               });
 
-              // $('body').on('click', '.rab-data', function () {
-              //   var id = $(this).data('id');
-              //   $('#rabForm').trigger("reset");
-              //   $('#rabForm').attr('action', "{{route('admin.proyek.rab', ['id' => ':id'])}}".replace(':id', id))
-              //   $('#rabModal').modal('show');
-              // });
+              $('body').on('click', '.rab-data', function () {
+                var id = $(this).data('id');
+                $('#name_rab').html($(this).data('name'))
+                $('.export-rab-btn').attr('href', '{{route("admin.proyek.rab", ["id" => ":id"])}}'.replace(':id', id))
+                $('.preview-rab-btn').attr('href', '{{route("admin.proyek.rab.preview", ["id" => ":id"])}}'.replace(':id', id))
+                $('#rabModal').modal('show');
+              });
+
+              $('body').on('click', '.rap-data', function () {
+                var id = $(this).data('id');
+                $('#name_rap').html($(this).data('name'))
+                $('.export-rap-btn').attr('href', '{{route("admin.proyek.rap", ["id" => ":id"])}}'.replace(':id', id))
+                $('.preview-rap-btn').attr('href', '{{route("admin.proyek.rap.preview", ["id" => ":id"])}}'.replace(':id', id))
+                $('#rapModal').modal('show');
+              });
 
               $('#rabForm').on('submit', function(){
                 $('#rabModal').modal('hide');

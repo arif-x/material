@@ -24,8 +24,8 @@ class RapExport implements FromView, ShouldAutoSize
     }
 
     public function view(): View {
-        $proyek = Proyek::find(1);
-        $pekerjaan = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', 1)->get();
+        $proyek = Proyek::find($this->id);
+        $pekerjaan = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', $this->id)->get();
 
         $data = [];
 
