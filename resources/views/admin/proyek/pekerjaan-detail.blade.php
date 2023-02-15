@@ -12,22 +12,22 @@
           </div>
           <hr/>
           <div class="row mb-2 detail-order">
-            <div class="col-2 py-2">
+            <div class="col-3 py-2">
               Nama Proyek
             </div>
-            <div class="col-10 py-2">
+            <div class="col-9 py-2">
               : <strong>{{$proyek->nama_proyek}}</strong>
             </div>
-            <div class="col-2 py-2">
+            <div class="col-3 py-2">
               Nama Pekerjaan
             </div>
-            <div class="col-10 py-2">
+            <div class="col-9 py-2">
               : <strong>{{$pekerjaan->pekerjaan->nama_pekerjaan}}</strong>
             </div>
-            <div class="col-2 py-2">
+            <div class="col-3 py-2">
               Rincian
             </div>
-            <div class="col-10 py-2">
+            <div class="col-9 py-2">
               : <br>
             </div>
           </div>

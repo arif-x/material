@@ -11,7 +11,7 @@
 	<tr></tr>
 	<tr>
 		<td>Nama Proyek</td>
-		<td>:</td>
+		<td style="text-align: right;">:</td>
 		<td colspan="8">{{$nama_proyek}}</td>
 	</tr>
 	<tr></tr>
@@ -51,46 +51,46 @@
 		$count = $count_jasa;
 	}
 
-	for($k=0; $k < $count; $k++){ @endphp
-	@php
+	for($k=0; $k < $count; $k++){ 
 	if(empty($data[$i]['sub_pekerjaan'][$j]['komponen_material'][$k])){
-		$data[$i]['sub_pekerjaan'][$j]['komponen_material'][$k] = [
-		'nama_material' => '-',
-		'harga_asli' => '-',
-		'koefisien' => '0',
-		'harga_fix' => '-',
-		'satuan' => '-',
-		'volume' => '0'
-		];
+		
 	} else {
 		$data[$i]['sub_pekerjaan'][$j]['komponen_material'][$k]['volume'] = $data[$i]['sub_pekerjaan'][$j]['volume'];
 	}
 
 	if(empty($data[$i]['sub_pekerjaan'][$j]['komponen_jasa'][$k])){
-		$data[$i]['sub_pekerjaan'][$j]['komponen_jasa'][$k] = [
-		'nama_jasa' => '-',
-		'harga_asli' => '-',
-		'koefisien' => '0',
-		'harga_fix' => '-',
-		'satuan' => '-',
-		'volume' => 0,
-		];
+		
 	} else {
 		$data[$i]['sub_pekerjaan'][$j]['komponen_jasa'][$k]['volume'] = $data[$i]['sub_pekerjaan'][$j]['volume'];
 	}
 	@endphp
 	<tr>
+		@if(!empty($data[$i]['sub_pekerjaan'][$j]['komponen_material'][$k]))
 		<td style="border: 1px solid black;border-collapse: collapse;">{{$data[$i]['sub_pekerjaan'][$j]['komponen_material'][$k]['nama_material']}}</td>
 		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;">{{$data[$i]['sub_pekerjaan'][$j]['komponen_material'][$k]['volume']}}</td>
 		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;" data-format="#,##0.00_-">{{$data[$i]['sub_pekerjaan'][$j]['komponen_material'][$k]['koefisien']}}</td>
 		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;" data-format="#,##0.00_-">{{($data[$i]['sub_pekerjaan'][$j]['komponen_material'][$k]['koefisien'] * $data[$i]['sub_pekerjaan'][$j]['volume'])}}</td>
 		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;">{{$data[$i]['sub_pekerjaan'][$j]['komponen_material'][$k]['satuan']}}</td>
-		
+		@else
+		<td style="border: 1px solid black;border-collapse: collapse;"></td>
+		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;"></td>
+		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;" data-format="#,##0.00_-"></td>
+		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;" data-format="#,##0.00_-"></td>
+		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;"></td>
+		@endif
+		@if(!empty($data[$i]['sub_pekerjaan'][$j]['komponen_jasa'][$k]))
 		<td style="border: 1px solid black;border-collapse: collapse;">{{$data[$i]['sub_pekerjaan'][$j]['komponen_jasa'][$k]['nama_jasa']}}</td>
 		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;">{{$data[$i]['sub_pekerjaan'][$j]['komponen_jasa'][$k]['volume']}}</td>
 		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;" data-format="#,##0.00_-">{{$data[$i]['sub_pekerjaan'][$j]['komponen_jasa'][$k]['koefisien']}}</td>
 		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;" data-format="#,##0.00_-">{{($data[$i]['sub_pekerjaan'][$j]['komponen_jasa'][$k]['koefisien'] * $data[$i]['sub_pekerjaan'][$j]['volume'])}}</td>
 		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;">{{$data[$i]['sub_pekerjaan'][$j]['komponen_jasa'][$k]['satuan']}}</td>
+		@else
+		<td style="border: 1px solid black;border-collapse: collapse;"></td>
+		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;"></td>
+		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;" data-format="#,##0.00_-"></td>
+		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;" data-format="#,##0.00_-"></td>
+		<td style="border: 1px solid black;border-collapse: collapse;text-align:center;"></td>
+		@endif
 	</tr>
 	@php } @endphp
 	@php } @endphp
