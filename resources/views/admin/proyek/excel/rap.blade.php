@@ -16,23 +16,23 @@
 	</tr>
 	<tr></tr>
 	<tr>
-		<th colspan="5" style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #92D050;">Kebutuhan Material</th>
-		<th colspan="5" style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #92D050;">Kebutuhan Jasa</th>
+		<th colspan="5" style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #D9D9D9;">KEBUTUHAN MATERIAL</th>
+		<th colspan="5" style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #D9D9D9;">KEBUTUHAN JASA</th>
 	</tr>
 	<tr>
-		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #D9D9D9;">Nama Material</th>
-		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #D9D9D9;">Volume</th>
-		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #D9D9D9;">Koefisien</th>
-		<th colspan="2" style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #D9D9D9;">Kebutuhan</th>
+		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;">NAMA MATERIAL</th>
+		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;">VOLUME</th>
+		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;">KOEFISIEN</th>
+		<th colspan="2" style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;">KEBUTUHAN</th>
 		<!--  -->
-		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #D9D9D9;">Nama Jasa</th>
-		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #D9D9D9;">Volume</th>
-		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #D9D9D9;">Koefisien</th>
-		<th colspan="2" style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;background: #D9D9D9;">Kebutuhan</th>
+		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;">NAMA JASA</th>
+		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;">VOLUME</th>
+		<th style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;">KOEFISIEN</th>
+		<th colspan="2" style="border: 1px solid black;border-collapse: collapse;text-align:center;font-weight: bold;">KEBUTUHAN</th>
 	</tr>
 	@php for($i=0; $i < count($data); $i++){ @endphp
 	<tr style="border: 1px solid black;border-collapse: collapse;">
-		<td colspan="10" style="border: 1px solid black;border-collapse: collapse;background:#ED7D31;font-weight: bold;">{{$data[$i]['pekerjaan']}}</td>
+		<td colspan="10" style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9;font-weight: bold;">{{$data[$i]['pekerjaan']}}</td>
 	</tr>
 	@php for($j=0; $j < count($data[$i]['sub_pekerjaan']); $j++){ @endphp
 	<tr style="border: 1px solid black;border-collapse: collapse;">

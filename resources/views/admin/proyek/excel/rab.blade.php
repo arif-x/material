@@ -72,25 +72,17 @@ function tanggal($tanggal){
 	</tr>
 	<tr></tr>
 	<tr>
-		<th style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #92D050;"><strong>NO</strong></th>
-		<th colspan="2" style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #92D050;"><strong>NAMA PEKERJAAN</strong></th>
-		<th colspan="3" style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #92D050;"><strong>KODE ANALISA</strong></th>
-		<th colspan="2" style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #92D050;"><strong>VOLUME</strong></th>
-		<th style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #92D050;"><strong>HARGA SATUAN (Rp)</strong></th>
-		<th style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #92D050;"><strong>TOTAL HARGA (Rp)</strong></th>
-	</tr>
-	<tr>
-		<th style="border: 1px solid black;border-collapse: collapse;text-align: center;background:#D9D9D9; font-size: 10px;"><strong><i>1</i></strong></th>
-		<th colspan="2" style="border: 1px solid black;border-collapse: collapse;text-align: center;background:#D9D9D9; font-size: 10px;"><strong><i>2</i></strong></th>
-		<th colspan="3" style="border: 1px solid black;border-collapse: collapse;text-align: center;background:#D9D9D9; font-size: 10px;"><strong><i>3</i></strong></th>
-		<th colspan="2" style="border: 1px solid black;border-collapse: collapse;text-align: center;background:#D9D9D9; font-size: 10px;"><strong><i>4</i></strong></th>
-		<th style="border: 1px solid black;border-collapse: collapse;text-align: center;background:#D9D9D9; font-size: 10px;"><strong><i>5</i></strong></th>
-		<th style="border: 1px solid black;border-collapse: collapse;text-align: center;background:#D9D9D9; font-size: 10px;"><strong><i>6</i></strong></th>
+		<th style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #D9D9D9;"><strong>NO</strong></th>
+		<th colspan="2" style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #D9D9D9;"><strong>NAMA PEKERJAAN</strong></th>
+		<th colspan="3" style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #D9D9D9;"><strong>KODE SUB PEKERJAAN</strong></th>
+		<th colspan="2" style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #D9D9D9;"><strong>VOLUME</strong></th>
+		<th style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #D9D9D9;"><strong>HARGA SATUAN (Rp)</strong></th>
+		<th style="border: 1px solid black;border-collapse: collapse;text-align: center;background: #D9D9D9;"><strong>TOTAL HARGA (Rp)</strong></th>
 	</tr>
 	@for($i=0; $i < count($datas); $i++)
 	<tr>
-		<td style="border: 1px solid black;border-collapse: collapse;text-align: center; background:#ED7D31"><strong>{{romawi($i+1)}}</strong></td>
-		<td style="border: 1px solid black;border-collapse: collapse;background:#ED7D31" colspan="9"><strong>{{$datas[$i]['nama_pekerjaan']}}</strong></td>
+		<td style="border: 1px solid black;border-collapse: collapse;text-align: center; background:#D9D9D9"><strong>{{romawi($i+1)}}</strong></td>
+		<td style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9" colspan="9"><strong>{{$datas[$i]['nama_pekerjaan']}}</strong></td>
 	</tr>
 		@for($j=0; $j < count($datas[$i]['detail']); $j++)
 		<tr>
