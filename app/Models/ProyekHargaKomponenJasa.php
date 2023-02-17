@@ -15,6 +15,7 @@ class ProyekHargaKomponenJasa extends Model
         'harga_asli',
         'koefisien',
         'harga_fix',
+        'profit',
         'created_at',
         'updated_at'
     ];

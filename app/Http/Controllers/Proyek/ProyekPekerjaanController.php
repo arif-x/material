@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Proyek;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Proyek;
 use App\Models\ProyekPekerjaan;
 use App\Models\ProyekSubPekerjaan;
@@ -95,40 +96,47 @@ class ProyekPekerjaanController extends Controller
     }
 
     public function store(Request $request){
-        $data = [];
-        $proyek_id = $request->proyek_id;
-        $pekerjaan_id = $request->pekerjaan_id;
-        $checkProyekPekerjaan = ProyekPekerjaan::where('proyek_id', $proyek_id)->where('pekerjaan_id', $pekerjaan_id)->first();
-        if(empty($checkProyekPekerjaan)){
-            $createProyekPekerjaan = ProyekPekerjaan::create(
-                [
-                    'proyek_id' => $proyek_id,
-                    'pekerjaan_id' => $pekerjaan_id,
-                ]
-            );
-            for ($i=0; $i < count($request->checkbox); $i++) { 
-                if($request->checkbox[$i] == 1){
-                    $data[$i]['proyek_id'] = $proyek_id;
-                    $data[$i]['pekerjaan_id'] = $pekerjaan_id;
-                    $data[$i]['sub_pekerjaan_id'] = $request->sub_pekerjaan_id[$i];
-                    $data[$i]['volume'] = $request->volume[$i];
+        try {
+            DB::beginTransaction();
+            $data = [];
+            $proyek_id = $request->proyek_id;
+            $pekerjaan_id = $request->pekerjaan_id;
+            $checkProyekPekerjaan = ProyekPekerjaan::where('proyek_id', $proyek_id)->where('pekerjaan_id', $pekerjaan_id)->first();
+            if(empty($checkProyekPekerjaan)){
+                $createProyekPekerjaan = ProyekPekerjaan::create(
+                    [
+                        'proyek_id' => $proyek_id,
+                        'pekerjaan_id' => $pekerjaan_id,
+                    ]
+                );
+                for ($i=0; $i < count($request->checkbox); $i++) { 
+                    if($request->checkbox[$i] == 1){
+                        $data[$i]['proyek_id'] = $proyek_id;
+                        $data[$i]['pekerjaan_id'] = $pekerjaan_id;
+                        $data[$i]['sub_pekerjaan_id'] = $request->sub_pekerjaan_id[$i];
+                        $data[$i]['volume'] = $request->volume[$i];
 
-                    $createProyekSubPekerjaan = ProyekSubPekerjaan::create(
-                        [
-                            'proyek_pekerjaan_id' => $createProyekPekerjaan->id,
-                            'sub_pekerjaan_id' => $data[$i]['sub_pekerjaan_id'],
-                            'volume' => $data[$i]['volume'],
-                        ]
-                    );
+                        $createProyekSubPekerjaan = ProyekSubPekerjaan::create(
+                            [
+                                'proyek_pekerjaan_id' => $createProyekPekerjaan->id,
+                                'sub_pekerjaan_id' => $data[$i]['sub_pekerjaan_id'],
+                                'volume' => $data[$i]['volume'],
+                            ]
+                        );
 
-                    $this->hargaKomponenJasa($data[$i]['sub_pekerjaan_id'], $createProyekSubPekerjaan->id);
-                    $this->hargaKomponenMaterial($data[$i]['sub_pekerjaan_id'], $createProyekSubPekerjaan->id);
-                } else {
+                        $this->hargaKomponenJasa($data[$i]['sub_pekerjaan_id'], $createProyekSubPekerjaan->id);
+                        $this->hargaKomponenMaterial($data[$i]['sub_pekerjaan_id'], $createProyekSubPekerjaan->id);
+                    } else {
                     // 
+                    }
                 }
+            } else {
+                // Nek wes ono kondisine opo?
             }
-        } else {
-            // Kondisine nek wes ono opo?
+                DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
+            throw $th;
         }
         return redirect()->route('admin.proyek.pekerjaan-proyek.index', ['id' => $proyek_id]);
     }
@@ -169,6 +177,7 @@ class ProyekPekerjaanController extends Controller
                     'jasa_id' => $getHargaKomponenJasa[$i]->jasa->id,
                     'harga_asli' => $getHargaKomponenJasa[$i]->jasa->harga_jasa,
                     'koefisien' => $getHargaKomponenJasa[$i]->koefisien,
+                    'profit' => $getHargaKomponenJasa[$i]->profit,
                     'harga_fix' => $harga_fix,
                 ]
             );
@@ -190,6 +199,7 @@ class ProyekPekerjaanController extends Controller
                     'material_id' => $getHargaKomponenMaterial[$i]->material->id,
                     'harga_asli' => $getHargaKomponenMaterial[$i]->material->harga_beli,
                     'koefisien' => $getHargaKomponenMaterial[$i]->koefisien,
+                    'profit' => $getHargaKomponenMaterial[$i]->profit,
                     'harga_fix' => $harga_fix,
                 ]
             );

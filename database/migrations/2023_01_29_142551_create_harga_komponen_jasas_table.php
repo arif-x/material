@@ -20,6 +20,7 @@ class CreateHargaKomponenJasasTable extends Migration
             $table->unsignedBigInteger('sub_pekerjaan_id');
             $table->foreign('sub_pekerjaan_id')->references('id')->on('master_sub_pekerjaans')->onDelete('cascade');
             $table->string('koefisien');
+            $table->integer('profit');
             $table->integer('harga_komponen_jasa');
             $table->timestamps();
         });

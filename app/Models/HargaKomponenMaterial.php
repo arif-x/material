@@ -14,6 +14,7 @@ class HargaKomponenMaterial extends Model
         'sub_pekerjaan_id',
         'koefisien',
         'harga_komponen_material',
+        'profit',
         'created_at',
         'updated_at'
     ];

@@ -37,6 +37,7 @@ class HargaKomponenJasaController extends Controller
                 'jasa_id' => $request->jasa_id,
                 'sub_pekerjaan_id' => $request->sub_pekerjaan_id,
                 'koefisien' => $request->koefisien,
+                'profit' -> $request->profit,
                 'harga_komponen_jasa' => $request->harga_komponen_jasa
             ]
         );

@@ -23,6 +23,7 @@ class CreateProyekHargaKomponenMaterialsTable extends Migration
 
             $table->bigInteger('harga_asli');
             $table->string('koefisien');
+            $table->integer('profit');
             $table->bigInteger('harga_fix');
             $table->timestamps();
         });

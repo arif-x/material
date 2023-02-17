@@ -32,6 +32,7 @@
                     <tr>
                       <th>No.</th>
                       <th>Jasa</th>
+                      <th>Profit (%)</th>
                       <th>Koefisien</th>
                       <th>Harga</th>
                       <th>Action</th>
@@ -60,6 +61,10 @@
                               <option value="{{ $key }}">{{ $value }}</option>
                               @endforeach
                             </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="">Profit (%)</label>
+                            <input type="number" name="profit" id="profit" class="form-control">
                           </div>
                           <div class="form-group">
                             <label for="">Koefisien</label>
@@ -122,6 +127,7 @@
                       columns: [
                         {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                         {data: 'jasa.nama_jasa', name: 'jasa.nama_jasa'},
+                        {data: 'profit', name: 'profit'},
                         {data: 'koefisien', name: 'koefisien'},
                         {
                           data: 'harga_komponen_jasa', name: 'harga_komponen_jasa', orderable: false, searchable: false,
@@ -155,6 +161,7 @@
                         $('#saveBtnJasa').val("save");
                         $('#id').val(data.id);
                         $('#koefisien').val(data.koefisien);
+                        $('#profit').val(data.profit);
                         $('#jasa_id').val(data.jasa_id).trigger('change');
                         $('#sub_pekerjaan_id').val(data.sub_pekerjaan_id);
                         $('#harga_komponen_jasa').val(data.harga_komponen_jasa);
@@ -224,6 +231,7 @@
                     <tr>
                       <th>No.</th>
                       <th>Material</th>
+                      <th>Profit (%)</th>
                       <th>Koefisien</th>
                       <th>Harga</th>
                       <th>Action</th>
@@ -252,6 +260,10 @@
                               <option value="{{ $key }}">{{ $value }}</option>
                               @endforeach
                             </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="">Profit (%)</label>
+                            <input type="number" name="profit" id="profit_material" class="form-control">
                           </div>
                           <div class="form-group">
                             <label for="">Koefisien</label>
@@ -314,6 +326,7 @@
                       columns: [
                         {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                         {data: 'material.nama_material', name: 'material.nama_material'},
+                        {data: 'profit', name: 'profit'},
                         {data: 'koefisien', name: 'koefisien'},
                         {
                           data: 'harga_komponen_material', name: 'harga_komponen_material', orderable: false, searchable: false,
@@ -347,6 +360,7 @@
                         $('#saveBtnMaterial').val("save");
                         $('#id_komponen_material').val(data.id);
                         $('#koefisien_material').val(data.koefisien);
+                        $('#profit_material').val(data.profit);
                         $('#material_id').val(data.material_id).trigger('change');
                         $('#sub_pekerjaan_id1').val(data.sub_pekerjaan_id);
                         $('#harga_komponen_material').val(data.harga_komponen_material);
