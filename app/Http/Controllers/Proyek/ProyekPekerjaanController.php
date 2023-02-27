@@ -19,7 +19,47 @@ class ProyekPekerjaanController extends Controller
 {
     public function datatable($id){
         $data = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', $id)->orderBy('id', 'desc')->get();
-        return datatables()->of($data)->addIndexColumn()->toJson();
+        return datatables()->of($data)->addIndexColumn()
+        ->addColumn('total', function($row){
+
+            $arr_sub = [];
+            $arr_fix = [];
+            $pekerjaan = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', $row->id)->orderBy('id', 'desc')->get();
+
+            $sub_pekerjaan = ProyekSubPekerjaan::with(['sub_pekerjaan', 'harga_komponen_jasa', 'harga_komponen_material'])->where('proyek_pekerjaan_id', $row->id)->get();
+            $komponen = [];
+            for ($i=0; $i < count($sub_pekerjaan); $i++) { 
+                $fix_komponen_jasa = 0;
+                $fix_komponen_material = 0;
+                for ($j=0; $j < count($sub_pekerjaan[$i]->harga_komponen_jasa); $j++) { 
+                    $komponen_jasa = $sub_pekerjaan[$i]->harga_komponen_jasa[$j]->harga_fix * $sub_pekerjaan[$i]->volume;
+                    $fix_komponen_jasa = $fix_komponen_jasa + $komponen_jasa;
+                }
+                for ($j=0; $j < count($sub_pekerjaan[$i]->harga_komponen_material); $j++) { 
+                    $komponen_material = $sub_pekerjaan[$i]->harga_komponen_material[$j]->harga_fix * $sub_pekerjaan[$i]->volume;
+                    $fix_komponen_material = $fix_komponen_material + $komponen_material;
+                }
+                $arr = [
+                    'sub_pekerjaan' => $sub_pekerjaan[$i]->sub_pekerjaan->nama_sub_pekerjaan,
+                    'fix_komponen_jasa' => $fix_komponen_jasa,
+                    'fix_komponen_material' => $fix_komponen_material,
+                ];  
+                array_push($komponen, $arr);
+            }
+
+            for ($i=0; $i < count($komponen); $i++) { 
+                $komponen[$i]['komponen_total'] = $komponen[$i]['fix_komponen_jasa'] + $komponen[$i]['fix_komponen_material'];
+            }
+
+            $total_all = 0;
+            for ($i=0; $i < count($komponen); $i++) { 
+                $total_all = $komponen[$i]['komponen_total'] + $total_all;
+            }
+
+            return $total_all;
+
+        })
+        ->toJson();
     }
 
     public function index($id){
@@ -133,7 +173,7 @@ class ProyekPekerjaanController extends Controller
             } else {
                 // Nek wes ono kondisine opo?
             }
-                DB::commit();
+            DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();
             throw $th;

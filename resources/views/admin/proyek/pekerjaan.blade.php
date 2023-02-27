@@ -24,14 +24,14 @@
             <div class="col-9 py-2">
               : <strong>Rp{{number_format($total_all, '0', ',', '.')}}</strong>
             </div>
-            <div class="col-3 py-2">
+            <!-- <div class="col-3 py-2">
               Rincian
             </div>
             <div class="col-9 py-2">
               : <br/>
-            </div>
+            </div> -->
             <hr>
-            <div class="table-responsive">
+            <!-- <div class="table-responsive">
               <table class="table detail-table">
                 <thead>
                   <tr>
@@ -48,7 +48,7 @@
                 @endforeach
                 </tbody>
               </table>
-            </div>
+            </div> -->
           </div>
           <hr/>
           <div class="card-description">
@@ -60,6 +60,7 @@
                 <tr>
                   <th>No.</th>
                   <th>Pekerjaan</th>
+                  <th>Total</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -98,6 +99,12 @@
                 columns: [
                   {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                   {data: 'pekerjaan.nama_pekerjaan', name: 'pekerjaan.nama_pekerjaan'},
+                  {
+                    data: 'total', name: 'total', orderable: false, searchable: false,
+                    render: function(a, b, row){
+                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.total)
+                    }
+                  },
                   {
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     render: function(a, b, row){
