@@ -37,7 +37,7 @@ class HargaKomponenMaterialController extends Controller
                 'material_id' => $request->material_id,
                 'sub_pekerjaan_id' => $request->sub_pekerjaan_id,
                 'koefisien' => $request->koefisien,
-                'profit' -> $request->profit,
+                // 'profit' => 0,
                 'harga_komponen_material' => $request->harga_komponen_material
             ]
         );

@@ -100,6 +100,24 @@
               </div>
             </div>
 
+            <div class="modal fade" id="rekapModal" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Export Rekap Material</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <h5 class="mb-3">Ingin Export/Preview <strong id="name_rekap"></strong>?</h5>
+                      <a href="" target="_blank" type="button" class="btn btn-primary export-rekap-btn">Export</a>
+                      <a href="" target="_blank" type="button" class="btn btn-primary preview-rekap-btn">Preview</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <script type="text/javascript">
              $(function () {
               $.ajaxSetup({
@@ -129,6 +147,7 @@
                       var rap = "{{route('admin.proyek.rap', ['id' => ':id'])}}".replace(':id', row.id);
                       return '<a href="javascript:void(0)" data-toggle="tooltip" data-name="'+row.nama_proyek+'" data-id="'+row.id+'" data-original-title="RAB" class="rab btn btn-outline-primary rab-data">Export RAB</a> '+
                       '<a href="javascript:void(0)" data-toggle="tooltip" data-name="'+row.nama_proyek+'" data-id="'+row.id+'" data-original-title="RAP" class="rap btn btn-outline-primary rap-data">Export RAP</a> '+
+                      '<a href="javascript:void(0)" data-toggle="tooltip" data-name="'+row.nama_proyek+'" data-id="'+row.id+'" data-original-title="RAB" class="rab btn btn-outline-primary rekap-data">Export Rekap Material</a> '+
                       '<a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Pekerjaan</a> '+
                       '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> '+
                       '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
@@ -159,6 +178,14 @@
                 $('.export-rap-btn').attr('href', '{{route("admin.proyek.rap", ["id" => ":id"])}}'.replace(':id', id))
                 $('.preview-rap-btn').attr('href', '{{route("admin.proyek.rap.preview", ["id" => ":id"])}}'.replace(':id', id))
                 $('#rapModal').modal('show');
+              });
+
+              $('body').on('click', '.rekap-data', function () {
+                var id = $(this).data('id');
+                $('#name_rekap').html($(this).data('name'))
+                $('.export-rekap-btn').attr('href', '{{route("admin.proyek.rekap-material", ["id" => ":id"])}}'.replace(':id', id))
+                $('.preview-rekap-btn').attr('href', '{{route("admin.proyek.rekap-material.preview", ["id" => ":id"])}}'.replace(':id', id))
+                $('#rekapModal').modal('show');
               });
 
               $('#rabForm').on('submit', function(){

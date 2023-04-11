@@ -156,7 +156,9 @@ Route::group([
 
         Route::get('rab/{id}', [RabRapController::class, 'rab'])->name('rab');
         Route::get('rap/{id}', [RabRapController::class, 'rap'])->name('rap');
+        Route::get('rekap-material/{id}', [RabRapController::class, 'rekap'])->name('rekap-material');
         Route::get('rab/preview/{id}', [RabRapController::class, 'rabPreview'])->name('rab.preview');
         Route::get('rap/preview/{id}', [RabRapController::class, 'rapPreview'])->name('rap.preview');
+        Route::get('rekap-material/preview/{id}', [RabRapController::class, 'rekapPreview'])->name('rekap-material.preview');
     });
 });
