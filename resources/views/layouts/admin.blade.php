@@ -18,6 +18,7 @@
 	<!-- endinject -->
 	<!-- Layout styles -->  
 	<link rel="stylesheet" href="{{ asset('assets/css/demo_1/style.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css') }}">
 	<!-- End layout styles -->
 	<link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
 	<!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.js"></script> -->

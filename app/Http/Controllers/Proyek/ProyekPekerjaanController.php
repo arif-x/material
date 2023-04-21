@@ -217,7 +217,8 @@ class ProyekPekerjaanController extends Controller
                     'jasa_id' => $getHargaKomponenJasa[$i]->jasa->id,
                     'harga_asli' => $getHargaKomponenJasa[$i]->jasa->harga_jasa,
                     'koefisien' => $getHargaKomponenJasa[$i]->koefisien,
-                    'profit' => $getHargaKomponenJasa[$i]->profit,
+                    // 'profit' => $getHargaKomponenJasa[$i]->profit,
+                    'profit' => 0,
                     'harga_fix' => $harga_fix,
                 ]
             );
@@ -239,7 +240,8 @@ class ProyekPekerjaanController extends Controller
                     'material_id' => $getHargaKomponenMaterial[$i]->material->id,
                     'harga_asli' => $getHargaKomponenMaterial[$i]->material->harga_beli,
                     'koefisien' => $getHargaKomponenMaterial[$i]->koefisien,
-                    'profit' => $getHargaKomponenMaterial[$i]->profit,
+                    // 'profit' => $getHargaKomponenMaterial[$i]->profit,
+                    'profit' => 0,
                     'harga_fix' => $harga_fix,
                 ]
             );
