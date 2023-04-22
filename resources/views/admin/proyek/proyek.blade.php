@@ -9,7 +9,7 @@
           <h3>Proyek</h3>
           <hr/>
           <div class="card-description">
-            <button class="btn btn-primary" id="tambah">Tambah</button>
+            <button class="btn btn-primary" id="tambah">+ Tambah</button>
           </div>
           <div class="table-responsive">
             <table id="dataTableExample" class="table">
@@ -39,7 +39,7 @@
                         <label for="">Nama Proyek</label>
                         <input type="text" name="nama_proyek" id="nama_proyek" class="form-control">
                       </div>
-                      <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Simpan</button>
+                      <button type="submit" class="btn btn-primary" id="saveBtn" value="create"><i class="fa fa-save"></i> Simpan</button>
                     </form>
                   </div>
                 </div>
@@ -58,7 +58,7 @@
                   <div class="modal-body">
                     <input type="hidden" name="id" id="id_delete">
                     <h5 class="mb-3">Ingin Menghapus <strong id="name_delete"></strong>?</h5>
-                    <button type="submit" class="btn btn-danger" id="saveDeteleBtn" value="delete">Hapus</button>
+                    <button type="submit" class="btn btn-danger" id="saveDeteleBtn" value="delete"><i class="fa fa-trash"></i> Hapus</button>
                   </div>
                 </div>
               </div>
@@ -75,8 +75,8 @@
                   </div>
                   <div class="modal-body">
                       <h5 class="mb-3">Ingin Export/Preview <strong id="name_rab"></strong>?</h5>
-                      <a href="" target="_blank" type="button" class="btn btn-primary export-rab-btn">Export</a>
-                      <a href="" target="_blank" type="button" class="btn btn-primary preview-rab-btn">Preview</a>
+                      <a href="" target="_blank" type="button" class="btn btn-primary export-rab-btn"><i class="fa fa-print"></i> Export</a>
+                      <a href="" target="_blank" type="button" class="btn btn-primary preview-rab-btn"><i class="fa fa-eye"></i> Preview</a>
                   </div>
                 </div>
               </div>
@@ -93,8 +93,8 @@
                   </div>
                   <div class="modal-body">
                       <h5 class="mb-3">Ingin Export/Preview <strong id="name_rap"></strong>?</h5>
-                      <a href="" target="_blank" type="button" class="btn btn-primary export-rap-btn">Export</a>
-                      <a href="" target="_blank" type="button" class="btn btn-primary preview-rap-btn">Preview</a>
+                      <a href="" target="_blank" type="button" class="btn btn-primary export-rap-btn"><i class="fa fa-print"></i> Export</a>
+                      <a href="" target="_blank" type="button" class="btn btn-primary preview-rap-btn"><i class="fa fa-eye"></i> Preview</a>
                   </div>
                 </div>
               </div>
@@ -111,8 +111,8 @@
                   </div>
                   <div class="modal-body">
                       <h5 class="mb-3">Ingin Export/Preview <strong id="name_rekap"></strong>?</h5>
-                      <a href="" target="_blank" type="button" class="btn btn-primary export-rekap-btn">Export</a>
-                      <a href="" target="_blank" type="button" class="btn btn-primary preview-rekap-btn">Preview</a>
+                      <a href="" target="_blank" type="button" class="btn btn-primary export-rekap-btn"><i class="fa fa-print"></i> Export</a>
+                      <a href="" target="_blank" type="button" class="btn btn-primary preview-rekap-btn"><i class="fa fa-eye"></i> Preview</a>
                   </div>
                 </div>
               </div>
@@ -159,19 +159,12 @@
                       `<a href="javascript:void(0)" data-toggle="tooltip" data-name="`+row.nama_proyek+`" data-id="`+row.id+`" data-original-title="RAP" class="dropdown-item rap rap-data"><i class="fa fa-print"></i> Export RAP</a> `+
                       `<a href="javascript:void(0)" data-toggle="tooltip" data-name="`+row.nama_proyek+`" data-id="`+row.id+`" data-original-title="RAB" class="dropdown-item rekap rekap-data"><i class="fa fa-print"></i> Export Rekap Material</a>
 
-                      <a href="`+detail+`" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Detail" class="dropdown-item detail detail-data"><i class="fa fa-eye"></i> Detail</a>
+                      <a href="`+detail+`" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Detail" class="dropdown-item detail detail-data"><i class="fa fa-eye"></i> Pekerjaan</a>
                       <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Edit" class="dropdown-item edit edit-data"><i class="fa fa-edit"></i> Edit</a>
                       <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Delete" class="dropdown-item hapus delete-data"><i class="fa fa-trash"></i> Hapus</a>
                       </div>
                       </div>
                       `; 
-
-                      return '<a href="javascript:void(0)" data-toggle="tooltip" data-name="'+row.nama_proyek+'" data-id="'+row.id+'" data-original-title="RAB" class="rab btn btn-outline-primary rab-data">Export RAB</a> '+
-                      '<a href="javascript:void(0)" data-toggle="tooltip" data-name="'+row.nama_proyek+'" data-id="'+row.id+'" data-original-title="RAP" class="rap btn btn-outline-primary rap-data">Export RAP</a> '+
-                      '<a href="javascript:void(0)" data-toggle="tooltip" data-name="'+row.nama_proyek+'" data-id="'+row.id+'" data-original-title="RAB" class="rab btn btn-outline-primary rekap-data">Export Rekap Material</a> '+
-                      '<a href="'+detail+'" data-toggle="tooltip" data-id="'+detail+'" data-original-title="Detail" class="detail btn btn-outline-primary detail-data">Pekerjaan</a> '+
-                      '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Edit" class="edit btn btn-outline-primary edit-data">Edit</a> '+
-                      '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'+row.id+'" data-original-title="Hapus" class="hapus btn btn-outline-danger delete-data">Hapus</a>'; 
                     }
                   }
                   ]
@@ -226,7 +219,7 @@
 
               $('#saveBtn').click(function (e) {
                 e.preventDefault();
-                $(this).html('Simpan');
+                // $(this).html('Simpan');
 
                 $.ajax({
                   data: $('#theForm').serialize(),
@@ -240,7 +233,7 @@
                   },
                   error: function (data) {
                     console.log('Error:', data);
-                    $('#saveBtn').html('Simpan');
+                    // $('#saveBtn').html('Simpan');
                   }
                 });
               });

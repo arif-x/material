@@ -7,10 +7,12 @@
       <div class="card">
         <div class="card-body">
           <div class="d-flex justify-content-between">
-            <h3>Rincian Harga Komponen Sub Pekerjaan</h3>
-            <a class="btn btn-secondary h-100" onclick="history.back()">Kembali</a>
+            <h3>Rincian Harga Analisis Sub Pekerjaan</h3>
           </div>
           <hr/>
+          <div class="text-right">
+            <a class="btn btn-secondary mb-3" onclick="history.back()"><i class="fa fa-arrow-left"></i> Kembali</a>
+          </div>
           <div class="row mb-2">
             <div class="col-3 py-2">
               Nama Proyek
@@ -34,18 +36,18 @@
           <hr/>
           <ul class="nav nav-fill mb-3" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-              <a class="nav-link mr-2 pr-4 pl-4 btn-outline-primary active" id="komponen-jasa-tab" data-toggle="pill" href="#komponen-jasa" role="tab" aria-controls="komponen-jasa" aria-selected="true">Harga Komponen Jasa</a>
+              <a class="nav-link mr-2 pr-4 pl-4 btn-outline-primary active" id="komponen-jasa-tab" data-toggle="pill" href="#komponen-jasa" role="tab" aria-controls="komponen-jasa" aria-selected="true">Harga Analisis Jasa</a>
             </li>
             <li class="nav-item" role="presentation">
-              <a class="nav-link mr-2 pr-4 pl-4 btn-outline-primary" id="komponen-material-tab" data-toggle="pill" href="#komponen-material" role="tab" aria-controls="komponen-material" aria-selected="true">Harga Komponen Material</a>
+              <a class="nav-link mr-2 pr-4 pl-4 btn-outline-primary" id="komponen-material-tab" data-toggle="pill" href="#komponen-material" role="tab" aria-controls="komponen-material" aria-selected="true">Harga Analisis Material</a>
             </li>
           </ul>
           <hr>
           <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade active show" id="komponen-jasa" role="tabpanel" aria-labelledby="komponen-jasa-tab">
-              <h4 class="mb-2">Harga Komponen Jasa</h4>
+              <h4 class="mb-2">Harga Analisis Jasa</h4>
               <div class="card-description">
-                <button class="btn btn-primary" id="tambah_jasa">Tambah</button>
+                <button class="btn btn-primary" id="tambah_jasa">+ Tambah</button>
               </div>
               <div class="table-responsive">
                 <table id="dataTableExample" class="table">
@@ -55,7 +57,7 @@
                       <th>Jasa</th>
                       <th>Harga Jasa</th>
                       <th>Koefisien</th>
-                      <th>Harga Komponen</th>
+                      <th>Harga Analisis</th>
                       <th>Action</th>
                     </tr>
                   </thead>  
@@ -79,7 +81,7 @@
                             <select name="jasa_id" id="jasa_id" class="form-control select2">
                               <option value="" disabled selected>Pilih Jasa</option>
                               @foreach($nama_jasa as $key => $value)
-                              <option value="{{ $key }}">{{ $value }}</option>
+                              <option value="{{ $value['id'] }}">{{ $value['kode_jasa'] .' - '. $value['nama_jasa'] }}</option>
                               @endforeach
                             </select>
                           </div>
@@ -92,10 +94,10 @@
                             <input type="number" name="koefisien" id="koefisien" class="form-control">
                           </div>
                           <div class="form-group">
-                            <label for="">Harga Komponen Jasa</label>
+                            <label for="">Harga Analisis Jasa</label>
                             <input type="text" name="harga_fix" id="harga_fix" class="form-control" readonly>
                           </div>
-                          <button type="submit" class="btn btn-primary" id="saveBtnJasa" value="create">Simpan</button>
+                          <button type="submit" class="btn btn-primary" id="saveBtnJasa" value="create"><i class="fa fa-save"></i> Simpan</button>
                         </form>
                       </div>
                     </div>
@@ -114,7 +116,7 @@
                       <div class="modal-body">
                         <input type="hidden" name="id" id="id_delete">
                         <h5 class="mb-3">Ingin Menghapus <strong id="name_delete"></strong>?</h5>
-                        <button type="submit" class="btn btn-danger" id="saveDeteleBtnJasa" value="delete">Hapus</button>
+                        <button type="submit" class="btn btn-danger" id="saveDeteleBtnJasa" value="delete"><i class="fa fa-trash"></i> Hapus</button>
                       </div>
                     </div>
                   </div>
@@ -190,7 +192,7 @@
                         $('#saveBtnJasa').val("save");
                         $('#id').val('');
                         $('#theForm').trigger("reset");
-                        $('#theModalJasaHeading').html("Tambah Harga Komponen Jasa");
+                        $('#theModalJasaHeading').html("Tambah Harga Analisis Jasa");
                         $('#jasa_id').val('').trigger('change');
                         $('#proyek_sub_pekerjaan_id').val('{{$data->id}}').trigger('change');
                         $('#theModalJasa').modal('show');
@@ -200,7 +202,7 @@
                         var id = $(this).data('id');
                         $.get("{{ route('admin.proyek.pekerjaan-proyek-detail.sub-pekerjaan.jasa.resource.index') }}" +'/' + id + '', function (data) {
                           console.log(data.id)
-                          $('#theModalJasaHeading').html("Edit Harga Komponen Jasa");
+                          $('#theModalJasaHeading').html("Edit Harga Analisis Jasa");
                           $('#saveBtnJasa').val("save");
                           $('#id').val(data.id);
                           $('#koefisien').val(data.koefisien);
@@ -214,7 +216,7 @@
 
                       $('#saveBtnJasa').click(function (e) {
                         e.preventDefault();
-                        $(this).html('Simpan');
+                        // $(this).html('Simpan');
 
                         $.ajax({
                           data: $('#theForm').serialize(),
@@ -228,7 +230,7 @@
                           },
                           error: function (data) {
                             console.log('Error:', data);
-                            $('#saveBtnJasa').html('Simpan');
+                            // $('#saveBtnJasa').html('Simpan');
                           }
                         });
                       });
@@ -237,7 +239,7 @@
                         var id = $(this).data('id');
                         $.get("{{ route('admin.proyek.pekerjaan-proyek-detail.sub-pekerjaan.jasa.resource.index') }}" +'/' + id + '', function (data) {
                           console.log(data)
-                          $('#theModalJasaDeleteHeading').html("Hapus Harga Komponen Jasa");
+                          $('#theModalJasaDeleteHeading').html("Hapus Harga Analisis Jasa");
                           $('#saveDeteleBtnJasa').val("delete");
                           $('#id_delete').val(data.id);
                           $('#name_delete').html(data.jasa.nama_jasa);
@@ -266,9 +268,9 @@
             </div>
 
             <div class="tab-pane fade" id="komponen-material" role="tabpanel" aria-labelledby="komponen-material-tab">
-              <h4 class="mb-2">Harga Komponen Material</h4>
+              <h4 class="mb-2">Harga Analisis Material</h4>
               <div class="card-description">
-                <button class="btn btn-primary" id="tambah_material">Tambah</button>
+                <button class="btn btn-primary" id="tambah_material">+ Tambah</button>
               </div>
               <div class="table-responsive">
                 <table id="dataTableExample1" class="table w-100">
@@ -301,8 +303,8 @@
                             <label for="">Material</label>
                             <select name="material_id" id="material_id" class="form-control select2">
                               <option value="" disabled selected>Pilih Material</option>
-                              @foreach($nama_material as $key => $value)
-                              <option value="{{ $key }}">{{ $value }}</option>
+                               @foreach($nama_material as $key => $value)
+                              <option value="{{ $value['id'] }}">{{ $value['kode_material'] .' - '. $value['nama_material'] }}</option>
                               @endforeach
                             </select>
                           </div>
@@ -315,10 +317,10 @@
                             <input type="number" name="koefisien" id="koefisien_material" class="form-control">
                           </div>
                           <div class="form-group">
-                            <label for="">Harga Komponen Material</label>
+                            <label for="">Harga Analisis Material</label>
                             <input type="text" name="harga_fix" id="harga_fix_material" class="form-control" readonly>
                           </div>
-                          <button type="submit" class="btn btn-primary" id="saveBtnMaterial" value="create">Simpan</button>
+                          <button type="submit" class="btn btn-primary" id="saveBtnMaterial" value="create"><i class="fa fa-save"></i> Simpan</button>
                         </form>
                       </div>
                     </div>
@@ -337,7 +339,7 @@
                       <div class="modal-body">
                         <input type="hidden" name="id" id="id_delete1">
                         <h5 class="mb-3">Ingin Menghapus <strong id="name_delete1"></strong>?</h5>
-                        <button type="submit" class="btn btn-danger" id="saveDeteleBtnMaterial" value="delete">Hapus</button>
+                        <button type="submit" class="btn btn-danger" id="saveDeteleBtnMaterial" value="delete"><i class="fa fa-trsah"></i> Hapus</button>
                       </div>
                     </div>
                   </div>
@@ -414,7 +416,7 @@
                       $('#saveBtnMaterial').val("save");
                       $('#id_komponen_material').val('');
                       $('#theForm1').trigger("reset");
-                      $('#theModalMaterialHeading').html("Tambah Harga Komponen Material");
+                      $('#theModalMaterialHeading').html("Tambah Harga Analisis Material");
                       $('#material_id').val('').trigger('change');
                       $('#proyek_sub_pekerjaan_id1').val('{{$data->id}}');
                       $('#theModalMaterial').modal('show');
@@ -423,7 +425,7 @@
                     $('body').on('click', '.edit-data-material', function () {
                       var id = $(this).data('id');
                       $.get("{{ route('admin.proyek.pekerjaan-proyek-detail.sub-pekerjaan.material.resource.index') }}" +'/' + id + '', function (data) {
-                        $('#theModalMaterialHeading').html("Edit Harga Komponen Material");
+                        $('#theModalMaterialHeading').html("Edit Harga Analisis Material");
                         $('#saveBtnMaterial').val("save");
                         $('#id_komponen_material').val(data.id);
                         $('#koefisien_material').val(data.koefisien);
@@ -437,7 +439,7 @@
 
                     $('#saveBtnMaterial').click(function (e) {
                       e.preventDefault();
-                      $(this).html('Simpan');
+                      // $(this).html('Simpan');
 
                       $.ajax({
                         data: $('#theForm1').serialize(),
@@ -451,7 +453,7 @@
                         },
                         error: function (data) {
                           console.log('Error:', data);
-                          $('#saveBtnMaterial').html('Simpan');
+                          // $('#saveBtnMaterial').html('Simpan');
                         }
                       });
                     });
@@ -459,7 +461,7 @@
                     $('body').on('click', '.delete-data-material', function () {
                       var id = $(this).data('id');
                       $.get("{{ route('admin.proyek.pekerjaan-proyek-detail.sub-pekerjaan.material.resource.index') }}" +'/' + id + '', function (data) {
-                        $('#theModalMaterialDeleteHeading1').html("Hapus Harga Komponen Material");
+                        $('#theModalMaterialDeleteHeading1').html("Hapus Harga Analisis Material");
                         $('#saveDeteleBtnMaterial').val("delete");
                         $('#id_delete1').val(data.id);
                         $('#name_delete1').html(data.material.nama_material);

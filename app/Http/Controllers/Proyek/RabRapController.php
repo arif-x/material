@@ -18,16 +18,18 @@ use App\Models\ProyekHargaKomponenJasa;
 class RabRapController extends Controller
 {
     public function rab(Request $request, $id){
-        // return Excel::download(new RabExport($id, $request->tempat, $request->tanggal, $request->nama, $request->npm), 'rab.xlsx');
-        return Excel::download(new RabExport($id), 'rab.xlsx');
+        $name = Proyek::where('id', $id)->value('nama_proyek');
+        return Excel::download(new RabExport($id), 'RAB '.$name.'.xlsx');
     }
 
     public function rap(Request $request, $id){
-        return Excel::download(new RapExport($id), 'rap.xlsx');
+        $name = Proyek::where('id', $id)->value('nama_proyek');
+        return Excel::download(new RapExport($id), 'RAP '.$name.'.xlsx');
     }
 
     public function rekap(Request $request, $id){
-        return Excel::download(new RekapMaterialExport($id), 'rekap-material.xlsx');
+        $name = Proyek::where('id', $id)->value('nama_proyek');
+        return Excel::download(new RekapMaterialExport($id), 'Rekap Material '.$name.'.xlsx');
     }
 
     public function rabPreview($id){

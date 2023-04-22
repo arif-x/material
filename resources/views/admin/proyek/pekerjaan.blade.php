@@ -8,9 +8,11 @@
         <div class="card-body">
           <div class="d-flex justify-content-between">
             <h3>Rincian Pekerjaan</h3>
-            <a class="btn btn-secondary h-100" onclick="history.back()">Kembali</a>
           </div>
           <hr/>
+          <div class="text-right">
+            <a class="btn btn-secondary mb-3" onclick="history.back()"><i class="fa fa-arrow-left"></i> Kembali</a>
+          </div>
           <div class="row mb-2">
             <div class="col-3 py-2">
               Nama Proyek
@@ -52,7 +54,7 @@
           </div>
           <hr/>
           <div class="card-description">
-            <a class="btn btn-primary" href="{{route('admin.proyek.pekerjaan-proyek.form', ['id' => $proyek->id])}}" id="tambah">Tambah</a>
+            <a class="btn btn-primary" href="{{route('admin.proyek.pekerjaan-proyek.form', ['id' => $proyek->id])}}" id="tambah">+ Tambah</a>
           </div>
           <div class="table-responsive">
             <table id="dataTableExample" class="table">
@@ -78,7 +80,7 @@
                   <div class="modal-body">
                     <input type="hidden" name="id" id="id_delete">
                     <h5 class="mb-3">Ingin Menghapus <strong id="name_delete"></strong>?</h5>
-                    <button type="submit" class="btn btn-danger" id="saveDeteleBtn" value="delete">Hapus</button>
+                    <button type="submit" class="btn btn-danger" id="saveDeteleBtn" value="delete"><i class="fa fa-trash"></i> Hapus</button>
                   </div>
                 </div>
               </div>
@@ -119,7 +121,7 @@
 
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <a href="`+detail+`" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Detail" class="dropdown-item detail detail-data"><i class="fa fa-eye"></i> Sub Pekerjaan</a>
-                      <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Edit" class="dropdown-item edit edit-data"><i class="fa fa-edit"></i> Edit</a>
+                      
                       <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Delete" class="dropdown-item hapus delete-data"><i class="fa fa-trash"></i> Hapus</a>
                       </div>
                       </div>

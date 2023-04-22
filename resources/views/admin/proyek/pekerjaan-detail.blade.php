@@ -8,9 +8,11 @@
         <div class="card-body">
           <div class="d-flex justify-content-between">
             <h3>Rincian Sub Pekerjaan</h3>
-            <a class="btn btn-secondary h-100" onclick="history.back()">Kembali</a>
           </div>
           <hr/>
+          <div class="text-right">
+            <a class="btn btn-secondary mb-3" onclick="history.back()"><i class="fa fa-arrow-left"></i> Kembali</a>
+          </div>
           <div class="row mb-2 detail-order">
             <div class="col-3 py-2">
               Nama Proyek
@@ -48,7 +50,7 @@
           </div>
           <hr/>
           <div class="card-description mt-4">
-            <button class="btn btn-primary" id="tambah">Tambah</button>
+            <button class="btn btn-primary" id="tambah">+ Tambah</button>
           </div>
           <div class="table-responsive">
             <table id="dataTableExample" class="table">
@@ -89,7 +91,7 @@
                         <label for="volume">Volume</label>
                         <input type="number" name="volume" class="form-control" required>
                       </div>
-                      <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Simpan</button>
+                      <button type="submit" class="btn btn-primary" id="saveBtn" value="create"><i class="fa fa-save"></i> Simpan</button>
                     </form>
                   </div>
                 </div>
@@ -108,7 +110,7 @@
                   <div class="modal-body">
                     <input type="hidden" name="id" id="id_delete">
                     <h5 class="mb-3">Ingin Menghapus <strong id="name_delete"></strong>?</h5>
-                    <button type="submit" class="btn btn-danger" id="saveDeteleBtn" value="delete">Hapus</button>
+                    <button type="submit" class="btn btn-danger" id="saveDeteleBtn" value="delete"><i class="fa fa-trash"></i> Hapus</button>
                   </div>
                 </div>
               </div>
@@ -223,7 +225,7 @@
             </button>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a href="`+detail+`" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Detail" class="dropdown-item detail detail-data"><i class="fa fa-eye"></i> Sub Pekerjaan</a>
+            <a href="`+detail+`" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Detail" class="dropdown-item detail detail-data"><i class="fa fa-eye"></i> Harga Analisis</a>
             <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Edit" class="dropdown-item edit edit-data"><i class="fa fa-edit"></i> Edit</a>
             <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Delete" class="dropdown-item hapus delete-data"><i class="fa fa-trash"></i> Hapus</a>
             </div>
@@ -259,7 +261,7 @@
 
     $('#saveBtn').click(function (e) {
       e.preventDefault();
-      $(this).html('Simpan');
+      // $(this).html('Simpan');
 
       $.ajax({
         data: $('#theForm').serialize(),
@@ -274,14 +276,14 @@
         },
         error: function (data) {
           console.log('Error:', data);
-          $('#saveBtn').html('Simpan');
+          // $('#saveBtn').html('Simpan');
         }
       });
     });
 
     $('#saveBtnEdit').click(function (e) {
       e.preventDefault();
-      $(this).html('Simpan');
+      // $(this).html('Simpan');
 
       $.ajax({
         data: $('#theEditForm').serialize(),
@@ -296,7 +298,7 @@
         },
         error: function (data) {
           console.log('Error:', data);
-          $('#saveBtnEdit').html('Simpan');
+          // $('#saveBtnEdit').html('Simpan');
         }
       });
     });

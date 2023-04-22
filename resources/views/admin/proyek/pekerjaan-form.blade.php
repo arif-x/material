@@ -8,9 +8,11 @@
         <div class="card-body">
           <div class="d-flex justify-content-between">
             <h3>Pekerjaan Proyek {{$proyek->nama_proyek}}</h3>
-            <a class="btn btn-secondary h-100" onclick="history.back()">Kembali</a>
           </div>
           <hr/>
+          <div class="text-right">
+            <a class="btn btn-secondary mb-3" onclick="history.back()"><i class="fa fa-arrow-left"></i> Kembali</a>
+          </div>
           <form method="POST" action="{{route('admin.proyek.pekerjaan-proyek.store')}}">
             @csrf
             <div class="form-group">
@@ -38,7 +40,7 @@
                   </tbody>
                 </table>
               </div>
-              <button type="submit" class="btn btn-primary">Simpan</button>
+              <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
             </div>
           </form>
         </div>

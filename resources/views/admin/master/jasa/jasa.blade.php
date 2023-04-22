@@ -9,7 +9,7 @@
           <h3>Jasa</h3>
           <hr/>
           <div class="card-description">
-            <button class="btn btn-primary" id="tambah">Tambah</button>
+            <button class="btn btn-primary" id="tambah">+ Tambah</button>
           </div>
           <div class="table-responsive">
             <table id="dataTableExample" class="table">
@@ -68,7 +68,7 @@
                         <label for="">Harga Jasa</label>
                         <input type="number" min="1" step="1" name="harga_jasa" id="harga_jasa" class="form-control">
                       </div>
-                      <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Simpan</button>
+                      <button type="submit" class="btn btn-primary" id="saveBtn" value="create"><i class="fa fa-save"></i> Simpan</button>
                     </form>
                   </div>
                 </div>
@@ -87,7 +87,7 @@
                   <div class="modal-body">
                     <input type="hidden" name="id" id="id_delete">
                     <h5 class="mb-3">Ingin Menghapus <strong id="name_delete"></strong>?</h5>
-                    <button type="submit" class="btn btn-danger" id="saveDeteleBtn" value="delete">Hapus</button>
+                    <button type="submit" class="btn btn-danger" id="saveDeteleBtn" value="delete"><i class="fa fa-trash"></i> Hapus</button>
                   </div>
                 </div>
               </div>
@@ -169,7 +169,7 @@
 
                 $('#saveBtn').click(function (e) {
                   e.preventDefault();
-                  $(this).html('Simpan');
+                  // $(this).html('Simpan');
 
                   $.ajax({
                     data: $('#theForm').serialize(),
@@ -183,7 +183,7 @@
                     },
                     error: function (data) {
                       console.log('Error:', data);
-                      $('#saveBtn').html('Simpan');
+                      // $('#saveBtn').html('Simpan');
                     }
                   });
                 });

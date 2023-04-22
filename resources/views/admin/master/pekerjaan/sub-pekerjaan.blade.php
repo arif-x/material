@@ -9,7 +9,7 @@
           <h3>Sub Pekerjaan</h3>
           <hr/>
           <div class="card-description">
-            <button class="btn btn-primary" id="tambah">Tambah</button>
+            <button class="btn btn-primary" id="tambah">+ Tambah</button>
           </div>
           <div class="table-responsive">
             <table id="dataTableExample" class="table">
@@ -19,9 +19,9 @@
                   <th>Pekerjaan</th>
                   <th>Kode</th>
                   <th>Sub Pekerjaan</th>
-                  <th>Komp. Jasa</th>
-                  <th>Komp. Material</th>
-                  <th>Total Komp</th>
+                  <th>Analisis Jasa</th>
+                  <th>Analisis Material</th>
+                  <th>Total Analisis</th>
                   <th>Action</th>
                 </tr>
               </thead>  
@@ -56,7 +56,7 @@
                         <label for="">Nama Sub Pekerjaan</label>
                         <input type="text" name="nama_sub_pekerjaan" id="nama_sub_pekerjaan" class="form-control">
                       </div>
-                      <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Simpan</button>
+                      <button type="submit" class="btn btn-primary" id="saveBtn" value="create"><i class="fa fa-save"></i> Simpan</button>
                     </form>
                   </div>
                 </div>
@@ -75,7 +75,7 @@
                   <div class="modal-body">
                     <input type="hidden" name="id" id="id_delete">
                     <h5 class="mb-3">Ingin Menghapus <strong id="name_delete"></strong>?</h5>
-                    <button type="submit" class="btn btn-danger" id="saveDeteleBtn" value="delete">Hapus</button>
+                    <button type="submit" class="btn btn-danger" id="saveDeteleBtn" value="delete"><i class="fa fa-trash"></i> Hapus</button>
                   </div>
                 </div>
               </div>
@@ -135,7 +135,7 @@
                         </button>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a href="`+detail+`" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Detail" class="dropdown-item detail detail-data"><i class="fa fa-eye"></i> Detail</a>
+                        <a href="`+detail+`" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Detail" class="dropdown-item detail detail-data"><i class="fa fa-eye"></i> Harga Analisis</a>
                         <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Edit" class="dropdown-item edit edit-data"><i class="fa fa-edit"></i> Edit</a>
                         <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Delete" class="dropdown-item hapus delete-data"><i class="fa fa-trash"></i> Hapus</a>
                         </div>
@@ -170,7 +170,7 @@
 
               $('#saveBtn').click(function (e) {
                 e.preventDefault();
-                $(this).html('Simpan');
+                // $(this).html('Simpan');
 
                 $.ajax({
                   data: $('#theForm').serialize(),
@@ -184,7 +184,7 @@
                   },
                   error: function (data) {
                     console.log('Error:', data);
-                    $('#saveBtn').html('Simpan');
+                    // $('#saveBtn').html('Simpan');
                   }
                 });
               });

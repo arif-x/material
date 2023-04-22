@@ -39,8 +39,8 @@ class ProyekSubPekerjaanDetailController extends Controller
             'pekerjaan'=>function($query){return $query->with(['proyek']);},
         ])->findOrFail($id);
         // return response()->json($data);
-        $nama_jasa = MasterJasa::pluck('nama_jasa', 'id');
-        $nama_material = MasterMaterial::pluck('nama_material', 'id');
+        $nama_jasa = MasterJasa::get(['nama_jasa', 'kode_jasa', 'id']);
+        $nama_material = MasterMaterial::get(['nama_material', 'kode_material', 'id']);
         return view('admin.proyek.sub-pekerjaan-detail', compact('data', 'nama_jasa', 'nama_material'));
     }
 }

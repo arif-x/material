@@ -15,8 +15,8 @@ class SubPekerjaanDetailController extends Controller
 {
     public function index($id){
         $data = MasterSubPekerjaan::findOrFail($id);
-        $nama_jasa = MasterJasa::pluck('nama_jasa', 'id');
-        $nama_material = MasterMaterial::pluck('nama_material', 'id');
+        $nama_jasa = MasterJasa::get(['nama_jasa', 'kode_jasa', 'id']);
+        $nama_material = MasterMaterial::get(['nama_material', 'kode_material', 'id']);
         $satuan_sub_pekerjaan = SatuanSubPekerjaan::pluck('satuan_sub_pekerjaan', 'id');
         return view('admin.master.pekerjaan.sub-pekerjaan-detail', compact('data', 'nama_jasa', 'nama_material', 'satuan_sub_pekerjaan'));
     }
