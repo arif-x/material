@@ -6,7 +6,7 @@
 </style>
 <table>
 	<tr>
-		<td colspan="5" style="text-align: center;font-weight: bold;font-size: 20px;">Rekapitulasi Material</td>
+		<td colspan="6" style="text-align: center;font-weight: bold;font-size: 20px;">Rekapitulasi Material</td>
 	</tr>
 	<tr></tr>
 	<tr>
@@ -15,6 +15,7 @@
 		<td colspan="3">{{$nama_proyek}}</td>
 	</tr>
 	<tr>
+		<th style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9;font-weight: bold;">Kode Material</th>
 		<th style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9;font-weight: bold;">Nama Material</th>
 		<th style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9;font-weight: bold;">Kebutuhan</th>
 		<th style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9;font-weight: bold;">Satuan</th>
@@ -26,6 +27,7 @@
 	@endphp
 	@foreach($data as $key => $value)
 	<tr>
+		<td style="border: 1px solid black;border-collapse: collapse;">{{$value['kode']}}</td>
 		<td style="border: 1px solid black;border-collapse: collapse;">{{$value['nama_material']}}</td>
 		<td style="border: 1px solid black;border-collapse: collapse;">{{$value['jumlah']}}</td>
 		<td style="border: 1px solid black;border-collapse: collapse;">{{$value['nama_satuan']}}</td>
@@ -37,7 +39,7 @@
 	</tr>
 	@endforeach
 	<tr>
-		<td style="border: 1px solid black;border-collapse: collapse;" colspan="4">Jumlah</td>
+		<td style="border: 1px solid black;border-collapse: collapse;" colspan="5">Jumlah</td>
 		<td style="border: 1px solid black;border-collapse: collapse;" data-format="#,##0.00_-">{{$jumlah}}</td>
 	</tr>
 </table>

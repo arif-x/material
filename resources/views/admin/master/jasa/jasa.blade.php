@@ -66,7 +66,7 @@
                       </div>
                       <div class="form-group">
                         <label for="">Harga Jasa</label>
-                        <input type="number" min="1" step="1" name="harga_jasa" id="harga_jasa" class="form-control">
+                        <input type="text" pattern="^\Rp\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" name="harga_jasa" id="harga_jasa" class="form-control">
                       </div>
                       <button type="submit" class="btn btn-primary" id="saveBtn" value="create"><i class="fa fa-save"></i> Simpan</button>
                     </form>
@@ -162,7 +162,8 @@
                     $('#nama_jasa').val(data.nama_jasa);
                     $('#jenis_jasa_id').val(data.jenis_jasa_id).trigger('change');
                     $('#satuan_jasa_id').val(data.satuan_jasa_id).trigger('change');
-                    $('#harga_jasa').val(data.harga_jasa);
+                    console.log(data.harga_jasa)
+                    $('#harga_jasa').val(formatCurrency1(data.harga_jasa + '.00'));
                     $('#theModal').modal('show');
                   })
                 });
@@ -213,6 +214,70 @@
                     }
                   });
                 });
+
+                $("input[data-type='currency']").on({
+                  keyup: function() {
+                    formatCurrency($(this));
+                  },
+                  blur: function() { 
+                    formatCurrency($(this), "blur");
+                  }
+                });
+                function formatNumber(n) {
+                  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                function formatCurrency(input, blur) {
+                  var input_val = input.val();
+                  if (input_val === "") { return; }
+                  var original_len = input_val.length;
+                  var caret_pos = input.prop("selectionStart");
+                  if (input_val.indexOf(".") >= 0) {
+                    var decimal_pos = input_val.indexOf(".");
+                    var left_side = input_val.substring(0, decimal_pos);
+                    var right_side = input_val.substring(decimal_pos);
+                    left_side = formatNumber(left_side);
+                    right_side = formatNumber(right_side);
+                    if (blur === "blur") {
+                      right_side += "00";
+                    }
+                    right_side = right_side.substring(0, 2);
+                    input_val = "Rp" + left_side + "." + right_side;
+                  } else {
+                    input_val = formatNumber(input_val);
+                    input_val = "Rp" + input_val;
+                    if (blur === "blur") {
+                      input_val += ".00";
+                    }
+                  }
+                  input.val(input_val);
+                  var updated_len = input_val.length;
+                  caret_pos = updated_len - original_len + caret_pos;
+                  input[0].setSelectionRange(caret_pos, caret_pos);
+                }
+                function formatCurrency1(input, blur) {
+                  var input_val = input;
+                  if (input_val === "") { return; }
+                  var original_len = input_val.length;
+                  if (input_val.indexOf(".") >= 0) {
+                    var decimal_pos = input_val.indexOf(".");
+                    var left_side = input_val.substring(0, decimal_pos);
+                    var right_side = input_val.substring(decimal_pos);
+                    left_side = formatNumber(left_side);
+                    right_side = formatNumber(right_side);
+                    if (blur === "blur") {
+                      right_side += "00";
+                    }
+                    right_side = right_side.substring(0, 2);
+                    input_val = "Rp" + left_side + "." + right_side;
+                  } else {
+                    input_val = formatNumber(input_val);
+                    input_val = "Rp" + input_val;
+                    if (blur === "blur") {
+                      input_val += ".00";
+                    }
+                  }
+                  return input_val
+                }
               });
             </script>
           </div>

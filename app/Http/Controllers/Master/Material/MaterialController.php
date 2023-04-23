@@ -35,7 +35,7 @@ class MaterialController extends Controller
                 'nama_material' => $request->nama_material,
                 'jenis_material_id' => $request->jenis_material_id,
                 'satuan_material_id' => $request->satuan_material_id,
-                'harga_beli' => $request->harga_beli,
+                'harga_beli' => str_replace(array(',','Rp'), '',$request->harga_beli),
             ]
         );
 

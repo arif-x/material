@@ -8,9 +8,11 @@
         <div class="card-body">
           <div class="d-flex justify-content-between">
             <h3>Harga Analisis {{$data->nama_sub_pekerjaan}}</h3>
-            <a class="btn btn-secondary h-100" onclick="history.back()">Kembali</a>
           </div>
           <hr/>
+          <div class="text-right">
+            <a class="btn btn-secondary mb-3" onclick="history.back()"><i class="fa fa-arrow-left"></i> Kembali</a>
+          </div>
           <ul class="nav nav-fill mb-3" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
               <a class="nav-link mr-2 pr-4 pl-4 btn-outline-primary active" id="komponen-jasa-tab" data-toggle="pill" href="#komponen-jasa" role="tab" aria-controls="komponen-jasa" aria-selected="true">Harga Analisis Jasa</a>

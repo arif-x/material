@@ -226,6 +226,7 @@ class RabRapController extends Controller
             $count_per = 0;
             $volume = 0;
             $satuan = 0;
+            $kode = '';
             foreach ($data_material as $data) {
                 if($data->material->nama_material == $nama_material_f[$i]['nama_material']){
                     $jumlah = $jumlah + ($data->koefisien * $data->volume);
@@ -233,8 +234,10 @@ class RabRapController extends Controller
                     $volume = $volume + $data->volume;
                     $satuan = $data->material->satuan_material_id;
                     $count_per = $count_per + 1;
+                    $kode = $data->material->kode_material;
                 }
             }
+            $nama_material_f[$i]['kode'] = $kode;
             $nama_material_f[$i]['jumlah'] = $jumlah;
             $nama_material_f[$i]['satuan'] = $satuan;
             $nama_material_f[$i]['harga_satuan'] = ($harga_satuan/$jumlah);

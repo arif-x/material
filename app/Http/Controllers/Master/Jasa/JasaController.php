@@ -35,7 +35,7 @@ class JasaController extends Controller
                 'nama_jasa' => $request->nama_jasa,
                 'jenis_jasa_id' => $request->jenis_jasa_id,
                 'satuan_jasa_id' => $request->satuan_jasa_id,
-                'harga_jasa' => $request->harga_jasa,
+                'harga_jasa' => str_replace(array(',','Rp'), '',$request->harga_jasa),
             ]
         );
 

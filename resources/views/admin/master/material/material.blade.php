@@ -66,7 +66,7 @@
                       </div>
                       <div class="form-group">
                         <label for="">Harga Beli</label>
-                        <input type="number" min="1" step="1" name="harga_beli" id="harga_beli" class="form-control">
+                        <input  type="text" pattern="^\Rp\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" name="harga_beli" id="harga_beli" class="form-control">
                       </div>
                       <button type="submit" class="btn btn-primary" id="saveBtn" value="create"><i class="fa fa-save"></i> Simpan</button>
                     </form>
@@ -124,22 +124,22 @@
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     render: function(a, b, row){
                      return `
-                        <div class="dropdown">
-                        <button class="btn" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path>
-                        </svg>
-                        </button>
+                     <div class="dropdown">
+                     <button class="btn" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                     <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path>
+                     </svg>
+                     </button>
 
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Edit" class="dropdown-item edit edit-data"><i class="fa fa-edit"></i> Edit</a>
-                        <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Delete" class="dropdown-item hapus delete-data"><i class="fa fa-trash"></i> Hapus</a>
-                        </div>
-                        </div>
-                        `; 
-                    }
-                  }
-                  ]
+                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                     <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Edit" class="dropdown-item edit edit-data"><i class="fa fa-edit"></i> Edit</a>
+                     <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Delete" class="dropdown-item hapus delete-data"><i class="fa fa-trash"></i> Hapus</a>
+                     </div>
+                     </div>
+                     `; 
+                   }
+                 }
+                 ]
               });
 
               $('#tambah').click(function () {
@@ -162,7 +162,7 @@
                   $('#nama_material').val(data.nama_material);
                   $('#jenis_material_id').val(data.jenis_material_id).trigger('change');
                   $('#satuan_material_id').val(data.satuan_material_id).trigger('change');
-                  $('#harga_beli').val(data.harga_beli);
+                  $('#harga_beli').val(formatCurrency1(data.harga_beli + '.00'));
                   $('#theModal').modal('show');
                 })
               });
@@ -213,6 +213,70 @@
                   }
                 });
               });
+
+              $("input[data-type='currency']").on({
+                keyup: function() {
+                  formatCurrency($(this));
+                },
+                blur: function() { 
+                  formatCurrency($(this), "blur");
+                }
+              });
+              function formatNumber(n) {
+                return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              function formatCurrency(input, blur) {
+                var input_val = input.val();
+                if (input_val === "") { return; }
+                var original_len = input_val.length;
+                var caret_pos = input.prop("selectionStart");
+                if (input_val.indexOf(".") >= 0) {
+                  var decimal_pos = input_val.indexOf(".");
+                  var left_side = input_val.substring(0, decimal_pos);
+                  var right_side = input_val.substring(decimal_pos);
+                  left_side = formatNumber(left_side);
+                  right_side = formatNumber(right_side);
+                  if (blur === "blur") {
+                    right_side += "00";
+                  }
+                  right_side = right_side.substring(0, 2);
+                  input_val = "Rp" + left_side + "." + right_side;
+                } else {
+                  input_val = formatNumber(input_val);
+                  input_val = "Rp" + input_val;
+                  if (blur === "blur") {
+                    input_val += ".00";
+                  }
+                }
+                input.val(input_val);
+                var updated_len = input_val.length;
+                caret_pos = updated_len - original_len + caret_pos;
+                input[0].setSelectionRange(caret_pos, caret_pos);
+              }
+              function formatCurrency1(input, blur) {
+                var input_val = input;
+                if (input_val === "") { return; }
+                var original_len = input_val.length;
+                if (input_val.indexOf(".") >= 0) {
+                  var decimal_pos = input_val.indexOf(".");
+                  var left_side = input_val.substring(0, decimal_pos);
+                  var right_side = input_val.substring(decimal_pos);
+                  left_side = formatNumber(left_side);
+                  right_side = formatNumber(right_side);
+                  if (blur === "blur") {
+                    right_side += "00";
+                  }
+                  right_side = right_side.substring(0, 2);
+                  input_val = "Rp" + left_side + "." + right_side;
+                } else {
+                  input_val = formatNumber(input_val);
+                  input_val = "Rp" + input_val;
+                  if (blur === "blur") {
+                    input_val += ".00";
+                  }
+                }
+                return input_val
+              }
             });
           </script>
         </div>

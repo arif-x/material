@@ -8,6 +8,9 @@
         <div class="card-body">
           <h3>Sub Pekerjaan {{$nama_pekerjaan}}</h3>
           <hr/>
+          <div class="text-right">
+            <a class="btn btn-secondary mb-3" onclick="history.back()"><i class="fa fa-arrow-left"></i> Kembali</a>
+          </div>
           <div class="card-description">
             <button class="btn btn-primary" id="tambah">+ Tambah</button>
           </div>
