@@ -84,12 +84,12 @@ function tanggal($tanggal){
 	</tr>
 	@php for($i=0; $i < count($data); $i++){ @endphp
 	<tr style="border: 1px solid black;border-collapse: collapse;">
-		<td style="border: 1px solid black;border-collapse: collapse;background: #D9D9D9;">{{romawi($i+1)}}</td>
+		<td style="border: 1px solid black;border-collapse: collapse;background: #D9D9D9; text-align: center">{{romawi($i+1)}}</td>
 		<td colspan="11" style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9;font-weight: bold;">{{$data[$i]['pekerjaan']}}</td>
 	</tr>
 	@php for($j=0; $j < count($data[$i]['sub_pekerjaan']); $j++){ @endphp
 	<tr style="border: 1px solid black;border-collapse: collapse;">
-		<td style="border: 1px solid black;border-collapse: collapse;background: #D9D9D9;">{{($j+1)}}</td>
+		<td style="border: 1px solid black;border-collapse: collapse;background: #D9D9D9; text-align: center">{{($j+1)}}</td>
 		<td colspan="11" style="border: 1px solid black;border-collapse: collapse;background: #D9D9D9;">{{$data[$i]['sub_pekerjaan'][$j]['sub_pekerjaan']}}</td>
 	</tr>
 	@php

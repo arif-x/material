@@ -101,7 +101,7 @@
       <li class="nav-item">
         <a href="{{ route('admin.proyek.proyek.index') }}" class="nav-link">
           <i class="link-icon" data-feather="book"></i>
-          <span class="link-title">RAB, RAP & Rekap Material</span>
+          <span class="link-title">Detail Proyek</span>
         </a>
       </li>
 
