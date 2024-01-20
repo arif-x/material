@@ -14,7 +14,7 @@ class MasterSubPekerjaan extends Model
         'satuan_sub_pekerjaan_id',
         'kode_sub_pekerjaan',
         'nama_sub_pekerjaan',
-        'harga_sub_pekerjaan',
+        'profit',
         'created_at',
         'updated_at'
     ];

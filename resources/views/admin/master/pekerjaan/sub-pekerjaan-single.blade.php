@@ -22,9 +22,13 @@
                   <th>Kode</th>
                   <th>Sub Pekerjaan</th>
                   <th>Satuan</th>
+                  <th>Profit</th>
                   <th>Analisis Jasa</th>
                   <th>Analisis Material</th>
                   <th>Total Analisis</th>
+                  <th>Analisis Jasa + Profit</th>
+                  <th>Analisis Material + Profit</th>
+                  <th>Total Analisis + Profit</th>
                   <th>Action</th>
                 </tr>
               </thead>  
@@ -60,7 +64,60 @@
                         <label for="">Nama Sub Pekerjaan</label>
                         <input type="text" name="nama_sub_pekerjaan" id="nama_sub_pekerjaan" class="form-control">
                       </div>
+                      <div class="form-group">
+                        <label for="">Profit (%)</label>
+                        <input type="number" name="profit" id="profit" class="form-control">
+                      </div>
                       <button type="submit" class="btn btn-primary" id="saveBtn" value="create"><i class="fa fa-save"></i> Simpan</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="copyModal" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="copyModalHeading"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="copyForm" name="copyForm" class="form-horizontal">
+                      <input type="hidden" name="sub_pekerjaan_id" id="sub_pekerjaan_id_copy">
+                      <div class="form-group">
+                        <label for="">Pekerjaan</label>
+                        <select class="form-control select2" name="pekerjaan_id" id="pekerjaan_id_copy" required>
+                          <option value="" disabled selected>Pilih Pekerjaan</option>
+                          @foreach($pekerjaan as $key => $value)
+                          <option value="{{$key}}">{{$value}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="">Satuan Sub Pekerjaan</label>
+                        <select class="form-control select2" name="satuan_sub_pekerjaan_id" id="satuan_sub_pekerjaan_id_copy">
+                          <option value="" disabled selected>Pilih Satuan</option>
+                          @foreach($satuan_sub_pekerjaan as $key => $value)
+                          <option value="{{$key}}">{{$value}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="">Kode Sub Pekerjaan</label>
+                        <input type="text" name="kode_sub_pekerjaan" id="kode_sub_pekerjaan_copy" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="">Nama Sub Pekerjaan</label>
+                        <input type="text" name="nama_sub_pekerjaan" id="nama_sub_pekerjaan_copy" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="">Profit (%)</label>
+                        <input type="number" name="profit" id="profit_copy" class="form-control">
+                      </div>
+                      <button type="submit" class="btn btn-primary" id="saveBtnCopy" value="create"><i class="fa fa-save"></i> Copy Data</button>
                     </form>
                   </div>
                 </div>
@@ -109,6 +166,11 @@
                   {data: 'nama_sub_pekerjaan', name: 'nama_sub_pekerjaan'},
                   {data: 'satuan_sub_pekerjaan.satuan_sub_pekerjaan', name: 'satuan_sub_pekerjaan.satuan_sub_pekerjaan'},
                   {
+                    data: 'profit', name: 'profit', render: function(a, b, row){
+                      return row.profit + "%"
+                    }
+                  },
+                  {
                     data: 'komponen_jasa', name: 'komponen_jasa', orderable: false, searchable: false,
                     render: function(a, b, row){
                       return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.komponen_jasa)
@@ -127,6 +189,27 @@
                     }
                   },
                   {
+                    data: 'komponen_jasa_profit', name: 'komponen_jasa_profit', orderable: false, searchable: false,
+                    render: function(a, b, row){
+                      komponen_jasa_profit = parseFloat(row.komponen_jasa) + (parseFloat(row.komponen_jasa) * parseFloat(row.profit) / 100)
+                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(komponen_jasa_profit)
+                    }
+                  },
+                  {
+                    data: 'komponen_material_profit', name: 'komponen_material_profit', orderable: false, searchable: false,
+                    render: function(a, b, row){
+                      komponen_material_profit = parseFloat(row.komponen_material) + (parseFloat(row.komponen_material) * parseFloat(row.profit) / 100)
+                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(komponen_material_profit)
+                    }
+                  },
+                  {
+                    data: 'total_komponen_profit', name: 'total_komponen_profit', orderable: false, searchable: false,
+                    render: function(a, b, row){
+                      total_komponen_profit = parseFloat(row.total_komponen) + (parseFloat(row.total_komponen) * parseFloat(row.profit) / 100)
+                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(total_komponen_profit)
+                    }
+                  },
+                  {
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     render: function(a, b, row){
                       var detail = '{{route("admin.master.pekerjaan.sub-pekerjaan.detail", ["id" => ":id"])}}'.replace(":id", row.id);
@@ -140,6 +223,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a href="`+detail+`" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Detail" class="dropdown-item detail detail-data"><i class="fa fa-eye"></i> Harga Analisis</a>
+                        <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Copy" class="dropdown-item copy copy-data"><i class="fa fa-copy"></i> Copy</a>
                         <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Edit" class="dropdown-item edit edit-data"><i class="fa fa-edit"></i> Edit</a>
                         <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Delete" class="dropdown-item hapus delete-data"><i class="fa fa-trash"></i> Hapus</a>
                         </div>
@@ -151,13 +235,28 @@
               });
 
               $('#tambah').click(function () {
-                $('#saveBtn').val("save");
+                $('#saveBtnCopy').val("save");
                 $('#id').val('');
                 $('#theForm').trigger("reset");
                 $('#theModalHeading').html("Tambah Sub Pekerjaan");
                 $('#satuan_sub_pekerjaan_id').val(null).trigger('change');
                 $('#pekerjaan_id').val("{{$id}}");
                 $('#theModal').modal('show');
+              });
+
+              $('body').on('click', '.copy-data', function () {
+                var id = $(this).data('id');
+                $.get("{{ route('admin.master.pekerjaan.sub-pekerjaan.index') }}" +'/' + id + '', function (data) {
+                  $('#copyModalHeading').html("Copy Sub Pekerjaan");
+                  $('#saveBtnCopy').val("save");
+                  $('#sub_pekerjaan_id_copy').val(data.id);
+                  $('#pekerjaan_id_copy').val(data.pekerjaan_id).trigger('change');
+                  $('#satuan_sub_pekerjaan_id_copy').val(data.satuan_sub_pekerjaan_id).trigger('change');
+                  $('#kode_sub_pekerjaan_copy').val(data.kode_sub_pekerjaan);
+                  $('#nama_sub_pekerjaan_copy').val(data.nama_sub_pekerjaan);
+                  $('#profit_copy').val(data.profit);
+                  $('#copyModal').modal('show');
+                })
               });
 
               $('body').on('click', '.edit-data', function () {
@@ -170,6 +269,7 @@
                   $('#satuan_sub_pekerjaan_id').val(data.satuan_sub_pekerjaan_id).trigger('change');
                   $('#kode_sub_pekerjaan').val(data.kode_sub_pekerjaan);
                   $('#nama_sub_pekerjaan').val(data.nama_sub_pekerjaan);
+                  $('#profit').val(data.profit);
                   $('#theModal').modal('show');
                 })
               });
@@ -186,6 +286,25 @@
                   success: function (data) {
                     $('#theForm').trigger("reset");
                     $('#theModal').modal('hide');
+                    table.draw();
+                  },
+                  error: function (data) {
+                    console.log('Error:', data);
+                    // $('#saveBtn').html('Simpan');
+                  }
+                });
+              });
+
+              $('#saveBtnCopy').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                  data: $('#copyForm').serialize(),
+                  url: "{{ route('admin.master.pekerjaan.sub-pekerjaan.copy') }}",
+                  type: "POST",
+                  dataType: 'json',
+                  success: function (data) {
+                    $('#copyForm').trigger("reset");
+                    $('#copyModal').modal('hide');
                     table.draw();
                   },
                   error: function (data) {

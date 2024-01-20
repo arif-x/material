@@ -19,6 +19,7 @@
                   <th>Pekerjaan</th>
                   <th>Kode</th>
                   <th>Sub Pekerjaan</th>
+                  <th>Profit</th>
                   <th>Analisis Jasa</th>
                   <th>Analisis Material</th>
                   <th>Total Analisis</th>
@@ -55,6 +56,10 @@
                       <div class="form-group">
                         <label for="">Nama Sub Pekerjaan</label>
                         <input type="text" name="nama_sub_pekerjaan" id="nama_sub_pekerjaan" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="">Profit</label>
+                        <input type="number" name="profit" id="profit" class="form-control">
                       </div>
                       <button type="submit" class="btn btn-primary" id="saveBtn" value="create"><i class="fa fa-save"></i> Simpan</button>
                     </form>
@@ -104,6 +109,7 @@
                   {data: 'pekerjaan.nama_pekerjaan', name: 'pekerjaan.nama_pekerjaan'},
                   {data: 'kode_sub_pekerjaan', name: 'kode_sub_pekerjaan'},
                   {data: 'nama_sub_pekerjaan', name: 'nama_sub_pekerjaan'},
+                  {data: 'profit', name: 'profit'},
                   {
                     data: 'komponen_jasa', name: 'komponen_jasa', orderable: false, searchable: false,
                     render: function(a, b, row){
@@ -136,6 +142,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a href="`+detail+`" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Detail" class="dropdown-item detail detail-data"><i class="fa fa-eye"></i> Harga Analisis</a>
+                        <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Copy" class="dropdown-item copy copy-data"><i class="fa fa-copy"></i> Copy</a>
                         <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Edit" class="dropdown-item edit edit-data"><i class="fa fa-edit"></i> Edit</a>
                         <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Delete" class="dropdown-item hapus delete-data"><i class="fa fa-trash"></i> Hapus</a>
                         </div>
@@ -164,6 +171,7 @@
                   $('#pekerjaan_id').val(data.pekerjaan_id).trigger('change');
                   $('#kode_sub_pekerjaan').val(data.kode_sub_pekerjaan);
                   $('#nama_sub_pekerjaan').val(data.nama_sub_pekerjaan);
+                  $('#profit').val(data.profit);
                   $('#theModal').modal('show');
                 })
               });

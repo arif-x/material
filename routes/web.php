@@ -84,6 +84,7 @@ Route::group([
         Route::get('/sub-pekerjaan/detail/{id}', [SubPekerjaanDetailController::class, 'index'])->name('sub-pekerjaan.detail');
         Route::get('/sub-pekerjaan/detail/jasa/{id}', [SubPekerjaanDetailController::class, 'jasaDatatable'])->name('sub-pekerjaan.detail.jasa');
         Route::get('/sub-pekerjaan/detail/material/{id}', [SubPekerjaanDetailController::class, 'materialDatatable'])->name('sub-pekerjaan.detail.material');
+        Route::post('/sub-pekerjaan/copy', [SubPekerjaanController::class, 'copy'])->name('sub-pekerjaan.copy');
     });
     // Jasa
     Route::group([
