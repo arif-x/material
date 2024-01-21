@@ -274,7 +274,7 @@
                 })
               });
 
-              $('#saveBtn').click(function (e) {
+              $('#theForm').submit(function (e) {
                 e.preventDefault();
                 // $(this).html('Simpan');
 
@@ -295,7 +295,7 @@
                 });
               });
 
-              $('#saveBtnCopy').click(function (e) {
+              $('#copyForm').submit(function (e) {
                 e.preventDefault();
                 $.ajax({
                   data: $('#copyForm').serialize(),

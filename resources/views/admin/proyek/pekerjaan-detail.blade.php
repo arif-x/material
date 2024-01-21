@@ -287,7 +287,7 @@
       })
     });
 
-    $('#saveBtn').click(function (e) {
+    $('#theForm').submit(function (e) {
       e.preventDefault();
       // $(this).html('Simpan');
 
@@ -309,7 +309,7 @@
       });
     });
 
-    $('#saveBtnEdit').click(function (e) {
+    $('#theEditForm').submit(function (e) {
       e.preventDefault();
       // $(this).html('Simpan');
 

@@ -214,7 +214,7 @@
                         })
                       });
 
-                      $('#saveBtnJasa').click(function (e) {
+                      $('#theForm').submit(function (e) {
                         e.preventDefault();
                         // $(this).html('Simpan');
 
@@ -437,7 +437,7 @@
                       })
                     });
 
-                    $('#saveBtnMaterial').click(function (e) {
+                    $('#theForm1').submit(function (e) {
                       e.preventDefault();
                       // $(this).html('Simpan');
 

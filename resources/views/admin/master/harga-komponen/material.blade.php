@@ -173,7 +173,7 @@
                 })
               });
 
-              $('#saveBtn').click(function (e) {
+              $('#theForm').submit(function (e) {
                 e.preventDefault();
                 // $(this).html('Simpan');
 
