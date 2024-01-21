@@ -68,7 +68,7 @@ function tanggal($tanggal){
 		<td colspan="3">Anggaran Biaya</td>
 		<td>:</td>
 		<td>Rp.</td>
-		<td colspan="5" data-format="#,##0.00_-" style="text-align: left;">{{$total_all}}</td>
+		<td colspan="5" data-format="#,##0.00_-" style="text-align: left;">{{$total_all_profit}}</td>
 	</tr>
 	<tr></tr>
 	<tr>
@@ -84,6 +84,7 @@ function tanggal($tanggal){
 		<td style="border: 1px solid black;border-collapse: collapse;text-align: center; background:#D9D9D9"><strong>{{romawi($i+1)}}</strong></td>
 		<td style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9" colspan="9"><strong>{{$datas[$i]['nama_pekerjaan']}}</strong></td>
 	</tr>
+	@php $total = 0; @endphp
 		@for($j=0; $j < count($datas[$i]['detail']); $j++)
 		<tr>
 			<td style="border: 1px solid black;border-collapse: collapse;text-align: center">{{($j+1)}}</td>
@@ -91,13 +92,15 @@ function tanggal($tanggal){
 			<td colspan="3" style="border: 1px solid black;border-collapse: collapse;text-align: center">{{$datas[$i]['detail'][$j]['kode_analisa']}}</td>
 			<td style="border: 1px solid black;border-collapse: collapse;text-align: center">{{$datas[$i]['detail'][$j]['volume']}}</td>
 			<td style="border: 1px solid black;border-collapse: collapse;text-align: center">{{$datas[$i]['detail'][$j]['satuan_sub_pekerjaan']}}</td>
-			<td style="border: 1px solid black;border-collapse: collapse;" data-format="#,##0.00_-">{{$datas[$i]['detail'][$j]['fix_komponen']}}</td>
-			<td style="border: 1px solid black;border-collapse: collapse;" data-format="#,##0.00_-">{{$datas[$i]['detail'][$j]['komponen_total']}}</td>
+			<td style="border: 1px solid black;border-collapse: collapse;" data-format="#,##0.00_-">{{$datas[$i]['detail'][$j]['fix_komponen'] + $datas[$i]['detail'][$j]['fix_komponen'] * $datas[$i]['detail'][$j]['profit'] / 100}}</td>
+			<td style="border: 1px solid black;border-collapse: collapse;" data-format="#,##0.00_-">{{$datas[$i]['detail'][$j]['komponen_total'] + $datas[$i]['detail'][$j]['komponen_total'] * $datas[$i]['detail'][$j]['profit'] / 100}}</td>
 		</tr>
+		@php $total += $datas[$i]['detail'][$j]['komponen_total'] + $datas[$i]['detail'][$j]['komponen_total'] * $datas[$i]['detail'][$j]['profit'] / 100; @endphp
 		@endfor
 	<tr>
 		<td style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9" colspan="9"><strong>SUB TOTAL {{romawi($i+1)}}</strong></td>
-		<td style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9" data-format="#,##0.00_-"><strong>{{$datas[$i]['total']}}</strong></td>
+		<!-- <td style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9" data-format="#,##0.00_-"><strong>{{$datas[$i]['total']}}</strong></td> -->
+		<td style="border: 1px solid black;border-collapse: collapse;background:#D9D9D9" data-format="#,##0.00_-"><strong>{{$total}}</strong></td>
 	</tr>
 	@endfor
 </table>

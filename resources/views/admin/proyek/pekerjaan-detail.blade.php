@@ -42,6 +42,9 @@
                   <th>Total Komponen Jasa</th>
                   <th>Total Komponen Material</th>
                   <th>Sub Total</th>
+                  <th>Total Komponen Jasa + Profit</th>
+                  <th>Total Komponen Material + Profit</th>
+                  <th>Sub Total + Profit</th>
                 </tr>
               </thead>
               <tbody>
@@ -59,8 +62,11 @@
                   <th>No.</th>
                   <th>Sub Pekerjaan</th>
                   <th>Volume</th>
+                  <th>Profit(%)</th>
                   <th>Komponen Jasa</th>
                   <th>Komponen Material</th>
+                  <th>Komponen Jasa + Profit</th>
+                  <th>Komponen Material + Profit</th>
                   <th>Action</th>
                 </tr>
               </thead>  
@@ -136,6 +142,10 @@
                         <label for="volume">Volume</label>
                         <input type="number" name="volume" class="form-control" id="volume_edit" required>
                       </div>
+                      <div class="form-group">
+                        <label for="profit">Profit</label>
+                        <input type="number" name="profit" class="form-control" id="profit_edit" required>
+                      </div>
                       <button type="submit" class="btn btn-primary" id="saveBtnEdit" value="create">Simpan</button>
                     </form>
                   </div>
@@ -170,6 +180,9 @@
           '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].fix_komponen_jasa)+'</td>'+
           '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].fix_komponen_material)+'</td>'+
           '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].komponen_total)+'</td>'+
+          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(parseFloat(data[i].fix_komponen_jasa) + parseFloat(data[i].fix_komponen_jasa) * data[i].profit / 100)+'</td>'+
+          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(parseFloat(data[i].fix_komponen_material) + parseFloat(data[i].fix_komponen_material) * data[i].profit / 100)+'</td>'+
+          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(parseFloat(data[i].komponen_total) + parseFloat(data[i].komponen_total) * data[i].profit / 100)+'</td>'+
           '</tr>'
         }
         $('.detail-table > tbody').html(html)
@@ -185,7 +198,7 @@
       ajax: "{{ route('admin.proyek.detail-pekerjaan-proyek.datatable', ['id' => $pekerjaan->id]) }}",
       columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-        {data: 'sub_pekerjaan.nama_sub_pekerjaan', name: 'sub_pekerjaan.nama_sub_pekerjaan'},{data: 'volume', name: 'volume'},
+        {data: 'sub_pekerjaan.nama_sub_pekerjaan', name: 'sub_pekerjaan.nama_sub_pekerjaan'},{data: 'volume', name: 'volume'},{data: 'profit', name: 'profit'},
         {
           data: 'komponen_jasa', name: 'komponen_jasa', orderable: false, searchable: false,
           render: function(a, b, row){
@@ -196,6 +209,20 @@
           data: 'komponen_material', name: 'komponen_material', orderable: false, searchable: false,
           render: function(a, b, row){
             return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.komponen_material)
+          }
+        },
+        {
+          data: 'komponen_jasa_profit', name: 'komponen_jasa_profit', orderable: false, searchable: false,
+          render: function(a, b, row){
+            komponen_jasa_profit = parseFloat(row.komponen_jasa) + (parseFloat(row.komponen_jasa) * row.profit / 100)
+            return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(komponen_jasa_profit)
+          }
+        },
+        {
+          data: 'komponen_material', name: 'komponen_material', orderable: false, searchable: false,
+          render: function(a, b, row){
+            komponen_material_profit = parseFloat(row.komponen_material) + (parseFloat(row.komponen_material) * row.profit / 100)
+            return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(komponen_material_profit)
           }
         },
         // {
@@ -254,6 +281,7 @@
         $('#saveBtnDelete').val("save");
         $('#id').val(data.id);
         $('#volume_edit').val(data.volume);
+        $('#profit_edit').val(data.profit);
         $('#nama_sub_pekerjaan').val(data.sub_pekerjaan.nama_sub_pekerjaan);
         $('#theEditModal').modal('show');
       })

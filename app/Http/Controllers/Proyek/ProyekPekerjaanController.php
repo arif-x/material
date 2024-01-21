@@ -17,52 +17,57 @@ use App\Models\HargaKomponenMaterial;
 
 class ProyekPekerjaanController extends Controller
 {
-    public function datatable($id){
+    public function datatable($id)
+    {
         $data = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', $id)->orderBy('id', 'desc')->get();
-        return datatables()->of($data)->addIndexColumn()
-        ->addColumn('total', function($row){
 
+        foreach ($data as $key => $value) {
             $arr_sub = [];
             $arr_fix = [];
-            $pekerjaan = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', $row->id)->orderBy('id', 'desc')->get();
-
-            $sub_pekerjaan = ProyekSubPekerjaan::with(['sub_pekerjaan', 'harga_komponen_jasa', 'harga_komponen_material'])->where('proyek_pekerjaan_id', $row->id)->get();
+            $sub_pekerjaan = ProyekSubPekerjaan::with(['sub_pekerjaan', 'harga_komponen_jasa', 'harga_komponen_material'])->where('proyek_pekerjaan_id', $value['id'])->get();
             $komponen = [];
-            for ($i=0; $i < count($sub_pekerjaan); $i++) { 
+            for ($i = 0; $i < count($sub_pekerjaan); $i++) {
                 $fix_komponen_jasa = 0;
                 $fix_komponen_material = 0;
-                for ($j=0; $j < count($sub_pekerjaan[$i]->harga_komponen_jasa); $j++) { 
+                for ($j = 0; $j < count($sub_pekerjaan[$i]->harga_komponen_jasa); $j++) {
                     $komponen_jasa = $sub_pekerjaan[$i]->harga_komponen_jasa[$j]->harga_fix * $sub_pekerjaan[$i]->volume;
                     $fix_komponen_jasa = $fix_komponen_jasa + $komponen_jasa;
                 }
-                for ($j=0; $j < count($sub_pekerjaan[$i]->harga_komponen_material); $j++) { 
+                for ($j = 0; $j < count($sub_pekerjaan[$i]->harga_komponen_material); $j++) {
                     $komponen_material = $sub_pekerjaan[$i]->harga_komponen_material[$j]->harga_fix * $sub_pekerjaan[$i]->volume;
                     $fix_komponen_material = $fix_komponen_material + $komponen_material;
                 }
                 $arr = [
                     'sub_pekerjaan' => $sub_pekerjaan[$i]->sub_pekerjaan->nama_sub_pekerjaan,
+                    'profit' => $sub_pekerjaan[$i]->profit,
                     'fix_komponen_jasa' => $fix_komponen_jasa,
                     'fix_komponen_material' => $fix_komponen_material,
-                ];  
+                ];
                 array_push($komponen, $arr);
             }
 
-            for ($i=0; $i < count($komponen); $i++) { 
+            for ($i = 0; $i < count($komponen); $i++) {
                 $komponen[$i]['komponen_total'] = $komponen[$i]['fix_komponen_jasa'] + $komponen[$i]['fix_komponen_material'];
+                $komponen[$i]['komponen_total_profit'] = ($komponen[$i]['fix_komponen_jasa'] + $komponen[$i]['fix_komponen_jasa'] * $komponen[$i]['profit'] / 100) + ($komponen[$i]['fix_komponen_material'] + $komponen[$i]['fix_komponen_material'] * $komponen[$i]['profit'] / 100);
             }
 
             $total_all = 0;
-            for ($i=0; $i < count($komponen); $i++) { 
+            $total_all_profit = 0;
+            for ($i = 0; $i < count($komponen); $i++) {
                 $total_all = $komponen[$i]['komponen_total'] + $total_all;
+                $total_all_profit = $komponen[$i]['komponen_total_profit'] + $total_all_profit;
             }
 
-            return $total_all;
+            $data[$key]['total'] = $total_all;
+            $data[$key]['total_profit'] = $total_all_profit;
+        }
 
-        })
-        ->toJson();
+        return datatables()->of($data)->addIndexColumn()
+            ->toJson();
     }
 
-    public function index($id){
+    public function index($id)
+    {
         $proyek = Proyek::findOrFail($id);
         $pekerjaan = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', $id)->orderBy('id', 'desc')->get();
 
@@ -72,89 +77,100 @@ class ProyekPekerjaanController extends Controller
         foreach ($pekerjaan as $key => $value) {
             $sub_pekerjaan = ProyekSubPekerjaan::with(['sub_pekerjaan', 'harga_komponen_jasa', 'harga_komponen_material'])->where('proyek_pekerjaan_id', $value['id'])->get();
             $komponen = [];
-            for ($i=0; $i < count($sub_pekerjaan); $i++) { 
+            for ($i = 0; $i < count($sub_pekerjaan); $i++) {
                 $fix_komponen_jasa = 0;
                 $fix_komponen_material = 0;
-                for ($j=0; $j < count($sub_pekerjaan[$i]->harga_komponen_jasa); $j++) { 
+                for ($j = 0; $j < count($sub_pekerjaan[$i]->harga_komponen_jasa); $j++) {
                     $komponen_jasa = $sub_pekerjaan[$i]->harga_komponen_jasa[$j]->harga_fix * $sub_pekerjaan[$i]->volume;
                     $fix_komponen_jasa = $fix_komponen_jasa + $komponen_jasa;
                 }
-                for ($j=0; $j < count($sub_pekerjaan[$i]->harga_komponen_material); $j++) { 
+                for ($j = 0; $j < count($sub_pekerjaan[$i]->harga_komponen_material); $j++) {
                     $komponen_material = $sub_pekerjaan[$i]->harga_komponen_material[$j]->harga_fix * $sub_pekerjaan[$i]->volume;
                     $fix_komponen_material = $fix_komponen_material + $komponen_material;
                 }
                 $arr = [
                     'sub_pekerjaan' => $sub_pekerjaan[$i]->sub_pekerjaan->nama_sub_pekerjaan,
+                    'profit' => $sub_pekerjaan[$i]->profit,
                     'fix_komponen_jasa' => $fix_komponen_jasa,
                     'fix_komponen_material' => $fix_komponen_material,
-                ];  
+                ];
                 array_push($komponen, $arr);
             }
-            for ($i=0; $i < count($komponen); $i++) { 
+            for ($i = 0; $i < count($komponen); $i++) {
                 $komponen[$i]['komponen_total'] = $komponen[$i]['fix_komponen_jasa'] + $komponen[$i]['fix_komponen_material'];
+                $komponen[$i]['komponen_total_profit'] = ($komponen[$i]['fix_komponen_jasa'] + $komponen[$i]['fix_komponen_jasa'] * $komponen[$i]['profit'] / 100) + ($komponen[$i]['fix_komponen_material'] + $komponen[$i]['fix_komponen_material'] * $komponen[$i]['profit'] / 100);
             }
             array_push($arr_sub, $komponen);
         }
 
-        for ($i=0; $i < count($pekerjaan); $i++) { 
+        for ($i = 0; $i < count($pekerjaan); $i++) {
             $arr_temp = [];
             $total = 0;
-            for ($j=0; $j < count($arr_sub[$i]); $j++) { 
+            $total_profit = 0;
+            for ($j = 0; $j < count($arr_sub[$i]); $j++) {
                 $total = $total + $arr_sub[$i][$j]['komponen_total'];
+                $total_profit = $total_profit + $arr_sub[$i][$j]['komponen_total_profit'];
             }
             $arr_temp = [
                 'nama_pekerjaan' => $pekerjaan[$i]->pekerjaan->nama_pekerjaan,
                 'total' => $total,
+                'total_profit' => $total_profit,
             ];
 
             array_push($arr_fix, $arr_temp);
         }
 
         $total_all = 0;
+        $total_all_profit = 0;
 
-        for ($i=0; $i < count($arr_fix); $i++) { 
+        for ($i = 0; $i < count($arr_fix); $i++) {
             $total_all = $total_all + $arr_fix[$i]['total'];
+            $total_all_profit = $total_all_profit + $arr_fix[$i]['total_profit'];
         }
-        
-        return view('admin.proyek.pekerjaan', compact('proyek', 'arr_fix', 'total_all'));
+
+        return view('admin.proyek.pekerjaan', compact('proyek', 'arr_fix', 'total_all', 'total_all_profit'));
     }
 
-    public function getSubPekerjaan($id){
+    public function getSubPekerjaan($id)
+    {
         $data = MasterSubPekerjaan::where('pekerjaan_id', $id)->get();
         return response()->json($data);
     }
 
-    public function form($id){
+    public function form($id)
+    {
         $proyek = Proyek::findOrFail($id);
         $pekerjaan = MasterPekerjaan::pluck('id', 'nama_pekerjaan');
         return view('admin.proyek.pekerjaan-form', compact('proyek', 'pekerjaan'));
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $data = ProyekPekerjaan::with(['pekerjaan'])->find($id);
         return response()->json($data);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         try {
             DB::beginTransaction();
             $data = [];
             $proyek_id = $request->proyek_id;
             $pekerjaan_id = $request->pekerjaan_id;
             $checkProyekPekerjaan = ProyekPekerjaan::where('proyek_id', $proyek_id)->where('pekerjaan_id', $pekerjaan_id)->first();
-            if(empty($checkProyekPekerjaan)){
+            if (empty($checkProyekPekerjaan)) {
                 $createProyekPekerjaan = ProyekPekerjaan::create(
                     [
                         'proyek_id' => $proyek_id,
                         'pekerjaan_id' => $pekerjaan_id,
                     ]
                 );
-                for ($i=0; $i < count($request->checkbox); $i++) { 
-                    if($request->checkbox[$i] == 1){
+                for ($i = 0; $i < count($request->checkbox); $i++) {
+                    if ($request->checkbox[$i] == 1) {
                         $data[$i]['proyek_id'] = $proyek_id;
                         $data[$i]['pekerjaan_id'] = $pekerjaan_id;
                         $data[$i]['sub_pekerjaan_id'] = $request->sub_pekerjaan_id[$i];
-                        $data[$i]['volume'] = $request->volume[$i];
+                        $data[$i]['volume'] = $request->volume[$i] ?? 0;
 
                         $createProyekSubPekerjaan = ProyekSubPekerjaan::create(
                             [
@@ -167,7 +183,7 @@ class ProyekPekerjaanController extends Controller
                         $this->hargaKomponenJasa($data[$i]['sub_pekerjaan_id'], $createProyekSubPekerjaan->id);
                         $this->hargaKomponenMaterial($data[$i]['sub_pekerjaan_id'], $createProyekSubPekerjaan->id);
                     } else {
-                    // 
+                        // 
                     }
                 }
             } else {
@@ -181,9 +197,10 @@ class ProyekPekerjaanController extends Controller
         return redirect()->route('admin.proyek.pekerjaan-proyek.index', ['id' => $proyek_id]);
     }
 
-    public function storeSingle(Request $request){
+    public function storeSingle(Request $request)
+    {
         $checkProyekPekerjaan = ProyekSubPekerjaan::where('sub_pekerjaan_id', $request->sub_pekerjaan_id)->where('proyek_pekerjaan_id', $request->pekerjaan_id)->first();
-        if(empty($checkProyekPekerjaan)){
+        if (empty($checkProyekPekerjaan)) {
             $createProyekSubPekerjaan = ProyekSubPekerjaan::create(
                 [
                     'proyek_pekerjaan_id' => $request->pekerjaan_id,
@@ -202,14 +219,15 @@ class ProyekPekerjaanController extends Controller
         }
     }
 
-    public function hargaKomponenJasa($id, $new_id){
+    public function hargaKomponenJasa($id, $new_id)
+    {
         $getHargaKomponenJasa = HargaKomponenJasa::with(['jasa'])->where('sub_pekerjaan_id', $id)->get();
 
-        if(count($getHargaKomponenJasa) == 0){
+        if (count($getHargaKomponenJasa) == 0) {
             return 0;
         }
 
-        for ($i=0; $i < count($getHargaKomponenJasa); $i++) { 
+        for ($i = 0; $i < count($getHargaKomponenJasa); $i++) {
             $harga_fix = $getHargaKomponenJasa[$i]->jasa->harga_jasa * $getHargaKomponenJasa[$i]->koefisien;
             $createProyekHargaKomponenJasa = ProyekHargaKomponenJasa::create(
                 [
@@ -225,14 +243,15 @@ class ProyekPekerjaanController extends Controller
         }
     }
 
-    public function hargaKomponenMaterial($id, $new_id){
+    public function hargaKomponenMaterial($id, $new_id)
+    {
         $getHargaKomponenMaterial = HargaKomponenMaterial::with(['material'])->where('sub_pekerjaan_id', $id)->get();
 
-        if(count($getHargaKomponenMaterial) == 0){
+        if (count($getHargaKomponenMaterial) == 0) {
             return 0;
         }
 
-        for ($i=0; $i < count($getHargaKomponenMaterial); $i++) { 
+        for ($i = 0; $i < count($getHargaKomponenMaterial); $i++) {
             $harga_fix = $getHargaKomponenMaterial[$i]->material->harga_beli * $getHargaKomponenMaterial[$i]->koefisien;
             $createProyekHargaKomponenMaterial = ProyekHargaKomponenMaterial::create(
                 [
@@ -248,7 +267,8 @@ class ProyekPekerjaanController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $data = ProyekPekerjaan::find($id)->delete();
         return response()->json($data);
     }

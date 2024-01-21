@@ -32,6 +32,7 @@
                     <tr>
                       <th class="text-center"><input type="checkbox" class="checked-all"></th>
                       <th>Sub Pekerjaan</th>
+                      <th>Profit (%)</th>
                       <th>Volume</th>
                       <th>Detail</th>
                     </tr>
@@ -80,7 +81,13 @@
         for (var i = 0; i < data.length; i++) {
           table.row.add(
             [
-              `<input type="checkbox" name="check" id="checkbox" data-id="`+(i+1)+`"><input type="hidden" name="checkbox[]" id="c_input" value="0" data-id="`+(i+1)+`">`, ``+ data[i].nama_sub_pekerjaan +`<input type="hidden" name="sub_pekerjaan_id[]" value="`+data[i].id+`">`, `<input type="number" class="form-control" name="volume[]" id="volume" step=".001" data-id="`+(i+1)+`">`, `<a href="{{route("admin.master.pekerjaan.sub-pekerjaan.detail", ["id" => ":id"])}}" target="_blank" class="btn btn-outline-primary">Detail</a>`.replace(":id", data[i].id)
+              `<input type="checkbox" name="check" id="checkbox" data-id="`+(i+1)+`">
+              <input type="hidden" name="checkbox[]" id="c_input" value="0" data-id="`+(i+1)+`">`, 
+              ``+ data[i].nama_sub_pekerjaan +
+              `<input type="hidden" name="sub_pekerjaan_id[]" value="`+data[i].id+`">`, 
+              `<input type="number" class="form-control" name="profit[]" id="profit" step=".001" data-id="`+(i+1)+`" value="`+data[i].profit+`">`,
+              `<input type="number" class="form-control" name="volume[]" id="volume" step=".001" data-id="`+(i+1)+`">`, 
+              `<a href="{{route("admin.master.pekerjaan.sub-pekerjaan.detail", ["id" => ":id"])}}" target="_blank" class="btn btn-outline-primary">Detail</a>`.replace(":id", data[i].id)
               ]
             ).draw();
           $('input[id="checkbox"]').click(function(){

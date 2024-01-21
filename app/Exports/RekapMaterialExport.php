@@ -19,6 +19,8 @@ use App\Models\SatuanMaterial;
 
 class RekapMaterialExport implements FromView, ShouldAutoSize
 {
+    private $id;
+    
     public function __construct(int $id)
     {
         $this->id = $id;

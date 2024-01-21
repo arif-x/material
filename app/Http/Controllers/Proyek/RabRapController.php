@@ -62,6 +62,7 @@ class RabRapController extends Controller
                 $arr = [
                     'sub_pekerjaan' => $sub_pekerjaan[$i]->sub_pekerjaan->nama_sub_pekerjaan,
                     'kode_analisa' => $sub_pekerjaan[$i]->sub_pekerjaan->kode_sub_pekerjaan,
+                    'profit' => $sub_pekerjaan[$i]->profit,
                     'volume' => $sub_pekerjaan[$i]->volume,
                     'satuan_sub_pekerjaan' => $sub_pekerjaan[$i]->sub_pekerjaan->satuan_sub_pekerjaan->satuan_sub_pekerjaan,
                     'fix_komponen_jasa_sum' => $fix_komponen_jasa_sum,
@@ -74,6 +75,7 @@ class RabRapController extends Controller
             }
             for ($i=0; $i < count($komponen); $i++) { 
                 $komponen[$i]['komponen_total'] = $komponen[$i]['fix_komponen_jasa'] + $komponen[$i]['fix_komponen_material'];
+                $komponen[$i]['komponen_total_profit'] = ($komponen[$i]['fix_komponen_jasa'] + $komponen[$i]['fix_komponen_jasa'] * $komponen[$i]['profit'] / 100) + ($komponen[$i]['fix_komponen_material'] + $komponen[$i]['fix_komponen_material'] * $komponen[$i]['profit'] / 100);
             }
             array_push($arr_sub, $komponen);
         }
@@ -81,21 +83,26 @@ class RabRapController extends Controller
         for ($i=0; $i < count($pekerjaan); $i++) { 
             $arr_temp = [];
             $total = 0;
+            $total_profit = 0;
             for ($j=0; $j < count($arr_sub[$i]); $j++) { 
                 $total = $total + $arr_sub[$i][$j]['komponen_total'];
+                $total_profit = $total_profit + $arr_sub[$i][$j]['komponen_total_profit'];
             }
             $arr_temp = [
                 'nama_pekerjaan' => $pekerjaan[$i]->pekerjaan->nama_pekerjaan,
                 'total' => $total,
+                'total_profit' => $total_profit,
             ];
 
             array_push($data, $arr_temp);
         }
 
         $total_all = 0;
+        $total_all_profit = 0;
 
         for ($i=0; $i < count($data); $i++) { 
             $total_all = $total_all + $data[$i]['total'];
+            $total_all_profit = $total_all_profit + $data[$i]['total_profit'];
         }
 
         for ($i=0; $i < count($data); $i++) { 
@@ -104,7 +111,7 @@ class RabRapController extends Controller
 
         return view('admin.proyek.excel.rab', [
             'datas' => collect($data),
-        ], compact('total_all', 'proyek'));
+        ], compact('total_all', 'proyek', 'total_all_profit'));
     }
 
     public function rapPreview($id){

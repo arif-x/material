@@ -41,6 +41,7 @@ class ProyekPekerjaanDetailController extends Controller
                 'sub_pekerjaan' => $sub_pekerjaan[$i]->sub_pekerjaan->nama_sub_pekerjaan,
                 'fix_komponen_jasa' => $fix_komponen_jasa,
                 'fix_komponen_material' => $fix_komponen_material,
+                'profit' => $sub_pekerjaan[$i]['profit'],
             ];  
             array_push($komponen, $arr);
         }
@@ -70,7 +71,8 @@ class ProyekPekerjaanDetailController extends Controller
     public function update(Request $request){
         $data = ProyekSubPekerjaan::where('id', $request->id)->update(
             [
-                'volume' => $request->volume
+                'volume' => $request->volume,
+                'profit' => $request->profit
             ]
         );
 

@@ -13,6 +13,7 @@ class ProyekSubPekerjaan extends Model
         'proyek_pekerjaan_id',
         'sub_pekerjaan_id',
         'volume',
+        'profit',
         'created_at',
         'updated_at'
     ];

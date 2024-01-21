@@ -26,6 +26,13 @@
             <div class="col-9 py-2">
               : <strong>Rp{{number_format($total_all, '0', ',', '.')}}</strong>
             </div>
+            <div class="col-3 py-2">
+              Total RAB + Profit
+            </div>
+            <div class="col-9 py-2">
+              : <strong>Rp{{number_format($total_all_profit, '0', ',', '.')}}</strong>
+            </div>
+            
             <!-- <div class="col-3 py-2">
               Rincian
             </div>
@@ -62,7 +69,8 @@
                 <tr>
                   <th>No.</th>
                   <th>Pekerjaan</th>
-                  <th>Total</th>
+                  <th>Total Sub Pekerjaan</th>
+                  <th>Total Sub Pekerjaan + Profit</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -105,6 +113,12 @@
                     data: 'total', name: 'total', orderable: false, searchable: false,
                     render: function(a, b, row){
                       return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.total)
+                    }
+                  },
+                  {
+                    data: 'total_profit', name: 'total_profit', orderable: false, searchable: false,
+                    render: function(a, b, row){
+                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.total_profit)
                     }
                   },
                   {
