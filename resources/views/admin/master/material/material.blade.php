@@ -117,7 +117,7 @@
                   {
                     data: 'harga_beli', name: 'harga_beli', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.harga_beli)
+                      return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga_beli)
                     }
                   },
                   {

@@ -19,6 +19,7 @@
                   <th>Nama Proyek</th>
                   <th>Total RAB</th>
                   <th>Total RAB + Profit</th>
+                  <th>Profit</th>
                   <th>Action</th>
                 </tr>
               </thead>  
@@ -137,13 +138,19 @@
                   {
                     data: 'total', name: 'total', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.total)
+                      return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.total)
                     }
                   },
                   {
                     data: 'total_profit', name: 'total_profit', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.total_profit)
+                      return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.total_profit)
+                    }
+                  },
+                  {
+                    data: 'total_profit', name: 'total_profit', orderable: false, searchable: false,
+                    render: function(a, b, row){
+                      return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.total_profit - row.total)
                     }
                   },
                   {

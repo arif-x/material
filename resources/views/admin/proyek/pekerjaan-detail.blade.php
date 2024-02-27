@@ -177,12 +177,12 @@
         for (var i = 0; i < data.length; i++) {
           html += '<tr>'+
           '<td>'+data[i].sub_pekerjaan+'</td>'+
-          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].fix_komponen_jasa)+'</td>'+
-          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].fix_komponen_material)+'</td>'+
-          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(data[i].komponen_total)+'</td>'+
-          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(parseFloat(data[i].fix_komponen_jasa) + parseFloat(data[i].fix_komponen_jasa) * data[i].profit / 100)+'</td>'+
-          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(parseFloat(data[i].fix_komponen_material) + parseFloat(data[i].fix_komponen_material) * data[i].profit / 100)+'</td>'+
-          '<td>'+$.fn.dataTable.render.number(',', '.', 0, 'Rp').display(parseFloat(data[i].komponen_total) + parseFloat(data[i].komponen_total) * data[i].profit / 100)+'</td>'+
+          '<td>'+$.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(data[i].fix_komponen_jasa)+'</td>'+
+          '<td>'+$.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(data[i].fix_komponen_material)+'</td>'+
+          '<td>'+$.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(data[i].komponen_total)+'</td>'+
+          '<td>'+$.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(parseFloat(data[i].fix_komponen_jasa) + parseFloat(data[i].fix_komponen_jasa) * data[i].profit / 100)+'</td>'+
+          '<td>'+$.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(parseFloat(data[i].fix_komponen_material) + parseFloat(data[i].fix_komponen_material) * data[i].profit / 100)+'</td>'+
+          '<td>'+$.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(parseFloat(data[i].komponen_total) + parseFloat(data[i].komponen_total) * data[i].profit / 100)+'</td>'+
           '</tr>'
         }
         $('.detail-table > tbody').html(html)
@@ -202,41 +202,41 @@
         {
           data: 'komponen_jasa', name: 'komponen_jasa', orderable: false, searchable: false,
           render: function(a, b, row){
-            return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.komponen_jasa)
+            return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.komponen_jasa)
           }
         },
         {
           data: 'komponen_material', name: 'komponen_material', orderable: false, searchable: false,
           render: function(a, b, row){
-            return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.komponen_material)
+            return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.komponen_material)
           }
         },
         {
           data: 'komponen_jasa_profit', name: 'komponen_jasa_profit', orderable: false, searchable: false,
           render: function(a, b, row){
             komponen_jasa_profit = parseFloat(row.komponen_jasa) + (parseFloat(row.komponen_jasa) * row.profit / 100)
-            return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(komponen_jasa_profit)
+            return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(komponen_jasa_profit)
           }
         },
         {
           data: 'komponen_material', name: 'komponen_material', orderable: false, searchable: false,
           render: function(a, b, row){
             komponen_material_profit = parseFloat(row.komponen_material) + (parseFloat(row.komponen_material) * row.profit / 100)
-            return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(komponen_material_profit)
+            return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(komponen_material_profit)
           }
         },
         // {
         //   data: 'total_komponen_jasa', name: 'total_komponen_jasa', orderable: false, searchable: false,
         //   render: function(a, b, row){
         //     var total_komponen_jasa = row.komponen_jasa * row.volume
-        //     return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(total_komponen_jasa)
+        //     return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(total_komponen_jasa)
         //   }
         // },
         // {
         //   data: 'total_komponen_material', name: 'total_komponen_material', orderable: false, searchable: false,
         //   render: function(a, b, row){
         //     var total_komponen_material = row.komponen_material * row.volume
-        //     return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(total_komponen_material)
+        //     return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(total_komponen_material)
         //   }
         // },
         {

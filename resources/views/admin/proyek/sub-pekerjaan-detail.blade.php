@@ -156,14 +156,14 @@
                           {
                             data: 'harga_asli', name: 'harga_asli', orderable: false, searchable: false,
                             render: function(a, b, row){
-                              return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.harga_asli)
+                              return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga_asli)
                             }
                           },
                           {data: 'koefisien', name: 'koefisien'},
                           {
                             data: 'harga_fix', name: 'harga_fix', orderable: false, searchable: false,
                             render: function(a, b, row){
-                              return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.harga_fix)
+                              return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga_fix)
                             }
                           },
                           {
@@ -380,14 +380,14 @@
                         {
                           data: 'harga_asli', name: 'harga_asli', orderable: false, searchable: false,
                           render: function(a, b, row){
-                            return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.harga_asli)
+                            return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga_asli)
                           }
                         },
                         {data: 'koefisien', name: 'koefisien'},
                         {
                           data: 'harga_fix', name: 'harga_fix', orderable: false, searchable: false,
                           render: function(a, b, row){
-                            return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.harga_fix)
+                            return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga_fix)
                           }
                         },
                         {

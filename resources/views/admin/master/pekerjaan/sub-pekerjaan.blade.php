@@ -113,19 +113,19 @@
                   {
                     data: 'komponen_jasa', name: 'komponen_jasa', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.komponen_jasa)
+                      return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.komponen_jasa)
                     }
                   },
                   {
                     data: 'komponen_material', name: 'komponen_material', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.komponen_material)
+                      return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.komponen_material)
                     }
                   },
                   {
                     data: 'total_komponen', name: 'total_komponen', orderable: false, searchable: false,
                     render: function(a, b, row){
-                      return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.total_komponen)
+                      return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.total_komponen)
                     }
                   },
                   {

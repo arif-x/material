@@ -70,7 +70,7 @@
                           </div> -->
                           <div class="form-group">
                             <label for="">Koefisien</label>
-                            <input type="number" name="koefisien" id="koefisien" class="form-control">
+                            <input type="number" name="koefisien" id="koefisien" step=".000001" class="form-control">
                           </div>
                           <div class="form-group">
                             <label for="">Harga Analisis Jasa</label>
@@ -134,7 +134,7 @@
                         {
                           data: 'harga_komponen_jasa', name: 'harga_komponen_jasa', orderable: false, searchable: false,
                           render: function(a, b, row){
-                            return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.harga_komponen_jasa)
+                            return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga_komponen_jasa)
                           }
                         },
                         {
@@ -282,7 +282,7 @@
                           </div> -->
                           <div class="form-group">
                             <label for="">Koefisien</label>
-                            <input type="number" name="koefisien" id="koefisien_material" class="form-control">
+                            <input type="number" name="koefisien" id="koefisien_material" step=".000001" class="form-control">
                           </div>
                           <div class="form-group">
                             <label for="">Harga Analisis Material</label>
@@ -346,7 +346,7 @@
                         {
                           data: 'harga_komponen_material', name: 'harga_komponen_material', orderable: false, searchable: false,
                           render: function(a, b, row){
-                            return $.fn.dataTable.render.number(',', '.', 0, 'Rp').display(row.harga_komponen_material)
+                            return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga_komponen_material)
                           }
                         },
                         {

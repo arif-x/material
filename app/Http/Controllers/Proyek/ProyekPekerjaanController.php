@@ -171,12 +171,14 @@ class ProyekPekerjaanController extends Controller
                         $data[$i]['pekerjaan_id'] = $pekerjaan_id;
                         $data[$i]['sub_pekerjaan_id'] = $request->sub_pekerjaan_id[$i];
                         $data[$i]['volume'] = $request->volume[$i] ?? 0;
+                        $data[$i]['profit'] = $request->profit[$i] ?? 0;
 
                         $createProyekSubPekerjaan = ProyekSubPekerjaan::create(
                             [
                                 'proyek_pekerjaan_id' => $createProyekPekerjaan->id,
                                 'sub_pekerjaan_id' => $data[$i]['sub_pekerjaan_id'],
                                 'volume' => $data[$i]['volume'],
+                                'profit' => $data[$i]['profit'],
                             ]
                         );
 
@@ -206,6 +208,7 @@ class ProyekPekerjaanController extends Controller
                     'proyek_pekerjaan_id' => $request->pekerjaan_id,
                     'sub_pekerjaan_id' => $request->sub_pekerjaan_id,
                     'volume' => $request->volume,
+                    'profit' => MasterSubPekerjaan::where('id', $request->sub_pekerjaan_id)->value('profit'),
                 ]
             );
 
