@@ -175,6 +175,7 @@
 
                       <a href="`+detail+`" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Detail" class="dropdown-item detail detail-data"><i class="fa fa-eye"></i> Pekerjaan</a>
                       <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Edit" class="dropdown-item edit edit-data"><i class="fa fa-edit"></i> Edit</a>
+                      <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Singkron Harga" class="dropdown-item sync sync-data"><i class="fa fa-refresh"></i> Singkron Harga Master</a>
                       <a href="javascript:void(0)" data-toggle="tooltip" data-id="`+row.id+`" data-original-title="Delete" class="dropdown-item hapus delete-data"><i class="fa fa-trash"></i> Hapus</a>
                       </div>
                       </div>
@@ -228,6 +229,22 @@
                   $('#id').val(data.id);
                   $('#nama_proyek').val(data.nama_proyek);
                   $('#theModal').modal('show');
+                })
+              });
+
+              $('body').on('click', '.sync-data', function () {
+                var id = $(this).data('id');
+                $.ajax({
+                  method: "POST",
+                  url: "{{ route('admin.proyek.sync-harga', ':id') }}".replace(':id', id),
+                  success: function(res){
+                    table.draw();
+                    alert('Sukses')
+                  },
+                  error: function(res){
+                    console.log(res)
+                    alert('Gagal')
+                  }
                 })
               });
 

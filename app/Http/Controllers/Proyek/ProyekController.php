@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Proyek;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Proyek;
+use App\Models\ProyekHargaKomponenJasa;
 use App\Models\ProyekPekerjaan;
 use App\Models\ProyekSubPekerjaan;
+use Illuminate\Support\Facades\DB;
 
 class ProyekController extends Controller
 {
@@ -14,7 +16,7 @@ class ProyekController extends Controller
     {
         $data = Proyek::orderBy('id', 'desc')->get();
 
-        foreach($data as $k => $v){
+        foreach ($data as $k => $v) {
             $pekerjaan = ProyekPekerjaan::with(['pekerjaan'])->where('proyek_id', $v['id'])->get();
 
             $arr_sub = [];
@@ -110,5 +112,54 @@ class ProyekController extends Controller
     {
         $data = Proyek::find($id)->delete();
         return response()->json($data);
+    }
+
+    public function sync_harga($id)
+    {
+        DB::beginTransaction();
+        try {
+            $proyek_pekerjaan = ProyekPekerjaan::with(['sub_pekerjaan.harga_komponen_jasa.jasa', 'sub_pekerjaan.harga_komponen_material.material'])->where('proyek_id', $id)->get();
+            $sub_pekerjaan_proyek_jasa = [];
+            $sub_pekerjaan_proyek_material = [];
+            for ($i = 0; $i < count($proyek_pekerjaan); $i++) {
+                $sub_pekerjaan_proyek_jasa_idx = [];
+                $sub_pekerjaan_proyek_material_idx = [];
+                for ($j = 0; $j < count($proyek_pekerjaan[$i]['sub_pekerjaan']); $j++) {
+                    for ($k = 0; $k < count($proyek_pekerjaan[$i]['sub_pekerjaan'][$j]['harga_komponen_jasa']); $k++) {
+                        array_push($sub_pekerjaan_proyek_jasa_idx, $proyek_pekerjaan[$i]['sub_pekerjaan'][$j]['harga_komponen_jasa'][$k]);
+                    }
+                    for ($k = 0; $k < count($proyek_pekerjaan[$i]['sub_pekerjaan'][$j]['harga_komponen_material']); $k++) {
+                        array_push($sub_pekerjaan_proyek_material_idx, $proyek_pekerjaan[$i]['sub_pekerjaan'][$j]['harga_komponen_material'][$k]);
+                    }
+                }
+                array_push($sub_pekerjaan_proyek_jasa, $sub_pekerjaan_proyek_jasa_idx);
+                array_push($sub_pekerjaan_proyek_material, $sub_pekerjaan_proyek_material_idx);
+            }
+
+            for ($i = 0; $i < count($sub_pekerjaan_proyek_jasa); $i++) {
+                for ($j=0; $j < count($sub_pekerjaan_proyek_jasa[$i]); $j++) { 
+                    ProyekHargaKomponenJasa::where('id', $sub_pekerjaan_proyek_jasa[$i][$j]['id'])
+                    ->update([
+                        'harga_asli' => $sub_pekerjaan_proyek_jasa[$i][$j]['jasa']['harga_jasa'],
+                        'harga_fix' => $sub_pekerjaan_proyek_jasa[$i][$j]['jasa']['harga_jasa'] * $sub_pekerjaan_proyek_jasa[$i][$j]['koefisien'],
+                    ]);
+                }  
+            }
+
+            for ($i = 0; $i < count($sub_pekerjaan_proyek_material); $i++) {
+                for ($j=0; $j < count($sub_pekerjaan_proyek_material[$i]); $j++) { 
+                    ProyekHargaKomponenJasa::where('id', $sub_pekerjaan_proyek_material[$i][$j]['id'])
+                    ->update([
+                        'harga_asli' => $sub_pekerjaan_proyek_material[$i][$j]['material']['harga_beli'],
+                        'harga_fix' => $sub_pekerjaan_proyek_material[$i][$j]['material']['harga_beli'] * $sub_pekerjaan_proyek_material[$i][$j]['koefisien'],
+                    ]);
+                }  
+            }
+            DB::commit();
+            return response()->json("OK");
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json($e->getMessage());
+        }
     }
 }

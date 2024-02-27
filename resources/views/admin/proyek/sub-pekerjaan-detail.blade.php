@@ -91,7 +91,7 @@
                           </div>
                           <div class="form-group">
                             <label for="">Koefisien</label>
-                            <input type="number" name="koefisien" id="koefisien" class="form-control">
+                            <input type="number" name="koefisien" id="koefisien" step=".000001" class="form-control">
                           </div>
                           <div class="form-group">
                             <label for="">Harga Analisis Jasa</label>
@@ -314,7 +314,7 @@
                           </div>
                           <div class="form-group">
                             <label for="">Koefisien</label>
-                            <input type="number" name="koefisien" id="koefisien_material" class="form-control">
+                            <input type="number" name="koefisien" id="koefisien_material" step=".000001" class="form-control">
                           </div>
                           <div class="form-group">
                             <label for="">Harga Analisis Material</label>

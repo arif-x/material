@@ -161,5 +161,6 @@ Route::group([
         Route::get('rab/preview/{id}', [RabRapController::class, 'rabPreview'])->name('rab.preview');
         Route::get('rap/preview/{id}', [RabRapController::class, 'rapPreview'])->name('rap.preview');
         Route::get('rekap-material/preview/{id}', [RabRapController::class, 'rekapPreview'])->name('rekap-material.preview');
+        Route::post('sync/{id}', [ProyekController::class, 'sync_harga'])->name('sync-harga');
     });
 });
