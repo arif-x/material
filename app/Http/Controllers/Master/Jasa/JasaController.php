@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Master\Jasa;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\JenisJasa;
 use App\Models\SatuanJasa;
@@ -26,20 +27,66 @@ class JasaController extends Controller
     }
 
     public function store(Request $request){
-        $data = MasterJasa::updateOrCreate(
-            [
-                'id' => $request->id
-            ],
-            [
-                'kode_jasa' => $request->kode_jasa,
-                'nama_jasa' => $request->nama_jasa,
-                'jenis_jasa_id' => $request->jenis_jasa_id,
-                'satuan_jasa_id' => $request->satuan_jasa_id,
-                'harga_jasa' => str_replace(array(',','Rp'), '',$request->harga_jasa),
-            ]
-        );
+        try {
+            if($request->id) {
+                $validation = Validator::make($request->all(), [
+                    'kode_jasa' => ['required', 'unique:master_jasas,id,'.$request->id],
+                    'nama_jasa' => ['required'],
+                    'jenis_jasa_id' => ['required'],
+                    'satuan_jasa_id' => ['required'],
+                    'harga_jasa' => ['required']
+                ]);
+            
+                if ($validation->fails()) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Validation errors',
+                        'data' => $validation->errors()
+                    ], 422);
+                }
+            } else {
+                $validation = Validator::make($request->all(), [
+                    'kode_jasa' => ['required', 'unique:master_jasas'],
+                    'nama_jasa' => ['required'],
+                    'jenis_jasa_id' => ['required'],
+                    'satuan_jasa_id' => ['required'],
+                    'harga_jasa' => ['required']
+                ]);
+            
+                if ($validation->fails()) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Validation errors',
+                        'data' => $validation->errors()
+                    ], 422);
+                }
+            }
 
-        return response()->json($data);
+            $data = MasterJasa::updateOrCreate(
+                [
+                    'id' => $request->id
+                ],
+                [
+                    'kode_jasa' => $request->kode_jasa,
+                    'nama_jasa' => $request->nama_jasa,
+                    'jenis_jasa_id' => $request->jenis_jasa_id,
+                    'satuan_jasa_id' => $request->satuan_jasa_id,
+                    'harga_jasa' => str_replace(array(',','Rp'), '',$request->harga_jasa),
+                ]
+            );
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Sukses',
+                'data' => $data
+            ], 200);
+        } catch (\Exception $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+                'data' => null
+            ], 500);
+        }
     }
 
     public function destroy($id){

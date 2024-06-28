@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Master\Pekerjaan;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\MasterPekerjaan;
 
@@ -23,17 +24,49 @@ class PekerjaanController extends Controller
     }
 
     public function store(Request $request){
-        $data = MasterPekerjaan::updateOrCreate(
-            [
-                'id' => $request->id
-            ],
-            [
-                'kode_pekerjaan' => $request->kode_pekerjaan,
-                'nama_pekerjaan' => $request->nama_pekerjaan,
-            ]
-        );
+        try {
+            if($request->id) {
+                $validation = Validator::make($request->all(), [
+                    'kode_pekerjaan' => ['required', 'unique:master_pekerjaans,id,'.$request->id],
+                    'nama_pekerjaan' => ['required']
+                ]);
+            } else {
+                $validation = Validator::make($request->all(), [
+                    'kode_pekerjaan' => ['required', 'unique:master_pekerjaans'],
+                    'nama_pekerjaan' => ['required']
+                ]);
+            }
+        
+            if ($validation->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validation errors',
+                    'data' => $validation->errors()
+                ], 422);
+            }
 
-        return response()->json($data);
+            $data = MasterPekerjaan::updateOrCreate(
+                [
+                    'id' => $request->id
+                ],
+                [
+                    'kode_pekerjaan' => $request->kode_pekerjaan,
+                    'nama_pekerjaan' => $request->nama_pekerjaan,
+                ]
+            );
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Sukses',
+                'data' => $data
+            ], 200);
+        } catch (\Exception $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+                'data' => null
+            ], 500);
+        }
     }
 
     public function destroy($id){

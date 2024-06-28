@@ -176,6 +176,21 @@
                 })
               });
 
+              function validationError(message) {
+                let valArr = [];
+                for (let key in message) {
+                    let errStr = message[key][0];
+                    valArr.push(errStr);
+                }
+
+                let errStrFinal = '';
+                if (valArr.length > 0) {
+                    errStrFinal = valArr.join(', ');
+                }
+
+                return errStrFinal
+              }
+
               $('#theForm').submit(function (e) {
                 e.preventDefault();
                 // $(this).html('Simpan');
@@ -191,8 +206,11 @@
                     table.draw();
                   },
                   error: function (data) {
-                    console.log('Error:', data);
-                    // $('#saveBtn').html('Simpan');
+                    if(data.status == 422) {
+                      alert(validationError(data.responseJSON.data))
+                    } else {
+                      alert(data.responseJSON.message)
+                    }
                   }
                 });
               });

@@ -43,4 +43,14 @@ class ProyekSubPekerjaanDetailController extends Controller
         $nama_material = MasterMaterial::get(['nama_material', 'kode_material', 'id']);
         return view('admin.proyek.sub-pekerjaan-detail', compact('data', 'nama_jasa', 'nama_material'));
     }
+
+    public function getHargaJasaFromMaster($id) {
+        $data = MasterJasa::where('id', $id)->firstOrFail();
+        return $data['harga_jasa'];
+    }
+
+    public function getHargaMaterialFromMaster($id) {
+        $data = MasterMaterial::where('id', $id)->firstOrFail();
+        return $data['harga_beli'];
+    }
 }

@@ -111,6 +111,21 @@
                       }
                     });
 
+                    function validationError(message) {
+                      let valArr = [];
+                      for (let key in message) {
+                          let errStr = message[key][0];
+                          valArr.push(errStr);
+                      }
+
+                      let errStrFinal = '';
+                      if (valArr.length > 0) {
+                          errStrFinal = valArr.join(', ');
+                      }
+
+                      return errStrFinal
+                    }
+
                     $('input[name="koefisien"]').on('keyup', function(){
                       koefisien = $(this).val();
                       jasa_id = $('#jasa_id').val();
@@ -199,8 +214,11 @@
                           table.draw();
                         },
                         error: function (data) {
-                          console.log('Error:', data);
-                          // $('#saveBtnJasa').html('Simpan');
+                          if(data.status == 422) {
+                            alert(validationError(data.responseJSON.data))
+                          } else {
+                            alert(data.responseJSON.message)
+                          }
                         }
                       });
                     });
@@ -323,6 +341,21 @@
                       }
                     });
 
+                    function validationError(message) {
+                      let valArr = [];
+                      for (let key in message) {
+                          let errStr = message[key][0];
+                          valArr.push(errStr);
+                      }
+
+                      let errStrFinal = '';
+                      if (valArr.length > 0) {
+                          errStrFinal = valArr.join(', ');
+                      }
+
+                      return errStrFinal
+                    }
+
                     $('input[id="koefisien_material"]').on('keyup', function(){
                       koefisien_material = $(this).val();
                       material_id = $('#material_id').val();
@@ -411,8 +444,11 @@
                           table.draw();
                         },
                         error: function (data) {
-                          console.log('Error:', data);
-                          // $('#saveBtnMaterial').html('Simpan');
+                          if(data.status == 422) {
+                            alert(validationError(data.responseJSON.data))
+                          } else {
+                            alert(data.responseJSON.message)
+                          }
                         }
                       });
                     });

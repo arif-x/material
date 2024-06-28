@@ -304,6 +304,7 @@
         },
         error: function (data) {
           console.log('Error:', data);
+          alert(data.responseJSON.message)
           // $('#saveBtn').html('Simpan');
         }
       });
@@ -326,6 +327,7 @@
         },
         error: function (data) {
           console.log('Error:', data);
+          alert(data.responseJSON.message)
           // $('#saveBtnEdit').html('Simpan');
         }
       });

@@ -131,9 +131,14 @@ class ProyekPekerjaanController extends Controller
         return view('admin.proyek.pekerjaan', compact('proyek', 'arr_fix', 'total_all', 'total_all_profit'));
     }
 
-    public function getSubPekerjaan($id)
+    public function getSubPekerjaan($proyek_id, $pekerjaan_id)
     {
-        $data = MasterSubPekerjaan::where('pekerjaan_id', $id)->get();
+        $pekerjaan = ProyekPekerjaan::where('proyek_id', $proyek_id)->where('pekerjaan_id', $pekerjaan_id)->first();
+        $sub_pekerjaan_proyek_has = [];
+        if($pekerjaan) {
+            $sub_pekerjaan_proyek_has = ProyekSubPekerjaan::where('proyek_pekerjaan_id', $pekerjaan->id)->pluck('sub_pekerjaan_id');
+        }
+        $data = MasterSubPekerjaan::where('pekerjaan_id', $pekerjaan_id)->whereNotIn('id', $sub_pekerjaan_proyek_has)->get();
         return response()->json($data);
     }
 
@@ -215,10 +220,18 @@ class ProyekPekerjaanController extends Controller
             $this->hargaKomponenJasa($request->sub_pekerjaan_id, $createProyekSubPekerjaan->id);
             $this->hargaKomponenMaterial($request->sub_pekerjaan_id, $createProyekSubPekerjaan->id);
 
-            return response()->json('oke');
+            return response()->json([
+                'status' => true,
+                'message' => 'Sukses',
+                'data' => $createProyekSubPekerjaan
+            ], 200);
         } else {
             // Kondisine nek wes ono opo?
-            return response()->json('gak oke');
+            return response()->json([
+                'status' => false,
+                'message' => 'sub pekerjaan has already taken',
+                'data' => null
+            ], 500);
         }
     }
 

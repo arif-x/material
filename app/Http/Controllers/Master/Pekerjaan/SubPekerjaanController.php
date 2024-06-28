@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Master\Pekerjaan;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\SatuanSubPekerjaan;
 use App\Models\MasterSubPekerjaan;
@@ -56,20 +58,76 @@ class SubPekerjaanController extends Controller
 
     public function store(Request $request)
     {
-        $data = MasterSubPekerjaan::updateOrCreate(
-            [
-                'id' => $request->id
-            ],
-            [
-                'pekerjaan_id' => $request->pekerjaan_id,
-                'satuan_sub_pekerjaan_id' => $request->satuan_sub_pekerjaan_id,
-                'kode_sub_pekerjaan' => $request->kode_sub_pekerjaan,
-                'profit' => $request->profit,
-                'nama_sub_pekerjaan' => $request->nama_sub_pekerjaan,
-            ]
-        );
+        try {
+            if ($request->id) {
+                $validation = Validator::make($request->all(), [
+                    'pekerjaan_id' => ['required'],
+                    'satuan_sub_pekerjaan_id' => ['required'],
+                    'kode_sub_pekerjaan' => [
+                        'required', 
+                        Rule::unique('master_sub_pekerjaans')->where(function ($query) use ($request) {
+                            return $query->where('pekerjaan_id', $request->pekerjaan_id);
+                        })->ignore($request->id)
+                    ],
+                    'profit' => ['required'],
+                    'nama_sub_pekerjaan' => ['required']
+                ]);
+            
+                if ($validation->fails()) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Validation errors',
+                        'data' => $validation->errors()
+                    ], 422);
+                }
+            } else {
+                $validation = Validator::make($request->all(), [
+                    'pekerjaan_id' => ['required'],
+                    'satuan_sub_pekerjaan_id' => ['required'],
+                    'kode_sub_pekerjaan' => [
+                        'required', 
+                        Rule::unique('master_sub_pekerjaans')->where(function ($query) use ($request) {
+                            return $query->where('pekerjaan_id', $request->pekerjaan_id);
+                        })
+                    ],
+                    'profit' => ['required'],
+                    'nama_sub_pekerjaan' => ['required']
+                ]);
+            
+                if ($validation->fails()) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Validation errors',
+                        'data' => $validation->errors()
+                    ], 422);
+                }
+            }            
 
-        return response()->json($data);
+            $data = MasterSubPekerjaan::updateOrCreate(
+                [
+                    'id' => $request->id
+                ],
+                [
+                    'pekerjaan_id' => $request->pekerjaan_id,
+                    'satuan_sub_pekerjaan_id' => $request->satuan_sub_pekerjaan_id,
+                    'kode_sub_pekerjaan' => $request->kode_sub_pekerjaan,
+                    'profit' => $request->profit,
+                    'nama_sub_pekerjaan' => $request->nama_sub_pekerjaan,
+                ]
+            );
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Sukses',
+                'data' => $data
+            ], 200);
+        } catch (\Exception $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+                'data' => null
+            ], 500);
+        }
     }
 
     public function destroy($id)

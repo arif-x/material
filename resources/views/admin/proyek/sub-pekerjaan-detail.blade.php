@@ -125,6 +125,35 @@
                     $(function () {
                       $('.select2').select2({theme: "bootstrap"});
 
+                      function validationError(message) {
+                        let valArr = [];
+                        for (let key in message) {
+                            let errStr = message[key][0];
+                            valArr.push(errStr);
+                        }
+
+                        let errStrFinal = '';
+                        if (valArr.length > 0) {
+                            errStrFinal = valArr.join(', ');
+                        }
+
+                        return errStrFinal
+                      }
+                      
+
+                      $('#jasa_id').change(function(){
+                        $.ajax({
+                          method: "GET",
+                          url: "{{route('admin.proyek.get-harga-jasa', ['id' => ':id'])}}".replace(':id', $(this).val()),
+                          success: function(data) {
+                            $('#harga_asli').val(data)
+                          },
+                          error: function(data) {
+
+                          }
+                        })
+                      })
+
                       $('input[id="koefisien"]').on('keyup', function(){
                         var koefisien = $(this).val();
                         var harga_jasa = $('#harga_asli').val();
@@ -207,7 +236,7 @@
                           $('#id').val(data.id);
                           $('#koefisien').val(data.koefisien);
                           $('#harga_asli').val(data.harga_asli);
-                          $('#jasa_id').val(data.jasa_id).trigger('change');
+                          $('#jasa_id').val(data.jasa_id).trigger('change.select2');
                           $('#proyek_sub_pekerjaan_id').val(data.proyek_sub_pekerjaan_id);
                           $('#harga_fix').val(data.harga_fix);
                           $('#theModalJasa').modal('show');
@@ -229,8 +258,11 @@
                             table.draw();
                           },
                           error: function (data) {
-                            console.log('Error:', data);
-                            // $('#saveBtnJasa').html('Simpan');
+                            if(data.status == 422) {
+                              alert(validationError(data.responseJSON.data))
+                            } else {
+                              alert(data.responseJSON.message)
+                            }
                           }
                         });
                       });
@@ -349,6 +381,35 @@
                   $(function () {
                     $('.select2').select2({theme: "bootstrap"});
 
+                    function validationError(message) {
+                        let valArr = [];
+                        for (let key in message) {
+                            let errStr = message[key][0];
+                            valArr.push(errStr);
+                        }
+
+                        let errStrFinal = '';
+                        if (valArr.length > 0) {
+                            errStrFinal = valArr.join(', ');
+                        }
+
+                        return errStrFinal
+                      }
+                      
+
+                      $('#material_id').change(function(){
+                        $.ajax({
+                          method: "GET",
+                          url: "{{route('admin.proyek.get-harga-material', ['id' => ':id'])}}".replace(':id', $(this).val()),
+                          success: function(data) {
+                            $('#harga_asli').val(data)
+                          },
+                          error: function(data) {
+
+                          }
+                        })
+                      })
+
                     $('input[id="koefisien_material"]').on('keyup', function(){
                       var koefisien = $(this).val();
                       var harga_material = $('#harga_asli_material').val();
@@ -430,7 +491,7 @@
                         $('#id_komponen_material').val(data.id);
                         $('#koefisien_material').val(data.koefisien);
                         $('#harga_asli_material').val(data.harga_asli);
-                        $('#material_id').val(data.material_id).trigger('change');
+                        $('#material_id').val(data.material_id).trigger('change.select2');
                         $('#proyek_sub_pekerjaan_id1').val(data.proyek_sub_pekerjaan_id);
                         $('#harga_fix_material').val(data.harga_fix);
                         $('#theModalMaterial').modal('show');
@@ -452,8 +513,11 @@
                           table.draw();
                         },
                         error: function (data) {
-                          console.log('Error:', data);
-                          // $('#saveBtnMaterial').html('Simpan');
+                          if(data.status == 422) {
+                            alert(validationError(data.responseJSON.data))
+                          } else {
+                            alert(data.responseJSON.message)
+                          }
                         }
                       });
                     });

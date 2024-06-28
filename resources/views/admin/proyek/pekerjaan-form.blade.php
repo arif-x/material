@@ -75,7 +75,7 @@
     })
 
     $('#pekerjaan_id').on('change', function(){
-      $.get("{{ route('admin.proyek.pekerjaan-proyek.get-sub-pekerjaan', ['id' => ':id']) }}".replace(':id', $(this).val()), function (data) {
+      $.get("{{ route('admin.proyek.pekerjaan-proyek.get-sub-pekerjaan', ['proyek_id' => ':proyek_id', 'pekerjaan_id' => ':pekerjaan_id']) }}".replace(':proyek_id', "{{$proyek->id}}").replace(':pekerjaan_id', $(this).val()), function (data) {
         $('table#dataTableExample > tbody').empty()
         table.clear().draw();
         for (var i = 0; i < data.length; i++) {

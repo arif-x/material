@@ -120,7 +120,7 @@ Route::group([
         Route::get('/datatable/{id}', [ProyekPekerjaanController::class, 'datatable'])->name('pekerjaan-proyek.datatable');
         Route::get('/{id}', [ProyekPekerjaanController::class, 'index'])->name('pekerjaan-proyek.index');
         Route::get('/form/{id}', [ProyekPekerjaanController::class, 'form'])->name('pekerjaan-proyek.form');
-        Route::get('/get-sub-pekerjaan/{id}', [ProyekPekerjaanController::class, 'getSubPekerjaan'])->name('pekerjaan-proyek.get-sub-pekerjaan');
+        Route::get('/get-sub-pekerjaan/{proyek_id}/{pekerjaan_id}', [ProyekPekerjaanController::class, 'getSubPekerjaan'])->name('pekerjaan-proyek.get-sub-pekerjaan');
         Route::get('/show/{id}', [ProyekPekerjaanController::class, 'show'])->name('pekerjaan-proyek.show');
         Route::post('/store', [ProyekPekerjaanController::class, 'store'])->name('pekerjaan-proyek.store');
         Route::post('/store-single', [ProyekPekerjaanController::class, 'storeSingle'])->name('pekerjaan-proyek.store-single');
@@ -141,6 +141,8 @@ Route::group([
         Route::get('/sub-pekerjaan/datatable/jasa/{id}', [ProyekSubPekerjaanDetailController::class, 'jasaDatatable'])->name('detail-pekerjaan-proyek.sub-pekerjaan.jasa.datatable');
         Route::get('/sub-pekerjaan/datatable/material/{id}', [ProyekSubPekerjaanDetailController::class, 'materialDatatable'])->name('detail-pekerjaan-proyek.sub-pekerjaan.material.datatable');
         Route::get('/sub-pekerjaan/{id}', [ProyekSubPekerjaanDetailController::class, 'index'])->name('detail-pekerjaan-proyek.sub-pekerjaan.index');
+        Route::get('/sub-pekerjaan/get-harga-jasa/{id}', [ProyekSubPekerjaanDetailController::class, 'getHargaJasaFromMaster'])->name('get-harga-jasa');
+        Route::get('/sub-pekerjaan/get-harga-material/{id}', [ProyekSubPekerjaanDetailController::class, 'getHargaMaterialFromMaster'])->name('get-harga-material');
         // Harga Komponen
         Route::group([
             'as' => 'pekerjaan-proyek-detail.sub-pekerjaan.jasa.' 
